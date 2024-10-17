@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  get: any
+  responsive_sizer: any
 
 dev_dependencies:
   flutter_test:
@@ -22,4 +24,4 @@ flutter:
 
   # Specify the assets path here
   assets:
-    - assets/images/doctorsplashpic.png
+    - assets/images/
