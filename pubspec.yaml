@@ -13,6 +13,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: any
   responsive_sizer: any
+  carousel_slider: any
+  image_picker: ^1.1.2
+  motion_tab_bar: ^2.0.4
+  flutter_otp_text_field: ^1.2.0
 
 dev_dependencies:
   flutter_test:

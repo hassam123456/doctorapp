@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
                   title: 'DoctorsApp',
                   defaultTransition: Transition.cupertino,
                   getPages: Routes.getpages(),
-                  initialRoute: RouteConstants.casedetails);
+                  initialRoute: RouteConstants.splashscreen);
             });
       },
     );
