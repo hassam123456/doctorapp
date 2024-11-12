@@ -41,15 +41,13 @@ class SplashScreen extends StatelessWidget {
                 children: [
                   GestureDetector(
                       onTap: () {
-                        Get.toNamed(RouteConstants.loginpage,
-                            arguments: "admin");
+                        Get.toNamed(RouteConstants.loginpage, arguments: "3");
                       },
                       child: _buildLoginOption(
                           Icons.person, 'Login as Admin', Colors.green)),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(RouteConstants.loginpage,
-                          arguments: "consultant");
+                      Get.toNamed(RouteConstants.loginpage, arguments: "2");
                     },
                     child: _buildLoginOption(Icons.local_hospital,
                         'Login as Consultant', Colors.green),
@@ -61,8 +59,7 @@ class SplashScreen extends StatelessWidget {
                         Alignment.center, // Centers the button horizontally
                     child: GestureDetector(
                       onTap: () {
-                        Get.toNamed(RouteConstants.loginpage,
-                            arguments: "user");
+                        Get.toNamed(RouteConstants.loginpage, arguments: "1");
                       },
                       child: _buildLoginOption(
                           Icons.people, 'Login as User', Colors.green),
@@ -71,15 +68,15 @@ class SplashScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(RouteConstants.signuppage);
-                },
-                child: Text(
-                  "Don't have an account? Signup",
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     Get.toNamed(RouteConstants.signuppage);
+              //   },
+              //   child: Text(
+              //     "Don't have an account? Signup",
+              //     style: TextStyle(color: Colors.blue),
+              //   ),
+              // ),
             ],
           ),
         ),

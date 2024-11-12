@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ChangePassword extends StatelessWidget {
-  final AuthController authController = Get.put(AuthController());
+  final AuthController authController =
+      Get.put(AuthController(authRepo: Get.find()));
   final GlobalKey<FormState> changeFormKey = GlobalKey<FormState>();
 
   @override

@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ForgetPasswordPage extends StatelessWidget {
-  final AuthController authController = Get.put(AuthController());
+  final AuthController authController =
+      Get.put(AuthController(authRepo: Get.find()));
   final GlobalKey<FormState> forgetPasswordFormKey = GlobalKey<FormState>();
 
   @override

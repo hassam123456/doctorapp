@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class LoginPage extends StatelessWidget {
-  final AuthController authController = Get.put(AuthController());
+  final AuthController authController =
+      Get.put(AuthController(authRepo: Get.find()));
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   final String logintype = Get.arguments as String;
   @override
@@ -95,7 +96,8 @@ class LoginPage extends StatelessWidget {
                     Text("Don't have an account? "),
                     TextButton(
                       onPressed: () {
-                        Get.toNamed(RouteConstants.signuppage);
+                        Get.toNamed(RouteConstants.signuppage,
+                            arguments: logintype.toString());
                         // Navigate to signup screen
                       },
                       child: Text(
