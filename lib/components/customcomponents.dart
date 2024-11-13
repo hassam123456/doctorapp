@@ -26,6 +26,12 @@ AppBar customappbar({
   );
 }
 
+customcircularProgress() {
+  return const CircularProgressIndicator(
+    color: Color(0xff34A853),
+  );
+}
+
 /////////////custom textformfield
 TextFormField customtextformfield({
   required String lable,

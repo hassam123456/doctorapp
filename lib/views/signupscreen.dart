@@ -1,3 +1,4 @@
+import 'package:doctorapp/components/customcomponents.dart';
 import 'package:doctorapp/components/customtextfield.dart';
 import 'package:doctorapp/constants/appcolors.dart';
 import 'package:doctorapp/constants/routeconstants.dart';
@@ -6,8 +7,30 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:get/get.dart';
 
-class SignupPage extends StatelessWidget {
-  final AuthController authController = Get.put(AuthController());
+class SignupPage extends StatefulWidget {
+  @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final AuthController authController =
+      Get.put(AuthController(authRepo: Get.find()));
+  final String logintype = Get.arguments as String;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    authController.fullNameController.clear();
+    authController.signupemailController.clear();
+    authController.clinicNameController.clear();
+    authController.phoneController.clear();
+    authController.addressController.clear();
+    authController.licenseController.clear();
+    authController.specializationController.clear();
+    authController.experienceController.clear();
+    authController.passwordController.clear();
+    authController.confirmPasswordController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,28 +150,34 @@ class SignupPage extends StatelessWidget {
                             : null,
                   ),
                   SizedBox(height: 3.h),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (authController.formKey.currentState!.validate()) {
-                          // Process the form submission
-                          print('Form submitted');
-                          Get.back();
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        padding: EdgeInsets.symmetric(vertical: 2.h),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Text(
-                        'Continue',
-                        style: TextStyle(fontSize: 18.sp, color: Colors.white),
-                      ),
-                    ),
+                  Obx(
+                    () => authController.signuploading.value
+                        ? Center(
+                            child: customcircularProgress(),
+                          )
+                        : SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (authController.formKey.currentState!
+                                    .validate()) {
+                                  authController.signup(logintype);
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                padding: EdgeInsets.symmetric(vertical: 2.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              child: Text(
+                                'Continue',
+                                style: TextStyle(
+                                    fontSize: 18.sp, color: Colors.white),
+                              ),
+                            ),
+                          ),
                   ),
                   SizedBox(height: 2.h),
 
