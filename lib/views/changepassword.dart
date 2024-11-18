@@ -6,13 +6,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class ChangePassword extends StatelessWidget {
+class ChangePassword extends StatefulWidget {
+  @override
+  State<ChangePassword> createState() => _ChangePasswordState();
+}
+
+class _ChangePasswordState extends State<ChangePassword> {
   final AuthController authController =
       Get.put(AuthController(authRepo: Get.find()));
+
   final GlobalKey<FormState> changeFormKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    authController.changepasswordController.clear();
+    authController.changeconfirmpasswordController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var args = Get.arguments;
+    String email = args['email'];
     return Scaffold(
       body: Form(
         key: changeFormKey,
@@ -77,8 +92,10 @@ class ChangePassword extends StatelessWidget {
               SizedBox(height: 2.h),
               CustomLoginButton(
                 onPressed: () {
-                  showVerificationPopup(context, "Password Changed!",
-                      "Your Password has been Successfully changed");
+                  if (changeFormKey.currentState!.validate()) {
+                    authController.changePassword(
+                        email: email, context: context);
+                  }
                 },
                 text: "Save",
                 backgroundcolor: AppColors.primaryColor,

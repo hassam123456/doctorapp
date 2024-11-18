@@ -1,4 +1,4 @@
-import 'package:doctorapp/repositary/authRepor.dart';
+import 'package:doctorapp/repositary/authRepo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -23,6 +23,8 @@ class AuthController extends GetxController {
   TextEditingController changepasswordController = TextEditingController();
   TextEditingController changeconfirmpasswordController =
       TextEditingController();
+
+  TextEditingController forgotemailController = TextEditingController();
 
   var isPasswordVisible = false.obs;
   var isConfirmPasswordVisible = false.obs;
@@ -83,13 +85,14 @@ class AuthController extends GetxController {
       RxList.generate(5, (_) => TextEditingController());
   Future<void> emailVerification(
       {required String isUser,
+      required String type,
       required String email,
       required String otp,
       required BuildContext context}) async {
     try {
       signupemailverificationloading.value = true;
       await authRepo.emailVerification(
-          context: context, isUser: isUser, otp: otp, email: email);
+          context: context, isUser: isUser, otp: otp, email: email, type: type);
 
       signupemailverificationloading.value = false;
     } finally {
@@ -109,6 +112,99 @@ class AuthController extends GetxController {
       resendotploading.value = false;
     } finally {
       resendotploading.value = false;
+    }
+  }
+
+///////send otp
+  var sendotploading = false.obs;
+  Future<void> sendOTP({
+    required String type,
+    required String logintyp,
+  }) async {
+    try {
+      print("send otp check");
+      print(type);
+      print(logintyp);
+      sendotploading.value = true;
+      await authRepo.SendOTP(
+          isuser: logintyp,
+          email: forgotemailController.value.text.toString(),
+          type: type.toString());
+
+      sendotploading.value = false;
+    } finally {
+      sendotploading.value = false;
+    }
+  }
+
+  //////////verify otp api
+  var verifyotploading = false.obs;
+  final otpcontroller = TextEditingController().obs;
+  Future<void> VerifyOTP(
+      {required BuildContext context,
+      String? type,
+      required String isuser,
+      required String popupmessage}) async {
+    try {
+      verifyotploading.value = true;
+      await authRepo.VerifyOTP(
+          isuser: isuser,
+          otp: otpcontroller.value.text.toString(),
+          email: forgotemailController.value.text.toString(),
+          type: type!,
+          context: context,
+          popupmessage: popupmessage);
+
+      verifyotploading.value = false;
+    } finally {
+      verifyotploading.value = false;
+    }
+  }
+
+///////change password
+  var changepasswordloading = false.obs;
+  final changepasswordcontroller = TextEditingController().obs;
+  final changeconfpasswordcontroller = TextEditingController().obs;
+  Future<void> changePassword({
+    required String email,
+    required BuildContext context,
+  }) async {
+    try {
+      changepasswordloading.value = true;
+      await authRepo.changepassword(
+          email: email,
+          password: changepasswordcontroller.value.text.toString(),
+          newpassword: changeconfpasswordcontroller.value.text.toString(),
+          context: context);
+
+      changepasswordloading.value = false;
+    } finally {
+      changepasswordloading.value = false;
+    }
+  }
+
+  // login api
+  var loginloading = false.obs;
+  Future<void> login({
+    required String? isuser,
+  }) async {
+    try {
+      loginloading.value = true;
+      await authRepo.login(
+          isuser: isuser.toString(),
+          email: emailController.value.text.toString(),
+          password: passwordController.value.text.toString());
+
+      // remembermeischecked.value
+      //     ? saveremembermecredentials(
+      //         email: loginemailcontroller.value.text.toString(),
+      //         password: loginpasswordcontroller.value.text.toString(),
+      //         isremeberme: remembermeischecked.value)
+      //     : clearremebermecredentials();
+
+      loginloading.value = false;
+    } finally {
+      loginloading.value = false;
     }
   }
 }
