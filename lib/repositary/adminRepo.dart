@@ -17,7 +17,7 @@ class AdminRepo extends GetxService {
     required String category,
     required String url,
     required String description,
-    required File image,
+    required File ebookfile,
   }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -32,22 +32,25 @@ class AdminRepo extends GetxService {
         'url': url,
         'description': description,
       });
-      request.files.add(await http.MultipartFile.fromPath('file', image.path));
+      request.files.add(await http.MultipartFile.fromPath(
+        'file',
+        ebookfile.path,
+      ));
       request.headers['Authorization'] = 'Bearer $token';
       var response = await request.send();
       final responseBody = await response.stream.bytesToString();
       if (response.statusCode == 200) {
+        Get.back();
         final message = jsonDecode(responseBody)['message'];
         customSuccessSnackBar(message);
-        Get.back();
       } else {
         final message = jsonDecode(responseBody)['message'];
         customErrorSnackBar(message);
       }
     } catch (e) {
       customErrorSnackBar(
-          'An unexpected error occurred. Please try again later');
-      print("Error uploading Ebookfile: $e");
+          'An unexpected error occurred. Please try again later.');
+      print("Error uploading EBook: $e");
     }
   }
 
@@ -57,6 +60,7 @@ class AdminRepo extends GetxService {
     required String category,
     required String url,
     required String description,
+    required File videoFile,
   }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -64,28 +68,32 @@ class AdminRepo extends GetxService {
       var request = http.MultipartRequest(
           'POST',
           Uri.parse(
-              '${AppConstants.apibaseurl}${AppConstants.admincreateEbook}'));
+              '${AppConstants.apibaseurl}${AppConstants.admincreatevideo}'));
       request.fields.addAll({
         'title': title,
         'category': category,
         'url': url,
         'description': description,
       });
+      request.files.add(await http.MultipartFile.fromPath(
+        'file',
+        videoFile.path,
+      ));
       request.headers['Authorization'] = 'Bearer $token';
       var response = await request.send();
       final responseBody = await response.stream.bytesToString();
       if (response.statusCode == 200) {
+        Get.back();
         final message = jsonDecode(responseBody)['message'];
         customSuccessSnackBar(message);
-        Get.back();
       } else {
         final message = jsonDecode(responseBody)['message'];
         customErrorSnackBar(message);
       }
     } catch (e) {
       customErrorSnackBar(
-          'An unexpected error occurred. Please try again later');
-      print("Error uploading Ebookfile: $e");
+          'An unexpected error occurred. Please try again later.');
+      print("Error uploading video: $e");
     }
   }
 }

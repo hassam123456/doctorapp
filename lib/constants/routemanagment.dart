@@ -22,7 +22,8 @@ import 'package:doctorapp/views/loginscreen.dart';
 import 'package:doctorapp/views/notifcationscreen.dart';
 import 'package:doctorapp/views/profilescreen.dart';
 import 'package:doctorapp/views/signupscreen.dart';
-import 'package:doctorapp/views/splashscreen.dart';
+import 'package:doctorapp/views/signin.dart';
+import 'package:doctorapp/views/user/forgotemailverification.dart';
 import 'package:doctorapp/views/user/userbottomnavbar.dart';
 import 'package:doctorapp/views/user/usercaseconsult_screen.dart';
 import 'package:doctorapp/views/user/userhomescreen.dart';
@@ -83,7 +84,7 @@ class Routes {
           page: () => DoctorCaseConsultScreen()),
 
       ///////hassam screens,
-      GetPage(name: RouteConstants.splashscreen, page: () => SplashScreen()),
+      GetPage(name: RouteConstants.splashscreen, page: () => SigninPage()),
       GetPage(
           name: RouteConstants.notificationscreen,
           page: () => NotificationScreen()),
@@ -99,6 +100,9 @@ class Routes {
       GetPage(
           name: RouteConstants.emailverification,
           page: () => EmailVerificationScreen()),
+      GetPage(
+          name: RouteConstants.forgotemailverification,
+          page: () => ForgotEmailVerificationScreen()),
       GetPage(
           name: RouteConstants.changepassword, page: () => ChangePassword()),
       GetPage(name: RouteConstants.welcomescreen, page: () => WelcomeScreen()),

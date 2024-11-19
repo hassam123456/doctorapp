@@ -14,7 +14,7 @@ dependencies:
   get: any
   responsive_sizer: any
   carousel_slider: any
-  image_picker: ^1.1.2
+  image_picker: any
   motion_tab_bar: ^2.0.4
   flutter_otp_text_field: ^1.2.0
   shared_preferences: ^2.2.3

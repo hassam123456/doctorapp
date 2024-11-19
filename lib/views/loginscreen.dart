@@ -66,7 +66,8 @@ class LoginPage extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      Get.toNamed(RouteConstants.forgotpage);
+                      Get.toNamed(RouteConstants.forgotpage,
+                          arguments: logintype);
                     },
                     child: Text(
                       'Forget Your Password?',
@@ -77,13 +78,17 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: 2.h),
                 CustomLoginButton(
                   onPressed: () {
-                    logintype == "admin"
-                        ? Get.toNamed(RouteConstants.adminhomescreen)
-                        : logintype == "consultant"
-                            ? Get.toNamed(RouteConstants.doctorbottomnavbar)
-                            : logintype == "user"
-                                ? Get.toNamed(RouteConstants.userbottomnavbar)
-                                : null;
+                    if (loginFormKey.currentState!.validate()) {
+                      authController.login(isuser: logintype);
+                    }
+
+                    // logintype == "admin"
+                    //     ? Get.toNamed(RouteConstants.adminhomescreen)
+                    //     : logintype == "consultant"
+                    //         ? Get.toNamed(RouteConstants.doctorbottomnavbar)
+                    //         : logintype == "user"
+                    //             ? Get.toNamed(RouteConstants.userbottomnavbar)
+                    //             : null;
                   },
                   text: "Login",
                   backgroundcolor: AppColors.primaryColor,

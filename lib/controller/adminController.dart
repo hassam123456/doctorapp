@@ -61,7 +61,7 @@ class AdminController extends GetxController {
     try {
       createebookloading.value = true;
       await adminRepo.creatEBook(
-          image: adminuploadebookimage.value!,
+          ebookfile: adminuploadebookimage.value!,
           title: ebooktitlecontroller.value.text.toString(),
           category: ebookcategorycontroller.value.text.toString(),
           url: ebookurlcontroller.value.text.toString(),
@@ -74,6 +74,46 @@ class AdminController extends GetxController {
   }
 
 ////////admin create video
+  var adminuploadvideoimage = Rx<File?>(null);
+
+  Future<void> pickadminuploadvideoimage(BuildContext context) async {
+    final picker = ImagePicker();
+    final pickedImage = await showDialog<ImageSource>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Select Image Source"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                GestureDetector(
+                  child: const Text("Gallery"),
+                  onTap: () {
+                    Navigator.of(context).pop(ImageSource.gallery);
+                  },
+                ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  child: const Text("Camera"),
+                  onTap: () {
+                    Navigator.of(context).pop(ImageSource.camera);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    if (pickedImage != null) {
+      final pickedFile = await picker.pickImage(source: pickedImage);
+      if (pickedFile != null) {
+        adminuploadvideoimage.value = File(pickedFile.path);
+      }
+    }
+  }
+
   final videotitlecontroller = TextEditingController().obs;
   final videocategorycontroller = TextEditingController().obs;
   final videourlcontroller = TextEditingController().obs;
@@ -83,6 +123,7 @@ class AdminController extends GetxController {
     try {
       createvideoloading.value = true;
       await adminRepo.creatVideo(
+          videoFile: adminuploadvideoimage.value!,
           title: videotitlecontroller.value.text.toString(),
           category: videocategorycontroller.value.text.toString(),
           url: videourlcontroller.value.text.toString(),

@@ -3,14 +3,21 @@ import 'package:doctorapp/components/customconsultantbox.dart';
 import 'package:doctorapp/components/homeBox.dart';
 import 'package:doctorapp/constants/colors.dart';
 import 'package:doctorapp/constants/routeconstants.dart';
+import 'package:doctorapp/controller/authcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class AdminHomeScreen extends StatelessWidget {
+class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
 
+  @override
+  State<AdminHomeScreen> createState() => _AdminHomeScreenState();
+}
+
+class _AdminHomeScreenState extends State<AdminHomeScreen> {
+  final authcontroller = Get.put(AuthController(authRepo: Get.find()));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,19 +36,35 @@ class AdminHomeScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
-          GestureDetector(
-            onTap: () {
-              Get.toNamed(RouteConstants.notificationscreen);
-            },
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 2.w),
-              child: Image.asset(
-                "assets/images/notificationicon.png",
-                height: 4.h,
-                width: 9.w,
-                fit: BoxFit.fill,
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(RouteConstants.notificationscreen);
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.w),
+                  child: Image.asset(
+                    "assets/images/notificationicon.png",
+                    height: 4.h,
+                    width: 9.w,
+                    fit: BoxFit.fill,
+                  ),
+                ),
               ),
-            ),
+              GestureDetector(
+                onTap: () async {
+                  authcontroller.logout();
+                },
+                child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 2.w),
+                    child: Icon(
+                      Icons.logout,
+                      size: 20.sp,
+                      color: mainColor,
+                    )),
+              ),
+            ],
           )
         ],
         title: Row(

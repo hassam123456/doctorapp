@@ -19,6 +19,17 @@ class _AdminUploadEBookScreenState extends State<AdminUploadEBookScreen> {
   final admincontroller = Get.put(AdminController(adminRepo: Get.find()));
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    admincontroller.adminuploadebookimage.value = null;
+    admincontroller.ebooktitlecontroller.value.clear();
+    admincontroller.ebookcategorycontroller.value.clear();
+    admincontroller.ebookdescriptioncontroller.value.clear();
+    admincontroller.ebookurlcontroller.value.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customappbar(title: "Upload E-Books"),
@@ -125,15 +136,22 @@ class _AdminUploadEBookScreenState extends State<AdminUploadEBookScreen> {
                 SizedBox(
                   height: 2.h,
                 ),
-                custombutton(
-                    title: "Add E-Book",
-                    ontap: () {
-                      if (formKey.currentState!.validate()) {
-                        admincontroller.adminuploadebookimage.value == null
-                            ? customErrorSnackBar("Please Upload Image")
-                            : admincontroller.createEbook();
-                      }
-                    }),
+                Obx(
+                  () => admincontroller.createebookloading.value
+                      ? Center(
+                          child: customcircularProgress(),
+                        )
+                      : custombutton(
+                          title: "Add E-Book",
+                          ontap: () {
+                            if (formKey.currentState!.validate()) {
+                              admincontroller.adminuploadebookimage.value ==
+                                      null
+                                  ? customErrorSnackBar("Please Upload Image")
+                                  : admincontroller.createEbook();
+                            }
+                          }),
+                ),
                 SizedBox(
                   height: 2.h,
                 ),

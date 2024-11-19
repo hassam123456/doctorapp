@@ -25,6 +25,7 @@ class RouteConstants {
   static String signuppage = "/signuppage";
   static String forgotpage = "/forgotpage";
   static String emailverification = "/emailverification";
+  static String forgotemailverification = "/forgotemailverificaiton";
   static String changepassword = "/changepassword";
   static String ebookscreen = "/ebookscreen";
   static String videoscreen = "/videoscreen";

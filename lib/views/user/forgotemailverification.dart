@@ -8,13 +8,14 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
-class EmailVerificationScreen extends StatefulWidget {
+class ForgotEmailVerificationScreen extends StatefulWidget {
   @override
-  State<EmailVerificationScreen> createState() =>
-      _EmailVerificationScreenState();
+  State<ForgotEmailVerificationScreen> createState() =>
+      _ForgotEmailVerificationScreenState();
 }
 
-class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
+class _ForgotEmailVerificationScreenState
+    extends State<ForgotEmailVerificationScreen> {
   final authcontroller = Get.put(AuthController(authRepo: Get.find()));
 
   @override
@@ -78,7 +79,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 fieldWidth: 15.w,
                 onSubmit: (String verificationCode) {
                   authcontroller.emailVerification(
-                    type: "0",
+                    type: "1",
                     otp: verificationCode.toString(),
                     isUser: isUser,
                     email: email,
@@ -105,7 +106,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                             customErrorSnackBar('Please enter a 5-digit code.');
                           } else {
                             authcontroller.emailVerification(
-                              type: "0",
+                              type: "1",
                               otp: authcontroller
                                   .signupemailverificationotp.value
                                   .toString(),

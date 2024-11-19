@@ -1,18 +1,40 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:doctorapp/components/homeBox.dart';
+import 'package:doctorapp/constants/colors.dart';
 import 'package:doctorapp/constants/routeconstants.dart';
+import 'package:doctorapp/controller/authcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class UserHomeScreen extends StatelessWidget {
+class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({super.key});
 
+  @override
+  State<UserHomeScreen> createState() => _UserHomeScreenState();
+}
+
+class _UserHomeScreenState extends State<UserHomeScreen> {
+  final authcontroller = Get.put(AuthController(authRepo: Get.find()));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        actions: [
+          GestureDetector(
+            onTap: () async {
+              authcontroller.logout();
+            },
+            child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 2.w),
+                child: Icon(
+                  Icons.logout,
+                  size: 20.sp,
+                  color: mainColor,
+                )),
+          ),
+        ],
         title: Row(
           children: [
             CircleAvatar(
