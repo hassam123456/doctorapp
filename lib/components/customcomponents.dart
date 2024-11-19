@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:doctorapp/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -35,8 +37,12 @@ customcircularProgress() {
 /////////////custom textformfield
 TextFormField customtextformfield({
   required String lable,
+  FormFieldValidator<String>? validator,
+  TextEditingController? controler,
 }) {
   return TextFormField(
+    controller: controler,
+    validator: validator,
     decoration: InputDecoration(
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),

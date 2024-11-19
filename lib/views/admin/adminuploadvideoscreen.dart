@@ -1,5 +1,7 @@
 import 'package:doctorapp/components/customcomponents.dart';
+import 'package:doctorapp/controller/adminController.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AdminUploadVideoScreen extends StatefulWidget {
@@ -10,6 +12,8 @@ class AdminUploadVideoScreen extends StatefulWidget {
 }
 
 class _AdminUploadVideoScreenState extends State<AdminUploadVideoScreen> {
+  final admincontroller = Get.put(AdminController(adminRepo: Get.find()));
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,15 +30,38 @@ class _AdminUploadVideoScreenState extends State<AdminUploadVideoScreen> {
               SizedBox(
                 height: 2.h,
               ),
-              customtextformfield(lable: "Title"),
+              customtextformfield(
+                  validator: (v) {
+                    if (v == null || v.isEmpty) {
+                      return "Please enter title";
+                    }
+                    return null;
+                  },
+                  controler: admincontroller.videotitlecontroller.value,
+                  lable: "Title"),
               SizedBox(
                 height: 2.h,
               ),
-              customtextformfield(lable: "Category"),
+              customtextformfield(
+                  validator: (v) {
+                    if (v == null || v.isEmpty) {
+                      return "Please enter category";
+                    }
+                    return null;
+                  },
+                  controler: admincontroller.videocategorycontroller.value,
+                  lable: "Category"),
               SizedBox(
                 height: 2.h,
               ),
               TextFormField(
+                validator: (v) {
+                  if (v == null || v.isEmpty) {
+                    return "Please enter description";
+                  }
+                  return null;
+                },
+                controller: admincontroller.videodescriptioncontroller.value,
                 maxLines: 5,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -46,11 +73,25 @@ class _AdminUploadVideoScreenState extends State<AdminUploadVideoScreen> {
               SizedBox(
                 height: 2.h,
               ),
-              customtextformfield(lable: "URL"),
+              customtextformfield(
+                  validator: (v) {
+                    if (v == null || v.isEmpty) {
+                      return "Please enter URL";
+                    }
+                    return null;
+                  },
+                  controler: admincontroller.videourlcontroller.value,
+                  lable: "URL"),
               SizedBox(
                 height: 2.h,
               ),
-              custombutton(title: "Add E-Book", ontap: () {}),
+              custombutton(
+                  title: "Add Video",
+                  ontap: () {
+                    if (formKey.currentState!.validate()) {
+                      admincontroller.createVideo();
+                    }
+                  }),
               SizedBox(
                 height: 2.h,
               ),
