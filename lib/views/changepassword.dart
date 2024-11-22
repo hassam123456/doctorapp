@@ -1,5 +1,4 @@
 import 'package:doctorapp/components/custombutton.dart';
-import 'package:doctorapp/components/custompopup.dart';
 import 'package:doctorapp/constants/appcolors.dart';
 import 'package:doctorapp/controller/authcontroller.dart';
 import 'package:flutter/material.dart';

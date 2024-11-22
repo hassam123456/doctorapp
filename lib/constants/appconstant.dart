@@ -9,4 +9,9 @@ class AppConstants {
   static const verifyotp = "auth/verify-otp";
   static const sendotp = "auth/send-otp";
   static const resetpassword = "auth/reset-password";
+  static String admindeleteebook = "ebook/delete/";
+  static String admindeletevideo = "video-library/delete/";
+  static String useruploadCase = "case/create";
+  static String useruploadcasedetails = "case/create-update-cvs/";
+  static String adminaddconsultants = "case/register-doctor";
 }

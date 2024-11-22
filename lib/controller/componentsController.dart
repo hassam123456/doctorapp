@@ -1,8 +1,4 @@
-import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ComponentsController extends GetxController {
 /////////casedetail screen
@@ -58,46 +54,5 @@ class ComponentsController extends GetxController {
 
   updateaddconsultantconfpasssword() {
     addconsultantconfpasssword.value = !addconsultantconfpasssword.value;
-  }
-
-////////////upload user case screen
-  var uploadUserCasePrescriptions = <File>[].obs;
-
-  Future<void> pickUserCasePrescriptions(BuildContext context) async {
-    final picker = ImagePicker();
-    final pickedImage = await showDialog<ImageSource>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Select Image Source"),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                GestureDetector(
-                  child: const Text("Gallery"),
-                  onTap: () {
-                    Navigator.of(context).pop(ImageSource.gallery);
-                  },
-                ),
-                const SizedBox(height: 20),
-                GestureDetector(
-                  child: const Text("Camera"),
-                  onTap: () {
-                    Navigator.of(context).pop(ImageSource.camera);
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-
-    if (pickedImage != null) {
-      final pickedFile = await picker.pickImage(source: pickedImage);
-      if (pickedFile != null) {
-        uploadUserCasePrescriptions.add(File(pickedFile.path));
-      }
-    }
   }
 }

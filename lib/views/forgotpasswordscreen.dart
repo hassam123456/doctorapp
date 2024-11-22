@@ -1,8 +1,5 @@
-import 'dart:ffi';
-
 import 'package:doctorapp/components/custombutton.dart';
 import 'package:doctorapp/constants/appcolors.dart';
-import 'package:doctorapp/constants/routeconstants.dart';
 import 'package:doctorapp/controller/authcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

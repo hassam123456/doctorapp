@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:doctorapp/components/resizeImage.dart';
 import 'package:doctorapp/repositary/adminRepo.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -43,11 +43,12 @@ class AdminController extends GetxController {
         );
       },
     );
-
     if (pickedImage != null) {
       final pickedFile = await picker.pickImage(source: pickedImage);
       if (pickedFile != null) {
-        adminuploadebookimage.value = File(pickedFile.path);
+        adminuploadebookimage.value = pickedImage == ImageSource.camera
+            ? await resizeImage(File(pickedFile.path))
+            : File(pickedFile.path);
       }
     }
   }
@@ -105,11 +106,12 @@ class AdminController extends GetxController {
         );
       },
     );
-
     if (pickedImage != null) {
       final pickedFile = await picker.pickImage(source: pickedImage);
       if (pickedFile != null) {
-        adminuploadvideoimage.value = File(pickedFile.path);
+        adminuploadvideoimage.value = pickedImage == ImageSource.camera
+            ? await resizeImage(File(pickedFile.path))
+            : File(pickedFile.path);
       }
     }
   }
@@ -132,6 +134,48 @@ class AdminController extends GetxController {
       createvideoloading.value = false;
     } finally {
       createvideoloading.value = false;
+    }
+  }
+
+/////////////////add consultants
+  final adminaddconsultantnamecontroller = TextEditingController().obs;
+  final adminaddconsultantemailcontroller = TextEditingController().obs;
+  final adminaddconsultanthospitalnamecontroller = TextEditingController().obs;
+  final adminaddconsultantphonenumbercontroller = TextEditingController().obs;
+  final adminaddconsultantaddresscontroller = TextEditingController().obs;
+  final adminaddconsultantlicensecontroller = TextEditingController().obs;
+  final adminaddconsultantspecializationcontroller =
+      TextEditingController().obs;
+  final adminaddconsultantexperiencecontroller = TextEditingController().obs;
+  final adminaddconsultantpasswordcontroller = TextEditingController().obs;
+  final adminaddconsultantconfirmpasswordcontroller =
+      TextEditingController().obs;
+
+  final RxBool addconsultantsloading = false.obs;
+  Future<void> addConsulant() async {
+    try {
+      addconsultantsloading.value = true;
+      await adminRepo.addConsultants(
+        name: adminaddconsultantnamecontroller.value.text.toString(),
+        email: adminaddconsultantemailcontroller.value.text.toString(),
+        password:
+            adminaddconsultantconfirmpasswordcontroller.value.text.toString(),
+        phonenumber:
+            adminaddconsultantphonenumbercontroller.value.text.toString(),
+        hospitalname:
+            adminaddconsultanthospitalnamecontroller.value.text.toString(),
+        licensenumber:
+            adminaddconsultantlicensecontroller.value.text.toString(),
+        experience:
+            adminaddconsultantexperiencecontroller.value.text.toString(),
+        address: adminaddconsultantaddresscontroller.value.text.toString(),
+        specialization:
+            adminaddconsultantspecializationcontroller.value.text.toString(),
+      );
+
+      addconsultantsloading.value = false;
+    } finally {
+      addconsultantsloading.value = false;
     }
   }
 }

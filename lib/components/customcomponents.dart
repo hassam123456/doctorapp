@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:doctorapp/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -55,8 +53,12 @@ TextFormField customtextformfield({
 /////////////custom number textformfield
 TextFormField customnumbertextformfield({
   required String lable,
+  TextEditingController? controller,
+  FormFieldValidator<String>? validator,
 }) {
   return TextFormField(
+    controller: controller,
+    validator: validator,
     keyboardType: TextInputType.number,
     decoration: InputDecoration(
         border: OutlineInputBorder(

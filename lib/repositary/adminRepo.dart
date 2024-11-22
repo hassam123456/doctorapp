@@ -96,4 +96,93 @@ class AdminRepo extends GetxService {
       print("Error uploading video: $e");
     }
   }
+
+///////delete ebook
+  Future deleteEbook({
+    required String id,
+  }) async {
+    try {
+      final response = await apiClient.postToServer(
+        endPoint: "${AppConstants.admindeleteebook}$id",
+        data: {},
+      );
+      if (response.statusCode == 200) {
+        final message = jsonDecode(response.body)['message'];
+        customSuccessSnackBar(message);
+      } else {
+        final message = jsonDecode(response.body)['message'];
+        customErrorSnackBar(message);
+      }
+    } catch (e) {
+      print("Delete EBook:$e");
+      customErrorSnackBar(
+          'An unexpected error occurred. Please try again later.');
+    }
+  }
+
+///////delete evideoa
+  Future deleteVideo({
+    required String id,
+  }) async {
+    try {
+      final response = await apiClient.postToServer(
+        endPoint: "${AppConstants.admindeletevideo}$id",
+        data: {},
+      );
+      if (response.statusCode == 200) {
+        final message = jsonDecode(response.body)['message'];
+        customSuccessSnackBar(message);
+      } else {
+        final message = jsonDecode(response.body)['message'];
+        customErrorSnackBar(message);
+      }
+    } catch (e) {
+      print("Delete EBook:$e");
+      customErrorSnackBar(
+          'An unexpected error occurred. Please try again later.');
+    }
+  }
+
+///////admin add consultants
+  Future addConsultants({
+    required String name,
+    required String email,
+    required String password,
+    required String phonenumber,
+    required String hospitalname,
+    required String licensenumber,
+    required String experience,
+    required String address,
+    required String specialization,
+  }) async {
+    final userData = {
+      "name": name,
+      "email": email,
+      "password": password,
+      "phone_number": phonenumber,
+      "hospital_name": hospitalname,
+      "license_number": licensenumber,
+      "experience": experience,
+      "address": address,
+      "specialization": specialization,
+    };
+    try {
+      final response = await apiClient.postToServer(
+        endPoint: AppConstants.adminaddconsultants,
+        data: userData,
+      );
+      if (response.statusCode == 200) {
+        Get.back();
+        final message = jsonDecode(response.body)['message'];
+        customSuccessSnackBar(message);
+      } else {
+        final message = jsonDecode(response.body)['message'];
+        customErrorSnackBar(message);
+      }
+    } catch (e) {
+      print("Add Consultants:$e");
+      customErrorSnackBar(
+          'An unexpected error occurred. Please try again later.');
+    }
+  }
 }

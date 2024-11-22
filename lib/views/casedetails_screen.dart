@@ -1,6 +1,7 @@
-import 'package:doctorapp/constants/colors.dart';
-import 'package:doctorapp/constants/routeconstants.dart';
+import 'package:doctorapp/components/customSnackBar.dart';
+import 'package:doctorapp/components/customcomponents.dart';
 import 'package:doctorapp/controller/componentsController.dart';
+import 'package:doctorapp/controller/userController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -14,6 +15,16 @@ class CaseDetailsScreen extends StatefulWidget {
 
 class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
   final componentcontroller = Get.put(ComponentsController());
+  final usercontroller = Get.put(UserController(userRepo: Get.find()));
+  final String guid = Get.arguments as String;
+  @override
+  void initState() {
+    super.initState();
+    componentcontroller.radioGroupSelections.forEach((key, value) {
+      value.value = '';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,37 +99,57 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                       CustomRadioButtonRow(
                         group: "Hypertension",
                         title: "Hypertension / Hypotension",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailshypertension.value =
+                              value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Valvular",
                         title: "Valvular Heart Disease",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsvalvular.value =
+                              value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Angina",
                         title: "Angina Pectoris",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsangina.value = value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Myocardial",
                         title: "Myocardial Infarction",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsmyocardial.value =
+                              value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Infective",
                         title: "Infective Endocarditis",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsinfective.value =
+                              value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Cardiac",
                         title: "Cardiac Failure",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsfailure.value =
+                              value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Surgery",
                         title: "Cardiac Surgery",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailssurgery.value =
+                              value!;
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,7 +163,10 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                           ),
                           SizedBox(
                             width: 67.w,
-                            child: TextFormField(),
+                            child: TextFormField(
+                              controller: usercontroller
+                                  .uploadcasedetailscvsother.value,
+                            ),
                           )
                         ],
                       )
@@ -187,17 +221,24 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                       CustomRadioButtonRow(
                         group: "Nausea",
                         title: "Nausea",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsnausea.value = value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Vomiting",
                         title: "Vomiting",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsvomiting.value =
+                              value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Peptic",
                         title: "Peptic Ulcer",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailspeptic.value = value!;
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -211,7 +252,10 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                           ),
                           SizedBox(
                             width: 67.w,
-                            child: TextFormField(),
+                            child: TextFormField(
+                              controller: usercontroller
+                                  .uploadcasedetailsgitother.value,
+                            ),
                           )
                         ],
                       )
@@ -266,22 +310,33 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                       CustomRadioButtonRow(
                         group: "ChestPain",
                         title: "Chest Pain",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailschestpain.value =
+                              value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Asthma",
                         title: "Asthma",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsasthma.value = value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Bronchitis",
                         title: "Bronchitis",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsbronchitis.value =
+                              value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Pneumonia",
                         title: "Pneumonia",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailspneumonia.value =
+                              value!;
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -295,7 +350,10 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                           ),
                           SizedBox(
                             width: 67.w,
-                            child: TextFormField(),
+                            child: TextFormField(
+                              controller: usercontroller
+                                  .uploadcasedetailsrespiratoryother.value,
+                            ),
                           )
                         ],
                       )
@@ -350,7 +408,10 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                       CustomRadioButtonRow(
                         group: "Tuberculossis",
                         title: "Tuberculossis (T.B)",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailstuberculossis.value =
+                              value!;
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -364,7 +425,10 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                           ),
                           SizedBox(
                             width: 67.w,
-                            child: TextFormField(),
+                            child: TextFormField(
+                              controller: usercontroller
+                                  .uploadcasedetailstuberculossisother.value,
+                            ),
                           )
                         ],
                       )
@@ -419,7 +483,10 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                       CustomRadioButtonRow(
                         group: "Hepatitis",
                         title: "Hepatitis",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailshepatitis.value =
+                              value!;
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -433,7 +500,10 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                           ),
                           SizedBox(
                             width: 67.w,
-                            child: TextFormField(),
+                            child: TextFormField(
+                              controller: usercontroller
+                                  .uploadcasedetailshepatitisother.value,
+                            ),
                           )
                         ],
                       )
@@ -488,22 +558,33 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                       CustomRadioButtonRow(
                         group: "Anemia",
                         title: "Anemia",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsanemia.value = value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "BleedingDisorder",
                         title: "Bleeding Disorder",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller
+                              .uploadcasedetailsbleedingdisorder.value = value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "ClothingDisorder",
                         title: "Clothing Disorder",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller
+                              .uploadcasedetailsclothingdisorder.value = value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Leukemia",
                         title: "Leukemia",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsleukemia.value =
+                              value!;
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -517,7 +598,10 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                           ),
                           SizedBox(
                             width: 67.w,
-                            child: TextFormField(),
+                            child: TextFormField(
+                              controller: usercontroller
+                                  .uploadcasedetailcirculatoryother.value,
+                            ),
                           )
                         ],
                       )
@@ -572,12 +656,17 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                       CustomRadioButtonRow(
                         group: "U.T.I",
                         title: "U.T.I",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsuti.value = value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "KenalFailure",
                         title: "Kenal Failure",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailskenalfailure.value =
+                              value!;
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -591,7 +680,10 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                           ),
                           SizedBox(
                             width: 67.w,
-                            child: TextFormField(),
+                            child: TextFormField(
+                              controller: usercontroller
+                                  .uploadcasedetailsurinaryother.value,
+                            ),
                           )
                         ],
                       )
@@ -646,22 +738,34 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                       CustomRadioButtonRow(
                         group: "Diabetes",
                         title: "Diabetes",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsdiabetes.value =
+                              value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Hyperparathyroidism",
                         title: "Hyperparathyroidism",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailshyperparathyrodism
+                              .value = value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Hypothyroidism",
                         title: "Hypothyroidism",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailshypothyroidism.value =
+                              value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Hyperthyroidism",
                         title: "Hyperthyroidism",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailshyperthyrodism.value =
+                              value!;
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -675,7 +779,10 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                           ),
                           SizedBox(
                             width: 67.w,
-                            child: TextFormField(),
+                            child: TextFormField(
+                              controller: usercontroller
+                                  .uploadcasedetailsendocrineother.value,
+                            ),
                           )
                         ],
                       )
@@ -730,12 +837,18 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                       CustomRadioButtonRow(
                         group: "Seizure",
                         title: "Seizure",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsseizure.value =
+                              value!;
+                        },
                       ),
                       CustomRadioButtonRow(
                         group: "Epilepsy",
                         title: "Epilepsy",
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          usercontroller.uploadcasedetailsepilepsy.value =
+                              value!;
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -749,7 +862,10 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                           ),
                           SizedBox(
                             width: 67.w,
-                            child: TextFormField(),
+                            child: TextFormField(
+                              controller: usercontroller
+                                  .uploadcasedetailsnervousother.value,
+                            ),
                           )
                         ],
                       )
@@ -760,24 +876,70 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
               SizedBox(
                 height: 2.h,
               ),
-              GestureDetector(
-                onTap: () {
-                  Get.offAllNamed(RouteConstants.userbottomnavbar);
-                },
-                child: Container(
-                  height: 5.h,
-                  width: Get.width,
-                  decoration: BoxDecoration(
-                      color: Color(0xff34A853),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Center(
-                    child: Text(
-                      // "Sign Up",
-                      "Upload",
-                      style: TextStyle(color: Colors.white, fontSize: 16.sp),
-                    ),
-                  ),
-                ),
+              Obx(
+                () => usercontroller.useruploadcasedetailsloading.value
+                    ? Center(
+                        child: customcircularProgress(),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          List<RxString> requiredFields = [
+                            usercontroller.uploadcasedetailshypertension,
+                            usercontroller.uploadcasedetailsvalvular,
+                            usercontroller.uploadcasedetailsangina,
+                            usercontroller.uploadcasedetailsmyocardial,
+                            usercontroller.uploadcasedetailsinfective,
+                            usercontroller.uploadcasedetailsfailure,
+                            usercontroller.uploadcasedetailssurgery,
+                            usercontroller.uploadcasedetailsnausea,
+                            usercontroller.uploadcasedetailsvomiting,
+                            usercontroller.uploadcasedetailspeptic,
+                            usercontroller.uploadcasedetailschestpain,
+                            usercontroller.uploadcasedetailsasthma,
+                            usercontroller.uploadcasedetailsbronchitis,
+                            usercontroller.uploadcasedetailspneumonia,
+                            usercontroller.uploadcasedetailstuberculossis,
+                            usercontroller.uploadcasedetailshepatitis,
+                            usercontroller.uploadcasedetailsanemia,
+                            usercontroller.uploadcasedetailsbleedingdisorder,
+                            usercontroller.uploadcasedetailsclothingdisorder,
+                            usercontroller.uploadcasedetailsleukemia,
+                            usercontroller.uploadcasedetailsuti,
+                            usercontroller.uploadcasedetailskenalfailure,
+                            usercontroller.uploadcasedetailsdiabetes,
+                            usercontroller.uploadcasedetailshyperparathyrodism,
+                            usercontroller.uploadcasedetailshypothyroidism,
+                            usercontroller.uploadcasedetailshyperthyrodism,
+                            usercontroller.uploadcasedetailsseizure,
+                            usercontroller.uploadcasedetailsepilepsy
+                          ];
+                          bool isAnyFieldEmpty = requiredFields
+                              .any((field) => field.value.isEmpty);
+
+                          if (isAnyFieldEmpty) {
+                            customErrorSnackBar(
+                                "Please Fill Complete Case Details");
+                          } else {
+                            usercontroller.userUploadCaseDetails(
+                                guid: guid.toString());
+                          }
+                        },
+                        child: Container(
+                          height: 5.h,
+                          width: Get.width,
+                          decoration: BoxDecoration(
+                              color: Color(0xff34A853),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                            child: Text(
+                              // "Sign Up",
+                              "Upload",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.sp),
+                            ),
+                          ),
+                        ),
+                      ),
               ),
               SizedBox(
                 height: 1.5.h,
@@ -849,7 +1011,7 @@ class CustomRadioButtonRow extends StatelessWidget {
               children: [
                 Radio<String>(
                   fillColor: MaterialStateProperty.all(fillColor),
-                  value: "yes",
+                  value: "1",
                   groupValue: controller.radioGroupSelections[group]?.value,
                   onChanged: (value) {
                     if (value != null) {
@@ -860,7 +1022,7 @@ class CustomRadioButtonRow extends StatelessWidget {
                 ),
                 Radio<String>(
                   fillColor: MaterialStateProperty.all(fillColor),
-                  value: "no",
+                  value: "0",
                   groupValue: controller.radioGroupSelections[group]?.value,
                   onChanged: (value) {
                     if (value != null) {
