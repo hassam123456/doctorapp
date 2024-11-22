@@ -8,6 +8,7 @@ import 'package:doctorapp/constants/api_service.dart';
 import 'package:doctorapp/constants/appconstant.dart';
 import 'package:doctorapp/constants/local_storage.dart';
 import 'package:doctorapp/constants/routeconstants.dart';
+import 'package:doctorapp/model/ebookmodel.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -165,6 +166,25 @@ class AuthRepo extends GetxService {
       return showErrrorSnackbar(message: 'No Internet Connection');
     } catch (e) {
       showErrrorSnackbar(message: e.toString());
+    }
+  }
+
+  ////Get Products By Search Key
+  Future<EbookModel> GetProductsBySearchKey(String key) async {
+    try {
+      final res = await apiClient.getFromServer(
+        // endPoint: AppConstants.getproductsserachbykey
+        endPoint: "${AppConstants.ebooksearch}$key",
+      );
+      if (res.statusCode == 200) {
+        print(res.body);
+        final listofproductserachbykey = ebookModelFromJson(res.body);
+        return listofproductserachbykey;
+      } else {
+        throw Exception("No data field found in the GetProductsBySearchKey");
+      }
+    } catch (e) {
+      throw Exception(e);
     }
   }
 

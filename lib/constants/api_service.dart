@@ -15,7 +15,7 @@ class HttpApiClient extends GetxService {
       logData(message: 'Fetching All Products');
       final prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
-
+      print(token);
       logData(message: "TOKEN is $token");
 
       final response = await http.get(Uri.parse('$baseUrl$endPoint'),

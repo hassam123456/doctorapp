@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:doctorapp/components/resizeImage.dart';
 import 'package:doctorapp/repositary/adminRepo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -71,6 +70,80 @@ class AdminController extends GetxController {
       createebookloading.value = false;
     } finally {
       createebookloading.value = false;
+    }
+  }
+
+// get ebook section
+  final Rx<EbookModel?> ebookdata = Rx<EbookModel?>(null);
+  final RxBool ebookloading = false.obs;
+  getebookdata() async {
+    try {
+      ebookloading(true);
+      await adminRepo.GetEbookdata().then((value) {
+        ebookdata.value = value;
+        ebookloading(false);
+      });
+    } catch (e) {
+      ebookloading(false);
+    }
+  }
+
+  final Rx<EbookModel?> productbyserachkey = Rx<EbookModel?>(null);
+  final ebooksearchcontroller = TextEditingController().obs;
+  var productbyserachkeyloading = false.obs;
+  getproductssearchbykey(String key) async {
+    print(key);
+    try {
+      if (key.isEmpty) {
+        productbyserachkey.value = null;
+        return;
+      }
+      productbyserachkeyloading(true);
+      await adminRepo.GetProductsBySearchKey(key).then((value) {
+        productbyserachkey.value = value; // Update the data
+      });
+    } catch (e) {
+      productbyserachkeyloading(false);
+      showErrrorSnackbar(message: "Error: $e");
+    } finally {
+      productbyserachkeyloading(false);
+    }
+  }
+
+// get video section
+  final Rx<VideoModel?> videodata = Rx<VideoModel?>(null);
+  final RxBool videloading = false.obs;
+  getvideodata() async {
+    try {
+      ebookloading(true);
+      await adminRepo.GetVideoData().then((value) {
+        videodata.value = value;
+        videloading(false);
+      });
+    } catch (e) {
+      ebookloading(false);
+    }
+  }
+
+  final Rx<VideoModel?> videosearchkey = Rx<VideoModel?>(null);
+  final videosearchcontroller = TextEditingController().obs;
+  var videobyserachkeyloading = false.obs;
+  getvideosearchkey(String key) async {
+    print(key);
+    try {
+      if (key.isEmpty) {
+        videosearchkey.value = null;
+        return;
+      }
+      videobyserachkeyloading(true);
+      await adminRepo.GetVideoSearcKey(key).then((value) {
+        videosearchkey.value = value; // Update the data
+      });
+    } catch (e) {
+      videobyserachkeyloading(false);
+      showErrrorSnackbar(message: "Error: $e");
+    } finally {
+      videobyserachkeyloading(false);
     }
   }
 

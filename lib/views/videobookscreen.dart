@@ -1,34 +1,40 @@
-import 'package:doctorapp/constants/appcolors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:doctorapp/controller/adminController.dart';
+import 'package:doctorapp/constants/appcolors.dart';
+import 'package:doctorapp/constants/appconstant.dart';
+import 'package:doctorapp/components/errordailog.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class VideoListScreen extends StatelessWidget {
-  final List<Map<String, String>> ebooks = [
-    {
-      'title': 'The Doctor By Annie Payne',
-      'description':
-          'A glimpse into the personal lives of doctors, showing how they balance work and family life, and the emotional and psychological toll their profession can take on them.',
-      'image': 'assets/images/video1.png',
-    },
-    {
-      'title': 'The Healing Touch: A Doctor’s Journey Through Medicine.',
-      'description':
-          'This eBook explores the personal and professional growth of a physician, highlighting the challenges and rewards of medical...',
-      'image': 'assets/images/book2.png',
-    },
-    {
-      'title': 'Mind Over Medicine.',
-      'description':
-          'Focusing on the connection between mental health and physical health, this eBook discusses how doctors can integrate mental wellness strategies into their practice for holistic patient care.',
-      'image': 'assets/images/video2.png',
-    },
-    {
-      'title': 'Behind the Stethoscope',
-      'description':
-          'This eBook discusses how doctors can integrate mental wellness strategies into their practice for holistic patient care.',
-      'image': 'assets/images/video3.png',
-    },
-  ];
+class VideoBookScreen extends StatefulWidget {
+  @override
+  State<VideoBookScreen> createState() => _VideoBookScreenState();
+}
+
+class _VideoBookScreenState extends State<VideoBookScreen> {
+  final admincontroller = Get.put(AdminController(adminRepo: Get.find()));
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch video data only if not already fetched
+    if (admincontroller.videodata.value == null) {
+      admincontroller.getvideodata();
+    }
+  }
+
+  Future<void> _launchURL(String url) async {
+    try {
+      if (await canLaunch(url)) {
+        await launch(url); // Attempt to launch the URL
+      } else {
+        showErrrorSnackbar(message: "Could not launch URL. Please try again.");
+      }
+    } catch (e) {
+      showErrrorSnackbar(message: "Error: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +44,7 @@ class VideoListScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        titleTextStyle: TextStyle(color: Colors.black, fontSize: 20.sp),
+        titleTextStyle: TextStyle(color: Colors.black, fontSize: 18.sp),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
@@ -50,83 +56,149 @@ class VideoListScreen extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Search',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
+            // Search Input
+            Container(
+              width: Get.width,
+              height: MediaQuery.of(context).size.height * 0.06,
+              decoration: BoxDecoration(
+                border: Border.all(
+                    width: 1, color: Color.fromARGB(255, 128, 128, 128)),
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 18.0),
+                child: Row(
+                  children: [
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.04),
+                    Expanded(
+                      child: TextFormField(
+                        controller: admincontroller.videosearchcontroller.value,
+                        decoration: InputDecoration(
+                          hintText: "Search Any Item",
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (value) {
+                          admincontroller.getproductssearchbykey(
+                              value); // Update search results dynamically
+                        },
+                      ),
+                    ),
+                    admincontroller.videosearchcontroller.value.text.isEmpty
+                        ? SizedBox()
+                        : GestureDetector(
+                            onTap: () {
+                              admincontroller.getvideosearchkey(admincontroller
+                                  .videosearchcontroller.value.text);
+                            },
+                            child: Icon(Icons.search),
+                          ),
+                  ],
                 ),
-                filled: true,
-                fillColor: Colors.grey[200],
               ),
             ),
             SizedBox(height: 2.h),
+
+            // Use Obx to dynamically rebuild the UI
             Expanded(
-              child: ListView.builder(
-                itemCount: ebooks.length,
-                itemBuilder: (context, index) {
-                  final ebook = ebooks[index];
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    margin: EdgeInsets.only(bottom: 2.h),
-                    child: Padding(
-                      padding: EdgeInsets.all(12),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image.asset(
-                            ebook['image']!,
-                            width: 20.w,
-                            height: 15.h,
-                            fit: BoxFit.cover,
-                          ),
-                          SizedBox(width: 4.w),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  ebook['title']!,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17.sp,
-                                      color: AppColors.primaryColor),
+              child: Obx(() {
+                // Determine which list to display (search results or all videos)
+                final searchKey =
+                    admincontroller.videosearchcontroller.value.text;
+                final videolist = searchKey.isNotEmpty
+                    ? admincontroller.videosearchkey.value?.data?.videos ?? []
+                    : admincontroller.videodata.value?.data?.videos ?? [];
+
+                if (videolist.isEmpty) {
+                  return Center(child: Text("No videos found"));
+                }
+
+                return ListView.builder(
+                  itemCount: videolist.length,
+                  itemBuilder: (context, index) {
+                    final ebook = videolist[index];
+                    return GestureDetector(
+                      onTap: () async {
+                        // Launch the URL when the card is tapped
+                        await _launchURL(ebook.url.toString());
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        margin: EdgeInsets.only(bottom: 2.h),
+                        child: Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 90,
+                                width: 80,
+                                child: Image.network(
+                                  (ebook.media == null ||
+                                          ebook.media!.isEmpty ||
+                                          ebook.media![0].originalUrl == null ||
+                                          ebook.media![0].originalUrl!.isEmpty)
+                                      ? AppConstants
+                                          .noimage // Placeholder image for no media or empty URL
+                                      : ebook.media![0].originalUrl.toString(),
                                 ),
-                                SizedBox(height: 1.h),
-                                Text(
-                                  ebook['description']!,
-                                  style: TextStyle(
-                                    fontSize: 15.sp,
-                                    color: Colors.grey[700],
-                                  ),
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                SizedBox(height: 1.h),
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: Text(
-                                    "Watch Now!",
-                                    style: TextStyle(
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15.sp,
+                              ),
+                              SizedBox(width: 4.w),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      ebook.title.toString(),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp,
+                                        color: AppColors.primaryColor,
+                                      ),
                                     ),
-                                  ),
+                                    SizedBox(height: 1.h),
+                                    Text(
+                                      ebook.category.toString(),
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: Colors.grey[700],
+                                      ),
+                                    ),
+                                    SizedBox(height: 1.h),
+                                    Text(
+                                      ebook.description.toString(),
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: Colors.grey[700],
+                                      ),
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    SizedBox(height: 1.h),
+                                    Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: Text(
+                                        "Read Now!",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14.sp,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                );
+              }),
             ),
           ],
         ),

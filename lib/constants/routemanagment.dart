@@ -107,7 +107,7 @@ class Routes {
           name: RouteConstants.changepassword, page: () => ChangePassword()),
       GetPage(name: RouteConstants.welcomescreen, page: () => WelcomeScreen()),
       GetPage(name: RouteConstants.ebookscreen, page: () => EBookListScreen()),
-      GetPage(name: RouteConstants.videoscreen, page: () => VideoListScreen()),
+      GetPage(name: RouteConstants.videoscreen, page: () => VideoBookScreen()),
       GetPage(name: RouteConstants.profilescreen, page: () => ProfileScreen()),
     ];
   }
