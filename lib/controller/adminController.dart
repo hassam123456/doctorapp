@@ -1,9 +1,5 @@
 import 'dart:io';
 
-import 'package:doctorapp/components/errordailog.dart';
-import 'package:doctorapp/components/resizeImage.dart';
-import 'package:doctorapp/model/ebookmodel.dart';
-import 'package:doctorapp/model/videomodel.dart';
 import 'package:doctorapp/repositary/adminRepo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
