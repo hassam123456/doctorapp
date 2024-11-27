@@ -37,7 +37,7 @@ class _AdminCaseConsultScreenState extends State<AdminCaseConsultScreen> {
               // Reactive display using Obx
               Obx(() {
                 // Check if loading
-                if (admincontroller.addconsultantsloading.value) {
+                if (admincontroller.admincaseconsultloading.value) {
                   return Center(child: customcircularprogress());
                 }
 
@@ -48,21 +48,21 @@ class _AdminCaseConsultScreenState extends State<AdminCaseConsultScreen> {
 
                 // Check if no cases are available
                 if (admincontroller
-                    .admincaseconsult.value!.data.cases.isEmpty) {
+                    .admincaseconsult.value!.data!.cases!.isEmpty) {
                   return Center(child: Text("No cases available"));
                 }
 
                 // Display case list
                 return ListView.builder(
                   shrinkWrap: true,
-                  itemCount:
-                      admincontroller.admincaseconsult.value!.data.cases.length,
+                  itemCount: admincontroller
+                      .admincaseconsult.value!.data!.cases!.length!,
                   itemBuilder: (context, index) {
                     final caseData = admincontroller
-                        .admincaseconsult.value!.data.cases[index];
+                        .admincaseconsult.value!.data!.cases![index];
                     return admincaseconsultantListBox(
-                      title: caseData.title,
-                      description: caseData.description,
+                      title: caseData.title!,
+                      description: caseData.description!,
                       viewdetailontap: () {
                         // Navigate to case detail screen
                         Get.toNamed(RouteConstants.admincasedetailscreen);
