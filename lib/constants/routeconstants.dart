@@ -33,4 +33,5 @@ class RouteConstants {
   static String profilescreen = "/profilescreen";
   static String notificationscreen = "/notificationscreen";
   static String consultantlistscreen = "/consultantlistscreen";
+  static String admincaseuserdetailscreen = "/admincaseuserdetailscreen";
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:doctorapp/components/errordailog.dart';
 import 'package:doctorapp/components/resizeImage.dart';
 import 'package:doctorapp/model/adminconsultantmodel.dart';
+import 'package:doctorapp/model/admingetcaseByIdModel.dart';
 import 'package:doctorapp/model/consultantlistmodel.dart';
 import 'package:doctorapp/model/ebookmodel.dart';
 import 'package:doctorapp/model/videomodel.dart';
@@ -288,6 +289,38 @@ class AdminController extends GetxController {
       showErrrorSnackbar(message: "Error: $e");
     } finally {
       videobyserachkeyloading(false);
+    }
+  }
+
+//////admin get case detail by id
+  final Rx<AdminGetCaseByIdModel?> admingetcasebyid =
+      Rx<AdminGetCaseByIdModel?>(null);
+  final RxBool admingetcasebyidloading = false.obs;
+  getAdminCaseById(String id) async {
+    try {
+      admingetcasebyidloading(true);
+      await adminRepo.getAdminCaseById(id).then((value) {
+        admingetcasebyid.value = value;
+        admingetcasebyidloading(false);
+      });
+    } catch (e) {
+      admingetcasebyidloading(false);
+    }
+  }
+
+/////////////admin assigncase
+  final RxBool adminassigncaseloading = false.obs;
+  Future<void> adminAssignCaseDoctor({
+    required String caseid,
+    required String doctorid,
+  }) async {
+    try {
+      adminassigncaseloading.value = true;
+      await adminRepo.adminAssignCase(caseid: caseid, doctorid: doctorid);
+
+      adminassigncaseloading.value = false;
+    } finally {
+      adminassigncaseloading.value = false;
     }
   }
 }

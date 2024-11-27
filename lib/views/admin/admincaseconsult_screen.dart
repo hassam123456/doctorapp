@@ -64,7 +64,8 @@ class _AdminCaseConsultScreenState extends State<AdminCaseConsultScreen> {
                       title: caseData.title,
                       description: caseData.description,
                       viewdetailontap: () {
-                        // Navigate to case detail screen
+                        admincontroller
+                            .getAdminCaseById(caseData.id.toString());
                         Get.toNamed(RouteConstants.admincasedetailscreen);
                       },
                       days: "3 days ago",

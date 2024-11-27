@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:doctorapp/constants/routeconstants.dart';
 import 'package:doctorapp/model/adminconsultantmodel.dart';
+import 'package:doctorapp/model/admingetcaseByIdModel.dart';
 import 'package:doctorapp/model/consultantlistmodel.dart';
 import 'package:doctorapp/model/ebookmodel.dart';
 import 'package:doctorapp/model/videomodel.dart';
@@ -315,6 +317,52 @@ class AdminRepo extends GetxService {
       }
     } catch (e) {
       print("Add Consultants:$e");
+      customErrorSnackBar(
+          'An unexpected error occurred. Please try again later.');
+    }
+  }
+
+//////GET ADMIN CASE DETAIL BY ID
+  Future<AdminGetCaseByIdModel?> getAdminCaseById(String id) async {
+    try {
+      final res = await apiClient.getFromServer(
+        endPoint: "${AppConstants.caseadmin}$id",
+      );
+
+      if (res.statusCode == 200) {
+        final listofadmincasebyid = adminGetCaseByIdFromJson(res.body);
+        return listofadmincasebyid;
+      } else {
+        throw Exception("No data field found in the admin case by id");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+///////admin assigned case to doctor
+  Future adminAssignCase({
+    required String caseid,
+    required String doctorid,
+  }) async {
+    final userData = {
+      "doctor_id": doctorid,
+    };
+    try {
+      final response = await apiClient.postToServer(
+        endPoint: "${AppConstants.adminaddconsultants}$caseid",
+        data: userData,
+      );
+      if (response.statusCode == 200) {
+        Get.offAllNamed(RouteConstants.adminhomescreen);
+        final message = jsonDecode(response.body)['message'];
+        customSuccessSnackBar(message);
+      } else {
+        final message = jsonDecode(response.body)['message'];
+        customErrorSnackBar(message);
+      }
+    } catch (e) {
+      print("Admin Assign Case :$e");
       customErrorSnackBar(
           'An unexpected error occurred. Please try again later.');
     }
