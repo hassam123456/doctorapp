@@ -1,12 +1,26 @@
 import 'package:doctorapp/components/customcomponents.dart';
+import 'package:doctorapp/components/errordailog.dart';
 import 'package:doctorapp/constants/routeconstants.dart';
-
+import 'package:doctorapp/controller/adminController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class AdminCaseConsultScreen extends StatelessWidget {
+class AdminCaseConsultScreen extends StatefulWidget {
   const AdminCaseConsultScreen({super.key});
+
+  @override
+  State<AdminCaseConsultScreen> createState() => _AdminCaseConsultScreenState();
+}
+
+class _AdminCaseConsultScreenState extends State<AdminCaseConsultScreen> {
+  final admincontroller = Get.put(AdminController(adminRepo: Get.find()));
+
+  @override
+  void initState() {
+    super.initState();
+    admincontroller.getadmincaseconsult();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,50 +32,46 @@ class AdminCaseConsultScreen extends StatelessWidget {
           child: Column(
             children: [
               customsearchfield(title: "Search"),
-              SizedBox(
-                height: 2.h,
-              ),
-              admincaseconsultantListBox(
-                  title: "Severe Hypertension in a 45-Year-Old Male",
-                  description:
-                      "This case involves a detailed examination of hypertension management, treatment history, and patient response to various medications.",
-                  viewdetailontap: () {
-                    Get.toNamed(RouteConstants.admincasedetailscreen);
+              SizedBox(height: 2.h),
+
+              // Reactive display using Obx
+              Obx(() {
+                // Check if loading
+                if (admincontroller.addconsultantsloading.value) {
+                  return Center(child: customcircularprogress());
+                }
+
+                // // Check for error message
+                // if (admincontroller.admincaseconsult!..isNotEmpty) {
+                //   return Center(child: Text(caseController.errorMessage.value));
+                // }
+
+                // Check if no cases are available
+                if (admincontroller
+                    .admincaseconsult.value!.data.cases.isEmpty) {
+                  return Center(child: Text("No cases available"));
+                }
+
+                // Display case list
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount:
+                      admincontroller.admincaseconsult.value!.data.cases.length,
+                  itemBuilder: (context, index) {
+                    final caseData = admincontroller
+                        .admincaseconsult.value!.data.cases[index];
+                    return admincaseconsultantListBox(
+                      title: caseData.title,
+                      description: caseData.description,
+                      viewdetailontap: () {
+                        // Navigate to case detail screen
+                        Get.toNamed(RouteConstants.admincasedetailscreen);
+                      },
+                      days: "3 days ago",
+                    );
                   },
-                  days: "3 days ago"),
-              SizedBox(
-                height: 2.h,
-              ),
-              admincaseconsultantListBox(
-                  title: "Type 2 Diabetes in an Obese Patient",
-                  description:
-                      "The patient, a 55-year-old female, presented with elevated blood sugar levels and weight issues. She reported fatigue and increased thirst.",
-                  viewdetailontap: () {
-                    Get.toNamed(RouteConstants.adminassignedcasedetailscreen);
-                  },
-                  days: "5 days ago"),
-              SizedBox(
-                height: 2.h,
-              ),
-              admincaseconsultantListBox(
-                  title: "Severe Hypertension in a 45-Year-Old Male",
-                  description:
-                      "This case involves a detailed examination of hypertension management, treatment history, and patient response to various medications.",
-                  viewdetailontap: () {
-                    Get.toNamed(RouteConstants.admincasedetailscreen);
-                  },
-                  days: "8 days ago"),
-              SizedBox(
-                height: 2.h,
-              ),
-              admincaseconsultantListBox(
-                  title: "Severe Hypertension in a 45-Year-Old Male",
-                  description:
-                      "This case involves a detailed examination of hypertension management, treatment history, and patient response to various medications.",
-                  viewdetailontap: () {
-                    Get.toNamed(RouteConstants.admincasedetailscreen);
-                  },
-                  days: "8 days ago"),
+                );
+              }),
             ],
           ),
         ),
@@ -70,8 +80,7 @@ class AdminCaseConsultScreen extends StatelessWidget {
   }
 }
 
-//////////admin case consult box
-
+// Admin case consultant list box
 Container admincaseconsultantListBox({
   required String title,
   required String description,

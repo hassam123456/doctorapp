@@ -10,6 +10,8 @@ class AppConstants {
   static const sendotp = "auth/send-otp";
   static const ebook = "ebook";
   static const video = "video-library";
+  static const caseadmin = "case/admin";
+  static const consultantlist = "case/doctors";
   static const ebooksearch = "ebook/search?search_key=";
   static const videosearch = "video-library/get-by-id/";
 

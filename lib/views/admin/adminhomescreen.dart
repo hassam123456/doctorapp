@@ -18,6 +18,7 @@ class AdminHomeScreen extends StatefulWidget {
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   final authcontroller = Get.put(AuthController(authRepo: Get.find()));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

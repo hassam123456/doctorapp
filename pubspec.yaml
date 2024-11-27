@@ -19,7 +19,7 @@ dependencies:
   flutter_otp_text_field: ^1.2.0
   shared_preferences: ^2.2.3
   image: ^4.3.0
-  url_launcher: ^6.3.1
+  url_launcher: any
 
 dev_dependencies:
   flutter_test:

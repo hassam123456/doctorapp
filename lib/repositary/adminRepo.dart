@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:doctorapp/model/adminconsultantmodel.dart';
+import 'package:doctorapp/model/consultantlistmodel.dart';
 import 'package:doctorapp/model/ebookmodel.dart';
 import 'package:doctorapp/model/videomodel.dart';
 import 'package:http/http.dart' as http;
@@ -72,6 +74,48 @@ class AdminRepo extends GetxService {
         return listofebookdata;
       } else {
         throw Exception("No data field found in the Ebook data");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  //consultant admin method
+  Future<AdminConsultantList?> GetCaseAdmin() async {
+    try {
+      final res = await apiClient.getFromServer(
+        endPoint: AppConstants.caseadmin,
+      );
+
+      if (res.statusCode == 200) {
+        // print('notifcationoff');
+        print("data");
+        print(res.body);
+        final listofamdincase = adminConsultantListFromJson(res.body);
+        return listofamdincase;
+      } else {
+        throw Exception("No data field found in the admin case data");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  //consultant doctor list method
+  Future<ConsultantListModel?> Getconsultantlist() async {
+    try {
+      final res = await apiClient.getFromServer(
+        endPoint: AppConstants.consultantlist,
+      );
+
+      if (res.statusCode == 200) {
+        // print('notifcationoff');
+        print("data");
+        print(res.body);
+        final listofconsultantmodel = consultantListModelFromJson(res.body);
+        return listofconsultantmodel;
+      } else {
+        throw Exception("No data field found in the admin case data");
       }
     } catch (e) {
       throw Exception(e);

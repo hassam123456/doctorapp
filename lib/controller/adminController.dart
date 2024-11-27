@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:doctorapp/components/errordailog.dart';
 import 'package:doctorapp/components/resizeImage.dart';
+import 'package:doctorapp/model/adminconsultantmodel.dart';
+import 'package:doctorapp/model/consultantlistmodel.dart';
 import 'package:doctorapp/model/ebookmodel.dart';
 import 'package:doctorapp/model/videomodel.dart';
 import 'package:doctorapp/repositary/adminRepo.dart';
@@ -231,6 +233,39 @@ class AdminController extends GetxController {
       });
     } catch (e) {
       ebookloading(false);
+    }
+  }
+
+  // get casedetails
+  final Rx<AdminConsultantList?> admincaseconsult =
+      Rx<AdminConsultantList?>(null);
+  final RxBool admincaseconsultloading = false.obs;
+  getadmincaseconsult() async {
+    try {
+      admincaseconsultloading(true);
+      await adminRepo.GetCaseAdmin().then((value) {
+        admincaseconsult.value = value;
+        admincaseconsultloading(false);
+      });
+    } catch (e) {
+      admincaseconsultloading(false);
+    }
+  }
+
+  // get consultant list method
+  // get casedetails
+  final Rx<ConsultantListModel?> consultantlist =
+      Rx<ConsultantListModel?>(null);
+  final RxBool consultantlistloading = false.obs;
+  getconsultantlist() async {
+    try {
+      consultantlistloading(true);
+      await adminRepo.Getconsultantlist().then((value) {
+        consultantlist.value = value;
+        consultantlistloading(false);
+      });
+    } catch (e) {
+      consultantlistloading(false);
     }
   }
 

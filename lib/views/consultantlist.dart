@@ -1,4 +1,7 @@
+import 'package:doctorapp/constants/appconstant.dart';
+import 'package:doctorapp/controller/adminController.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ConsultantListPage extends StatelessWidget {
   void showConsultantListBottomSheet(BuildContext context) {
@@ -47,6 +50,7 @@ class ConsultantListBottomSheet extends StatefulWidget {
 class _ConsultantListBottomSheetState extends State<ConsultantListBottomSheet> {
   int? selectedDoctorIndex;
 
+  // Show confirmation dialog when a doctor is selected for assignment
   void _showConfirmationDialog(String doctorName) {
     showDialog(
       context: context,
@@ -71,8 +75,18 @@ class _ConsultantListBottomSheetState extends State<ConsultantListBottomSheet> {
     );
   }
 
+  final consultantController = Get.put(AdminController(adminRepo: Get.find()));
+
+  @override
+  void initState() {
+    super.initState();
+    consultantController.getconsultantlist();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Get the ConsultantController instance
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
       child: Column(
@@ -101,53 +115,82 @@ class _ConsultantListBottomSheetState extends State<ConsultantListBottomSheet> {
             ),
           ),
           SizedBox(height: 16),
-          Expanded(
-            child: ListView.builder(
-              controller: widget.scrollController,
-              itemCount: doctorList.length,
-              itemBuilder: (context, index) {
-                final doctor = doctorList[index];
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 3,
-                  margin: EdgeInsets.symmetric(vertical: 8),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.all(12),
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage(doctor['image']!),
-                      radius: 30,
+
+          // Use Obx to observe changes in the consultants list
+          Obx(() {
+            if (consultantController.consultantlistloading.value) {
+              return Center(child: CircularProgressIndicator());
+            }
+
+            // if (consultantController.errorMessage.isNotEmpty) {
+            //   return Center(
+            //       child: Text(consultantController.errorMessage.value));
+            // }
+
+            if (consultantController
+                .consultantlist.value!.data!.doctors!.isEmpty) {
+              return Center(child: Text("No consultants available"));
+            }
+
+            return Expanded(
+              child: ListView.builder(
+                controller: widget.scrollController,
+                itemCount: consultantController
+                    .consultantlist.value!.data!.doctors!.length,
+                itemBuilder: (context, index) {
+                  final consultant = consultantController
+                      .consultantlist.value!.data!.doctors![index];
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    title: Text(
-                      doctor['name']!,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Color(0xff334A853)),
+                    elevation: 3,
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.all(12),
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                          (consultant.media == null ||
+                                  consultant.media!.isEmpty ||
+                                  consultant.media![0].originalUrl == null ||
+                                  consultant.media![0].originalUrl!.isEmpty)
+                              ? AppConstants
+                                  .noimage // Placeholder image for no media or empty URL
+                              : consultant.media![0].originalUrl.toString(),
+                        ),
+                        radius: 30,
+                      ),
+                      title: Text(
+                        consultant.name!,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Color(0xff334A853)),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('${4} Active Cases'),
+                          Text('Specialty: ${consultant.specialization}'),
+                          Text('Hospital: ${consultant.hospitalName}'),
+                        ],
+                      ),
+                      trailing: Radio<int>(
+                        value: index,
+                        groupValue: selectedDoctorIndex,
+                        onChanged: (int? value) {
+                          setState(() {
+                            selectedDoctorIndex = value;
+                          });
+                        },
+                      ),
                     ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${doctor['cases']} Active Cases'),
-                        Text('Specialty: ${doctor['specialty']}'),
-                        Text('Hospital: ${doctor['hospital']}'),
-                      ],
-                    ),
-                    trailing: Radio<int>(
-                      value: index,
-                      groupValue: selectedDoctorIndex,
-                      onChanged: (int? value) {
-                        setState(() {
-                          selectedDoctorIndex = value;
-                        });
-                      },
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
+                  );
+                },
+              ),
+            );
+          }),
+
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               minimumSize: Size(double.infinity, 50),
@@ -156,8 +199,12 @@ class _ConsultantListBottomSheetState extends State<ConsultantListBottomSheet> {
               ),
             ),
             onPressed: selectedDoctorIndex != null
-                ? () => _showConfirmationDialog(
-                    doctorList[selectedDoctorIndex!]['name']!)
+                ? () => _showConfirmationDialog(consultantController
+                    .consultantlist
+                    .value!
+                    .data!
+                    .doctors![selectedDoctorIndex!]
+                    .name!)
                 : null,
             child: Text('Assign'),
           ),
@@ -166,34 +213,3 @@ class _ConsultantListBottomSheetState extends State<ConsultantListBottomSheet> {
     );
   }
 }
-
-List<Map<String, String>> doctorList = [
-  {
-    'name': 'Dr. Sarah Thompson',
-    'cases': '3',
-    'specialty': 'Obstetrician/Gynecologist',
-    'hospital': 'Cityville General Hospital',
-    'image': 'assets/images/consultant1.png',
-  },
-  {
-    'name': 'Dr. Mark Johnson',
-    'cases': '2',
-    'specialty': 'Urologist',
-    'hospital': 'Westfield Memorial Hospital',
-    'image': 'assets/images/consultant2.png',
-  },
-  {
-    'name': 'Dr. Jessica Lee',
-    'cases': '1',
-    'specialty': 'Gastroenterologist',
-    'hospital': 'Green Valley Medical Center',
-    'image': 'assets/images/consultant3.png',
-  },
-  {
-    'name': 'Dr. Kevin Martinez',
-    'cases': '0',
-    'specialty': 'Neurologist',
-    'hospital': 'Pinnacle Health Institute',
-    'image': 'assets/images/consultant4.png',
-  },
-];
