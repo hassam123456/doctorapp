@@ -1,3 +1,4 @@
+import 'package:doctorapp/components/customcomponents.dart';
 import 'package:doctorapp/controller/adminController.dart';
 import 'package:doctorapp/views/admin/adminalreadyassignedcasedetails_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,13 +18,8 @@ class _AdminCaseUserDetailScreenState extends State<AdminCaseUserDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: Text(
-          "User Details",
-          style: TextStyle(fontSize: 18.sp, color: const Color(0xff121212)),
-        ),
+      appBar: customappbar(
+        title: "User Details",
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),

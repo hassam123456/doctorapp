@@ -27,7 +27,7 @@ GestureDetector customConsultantBox({
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
               child: SizedBox(
-                width: 60.w,
+                width: 55.w,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

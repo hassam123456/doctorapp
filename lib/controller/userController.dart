@@ -160,6 +160,7 @@ class UserController extends GetxController {
         tuberculosis: uploadcasedetailstuberculossis.value.toString(),
         tuberOthers: uploadcasedetailstuberculossisother.value.text.toString(),
         hepatitis: uploadcasedetailshepatitis.value.toString(),
+        hepatitisother: uploadcasedetailshepatitisother.value.text.toString(),
         anemia: uploadcasedetailsanemia.value.toString(),
         bleedingDisorder: uploadcasedetailsbleedingdisorder.value.toString(),
         clothingDisorder: uploadcasedetailsclothingdisorder.value.toString(),
@@ -177,7 +178,7 @@ class UserController extends GetxController {
             uploadcasedetailshyperparathyrodism.value.toString(),
         hyperthyroidism: uploadcasedetailshyperthyrodism.value.toString(),
         hyperthyroidismNew: uploadcasedetailshypothyroidism.value.toString(),
-        endocrineOthers: uploadcasedetailsnervousother.value.text.toString(),
+        endocrineOthers: uploadcasedetailsendocrineother.value.text.toString(),
       );
 
       useruploadcasedetailsloading.value = false;

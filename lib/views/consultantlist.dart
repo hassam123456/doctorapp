@@ -4,24 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ConsultantListPage extends StatelessWidget {
-  void showConsultantListBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      isScrollControlled: true,
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.5,
-        minChildSize: 0.3,
-        maxChildSize: 0.9,
-        expand: false,
-        builder: (context, scrollController) {
-          return ConsultantListBottomSheet(scrollController: scrollController);
-        },
-      ),
-    );
-  }
+  // void showConsultantListBottomSheet(BuildContext context) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+  //     ),
+  //     isScrollControlled: true,
+  //     builder: (context) => DraggableScrollableSheet(
+  //       initialChildSize: 0.5,
+  //       minChildSize: 0.3,
+  //       maxChildSize: 0.9,
+  //       expand: false,
+  //       builder: (context, scrollController) {
+  //         return ConsultantListBottomSheet(scrollController: scrollController);
+  //       },
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,9 @@ class ConsultantListPage extends StatelessWidget {
       appBar: AppBar(title: Text('Doctor App')),
       body: Center(
         child: ElevatedButton(
-          onPressed: () => showConsultantListBottomSheet(context),
+          onPressed: () {
+// showConsultantListBottomSheet(context)
+          },
           child: Text('Show Consultant List'),
         ),
       ),
@@ -39,8 +41,10 @@ class ConsultantListPage extends StatelessWidget {
 
 class ConsultantListBottomSheet extends StatefulWidget {
   final ScrollController scrollController;
+  final String caseguid;
 
-  ConsultantListBottomSheet({required this.scrollController});
+  ConsultantListBottomSheet(
+      {required this.scrollController, required this.caseguid});
 
   @override
   _ConsultantListBottomSheetState createState() =>
@@ -49,9 +53,9 @@ class ConsultantListBottomSheet extends StatefulWidget {
 
 class _ConsultantListBottomSheetState extends State<ConsultantListBottomSheet> {
   int? selectedDoctorIndex;
-
+  String? selectedDoctorname;
   // Show confirmation dialog when a doctor is selected for assignment
-  void _showConfirmationDialog(String doctorName) {
+  void _showConfirmationDialog(String doctorName, VoidCallback yesontap) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -63,11 +67,7 @@ class _ConsultantListBottomSheetState extends State<ConsultantListBottomSheet> {
             child: Text('Cancel'),
           ),
           ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              print("Case assigned to $doctorName");
-            },
+            onPressed: yesontap,
             child: Text('Yes'),
           ),
         ],
@@ -176,11 +176,12 @@ class _ConsultantListBottomSheetState extends State<ConsultantListBottomSheet> {
                         ],
                       ),
                       trailing: Radio<int>(
-                        value: index,
+                        value: consultant.id ?? 0,
                         groupValue: selectedDoctorIndex,
                         onChanged: (int? value) {
                           setState(() {
                             selectedDoctorIndex = value;
+                            selectedDoctorname = consultant.name ?? "";
                           });
                         },
                       ),
@@ -199,12 +200,13 @@ class _ConsultantListBottomSheetState extends State<ConsultantListBottomSheet> {
               ),
             ),
             onPressed: selectedDoctorIndex != null
-                ? () => _showConfirmationDialog(consultantController
-                    .consultantlist
-                    .value!
-                    .data!
-                    .doctors![selectedDoctorIndex!]
-                    .name!)
+                ? () {
+                    _showConfirmationDialog(selectedDoctorname ?? "", () {
+                      consultantController.adminAssignCaseDoctor(
+                          caseid: widget.caseguid,
+                          doctorid: selectedDoctorIndex.toString());
+                    });
+                  }
                 : null,
             child: Text('Assign'),
           ),

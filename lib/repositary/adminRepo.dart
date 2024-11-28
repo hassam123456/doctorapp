@@ -326,7 +326,7 @@ class AdminRepo extends GetxService {
   Future<AdminGetCaseByIdModel?> getAdminCaseById(String id) async {
     try {
       final res = await apiClient.getFromServer(
-        endPoint: "${AppConstants.caseadmin}$id",
+        endPoint: "${AppConstants.admingetcasebyid}$id",
       );
 
       if (res.statusCode == 200) {
@@ -346,11 +346,11 @@ class AdminRepo extends GetxService {
     required String doctorid,
   }) async {
     final userData = {
-      "doctor_id": doctorid,
+      "doctor_id": doctorid.toString(),
     };
     try {
       final response = await apiClient.postToServer(
-        endPoint: "${AppConstants.adminaddconsultants}$caseid",
+        endPoint: "${AppConstants.adminassigncase}$caseid",
         data: userData,
       );
       if (response.statusCode == 200) {

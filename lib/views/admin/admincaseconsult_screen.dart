@@ -54,6 +54,7 @@ class _AdminCaseConsultScreenState extends State<AdminCaseConsultScreen> {
 
                 // Display case list
                 return ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: admincontroller
                       .admincaseconsult.value!.data!.cases!.length!,
@@ -65,7 +66,7 @@ class _AdminCaseConsultScreenState extends State<AdminCaseConsultScreen> {
                       description: caseData.description!,
                       viewdetailontap: () {
                         admincontroller
-                            .getAdminCaseById(caseData.id.toString());
+                            .getAdminCaseById(caseData.guid.toString());
                         Get.toNamed(RouteConstants.admincasedetailscreen);
                       },
                       days: "3 days ago",

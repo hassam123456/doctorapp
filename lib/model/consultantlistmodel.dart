@@ -74,12 +74,14 @@ class Media {
 }
 
 class Doctor {
+  int? id;
   String? name; // Nullable String
   String? hospitalName; // Nullable String
   String? specialization; // Nullable String
   List<Media>? media; // Nullable List<Media>
 
   Doctor({
+    this.id,
     this.name,
     this.hospitalName,
     this.specialization,
@@ -87,6 +89,7 @@ class Doctor {
   });
 
   factory Doctor.fromJson(Map<String, dynamic> json) => Doctor(
+        id: json["id"],
         name: json["name"],
         hospitalName: json["hospital_name"],
         specialization: json["specialization"],
@@ -96,6 +99,7 @@ class Doctor {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "name": name,
         "hospital_name": hospitalName,
         "specialization": specialization,

@@ -5,6 +5,7 @@ import 'package:doctorapp/constants/colors.dart';
 import 'package:doctorapp/constants/routeconstants.dart';
 import 'package:doctorapp/controller/adminController.dart';
 import 'package:doctorapp/controller/componentsController.dart';
+import 'package:doctorapp/views/consultantlist.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -30,16 +31,18 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
         child: SingleChildScrollView(
             child: Obx(
           () => admincontroller.admingetcasebyidloading.value
-              ? Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30.h),
-                  child: customcircularProgress())
+              ? Center(
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 30.h),
+                      child: customcircularProgress()),
+                )
               : admincontroller.admingetcasebyid.value == null ||
                       admincontroller.admingetcasebyid.value?.data == null ||
                       admincontroller.admingetcasebyid.value?.data?.cases ==
                           null
                   ? Padding(
                       padding: EdgeInsets.symmetric(vertical: 30.h),
-                      child: const Text("No Case Details"),
+                      child: Center(child: const Text("No Case Details")),
                     )
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,7 +208,7 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                           .map(
                                         (media) => Padding(
                                           padding: EdgeInsets.only(right: 2.w),
-                                          child: Image.asset(
+                                          child: Image.network(
                                             media.originalUrl ??
                                                 AppConstants.noimage,
                                             height: 15.h,
@@ -230,14 +233,18 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: const Color(0xff2E2E2E)
-                                                .withOpacity(0.2))),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: const Color(0xff2E2E2E)
+                                            .withOpacity(0.2),
+                                      ),
+                                    ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 5.w, vertical: 1.h),
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
@@ -246,103 +253,179 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                               Text(
                                                 "CVS",
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                               Text(
                                                 "Yes/No",
                                                 style: TextStyle(
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                             ],
                                           ),
                                           customCaseDetailFormRow(
-                                              title:
-                                                  "Hypertension / Hypotension",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.hypertension
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Hypertension / Hypotension",
+                                            result: (admincontroller
+                                                        .admingetcasebyid
+                                                        .value
+                                                        ?.data
+                                                        ?.cases
+                                                        ?.cvs
+                                                        ?.hypertension ==
+                                                    "0")
+                                                ? "No"
+                                                : (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.hypertension ==
+                                                        "1")
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Valvular Heart Disease",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.valvular
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Valvular Heart Disease",
+                                            result: (admincontroller
+                                                        .admingetcasebyid
+                                                        .value
+                                                        ?.data
+                                                        ?.cases
+                                                        ?.cvs
+                                                        ?.valvular ==
+                                                    "0")
+                                                ? "No"
+                                                : (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.valvular ==
+                                                        "1")
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Angina Pectoris",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.angina
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Angina Pectoris",
+                                            result: (admincontroller
+                                                        .admingetcasebyid
+                                                        .value
+                                                        ?.data
+                                                        ?.cases
+                                                        ?.cvs
+                                                        ?.angina ==
+                                                    "0")
+                                                ? "No"
+                                                : (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.angina ==
+                                                        "1")
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Myocardial Infarction",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.myocardial
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Myocardial Infarction",
+                                            result: (admincontroller
+                                                        .admingetcasebyid
+                                                        .value
+                                                        ?.data
+                                                        ?.cases
+                                                        ?.cvs
+                                                        ?.myocardial ==
+                                                    "0")
+                                                ? "No"
+                                                : (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.myocardial ==
+                                                        "1")
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customCaseDetailFormRow(
                                             title: "Infective Endocarditis",
-                                            result: admincontroller
-                                                    .admingetcasebyid
-                                                    .value
-                                                    ?.data
-                                                    ?.cases
-                                                    ?.cvs
-                                                    ?.infective
-                                                    .toString() ??
-                                                "",
+                                            result: (admincontroller
+                                                        .admingetcasebyid
+                                                        .value
+                                                        ?.data
+                                                        ?.cases
+                                                        ?.cvs
+                                                        ?.infective ==
+                                                    "0")
+                                                ? "No"
+                                                : (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.infective ==
+                                                        "1")
+                                                    ? "Yes"
+                                                    : "",
                                           ),
                                           customCaseDetailFormRow(
                                             title: "Cardiac Failure",
-                                            result: admincontroller
-                                                    .admingetcasebyid
-                                                    .value
-                                                    ?.data
-                                                    ?.cases
-                                                    ?.cvs
-                                                    ?.failure
-                                                    .toString() ??
-                                                "",
+                                            result: (admincontroller
+                                                        .admingetcasebyid
+                                                        .value
+                                                        ?.data
+                                                        ?.cases
+                                                        ?.cvs
+                                                        ?.failure ==
+                                                    "0")
+                                                ? "No"
+                                                : (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.failure ==
+                                                        "1")
+                                                    ? "Yes"
+                                                    : "",
                                           ),
                                           customCaseDetailFormRow(
                                             title: "Cardiac Surgery",
-                                            result: admincontroller
-                                                    .admingetcasebyid
-                                                    .value
-                                                    ?.data
-                                                    ?.cases
-                                                    ?.cvs
-                                                    ?.surgery
-                                                    .toString() ??
-                                                "",
+                                            result: (admincontroller
+                                                        .admingetcasebyid
+                                                        .value
+                                                        ?.data
+                                                        ?.cases
+                                                        ?.cvs
+                                                        ?.surgery ==
+                                                    "0")
+                                                ? "No"
+                                                : (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.surgery ==
+                                                        "1")
+                                                    ? "Yes"
+                                                    : "",
                                           ),
                                           customcasedetailOtherText(
-                                              "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.others.toString() ?? ""}")
+                                            "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.others ?? ""}",
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -352,14 +435,18 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: const Color(0xff2E2E2E)
-                                                .withOpacity(0.2))),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: const Color(0xff2E2E2E)
+                                            .withOpacity(0.2),
+                                      ),
+                                    ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 5.w, vertical: 1.h),
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
@@ -368,55 +455,103 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                               Text(
                                                 "GIT SYSTEM",
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                               Text(
                                                 "Yes/No",
                                                 style: TextStyle(
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                             ],
                                           ),
                                           customCaseDetailFormRow(
-                                              title: "Nausea",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.nausea
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Nausea",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.nausea
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.nausea
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Vomiting",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.vomiting
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Vomiting",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.vomiting
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.vomiting
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Peptic Ulcer",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.peptic
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Peptic Ulcer",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.peptic
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.peptic
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customcasedetailOtherText(
-                                              "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.gutOthers.toString() ?? ""}")
+                                            "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.gutOthers == null ? "" : admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.gutOthers.toString() ?? ""}",
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -426,14 +561,18 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: const Color(0xff2E2E2E)
-                                                .withOpacity(0.2))),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: const Color(0xff2E2E2E)
+                                            .withOpacity(0.2),
+                                      ),
+                                    ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 5.w, vertical: 1.h),
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
@@ -442,66 +581,129 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                               Text(
                                                 "RESPIRATORY SYSTEM",
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                               Text(
                                                 "Yes/No",
                                                 style: TextStyle(
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                             ],
                                           ),
                                           customCaseDetailFormRow(
-                                              title: "Chest Pain",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.chestPain
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Chest Pain",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.chestPain
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.chestPain
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Asthma",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.asthma
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Asthma",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.asthma
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.asthma
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Bronchitis",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.bronchitis
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Bronchitis",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.bronchitis
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.bronchitis
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Pneumonia",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.pneumonia
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Pneumonia",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.pneumonia
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.pneumonia
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customcasedetailOtherText(
-                                              "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.respOthers.toString() ?? ""}")
+                                            "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.respOthers == null ? "" : admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.respOthers.toString() ?? ""}",
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -511,49 +713,71 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: const Color(0xff2E2E2E)
-                                                .withOpacity(0.2))),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: const Color(0xff2E2E2E)
+                                            .withOpacity(0.2),
+                                      ),
+                                    ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 5.w, vertical: 1.h),
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                "REGAEDING TUBERCULOSES",
+                                                "REGARDING TUBERCULOSIS",
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                               Text(
                                                 "Yes/No",
                                                 style: TextStyle(
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                             ],
                                           ),
                                           customCaseDetailFormRow(
-                                              title: "Tuberculossis (T.B)",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.tuberculossis
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Tuberculosis (T.B)",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.tuberculossis
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.tuberculossis
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customcasedetailOtherText(
-                                              "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.tuberOthers.toString() ?? ""}")
+                                            "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.tuberOthers == null ? "" : admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.tuberOthers.toString() ?? ""}",
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -563,49 +787,71 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: const Color(0xff2E2E2E)
-                                                .withOpacity(0.2))),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: const Color(0xff2E2E2E)
+                                            .withOpacity(0.2),
+                                      ),
+                                    ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 5.w, vertical: 1.h),
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                "REGAEDING HEPATITIS",
+                                                "REGARDING HEPATITIS",
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                               Text(
                                                 "Yes/No",
                                                 style: TextStyle(
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                             ],
                                           ),
                                           customCaseDetailFormRow(
-                                              title: "Hepatitis",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.tuberculossis
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Hepatitis",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.hepatitis
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.hepatitis
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customcasedetailOtherText(
-                                              "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.hepOthers.toString() ?? ""}")
+                                            "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.hepOthers == null ? "" : admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.hepOthers.toString() ?? ""}",
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -615,66 +861,18 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: const Color(0xff2E2E2E)
-                                                .withOpacity(0.2))),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 5.w, vertical: 1.h),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "REGAEDING HEPATITIS",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
-                                              ),
-                                              Text(
-                                                "Yes/No",
-                                                style: TextStyle(
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
-                                              ),
-                                            ],
-                                          ),
-                                          customCaseDetailFormRow(
-                                              title: "Hepatitis",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.tuberculossis
-                                                      .toString() ??
-                                                  ""),
-                                          customcasedetailOtherText(
-                                              "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.hepOthers.toString() ?? ""}")
-                                        ],
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: const Color(0xff2E2E2E)
+                                            .withOpacity(0.2),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: const Color(0xff2E2E2E)
-                                                .withOpacity(0.2))),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 5.w, vertical: 1.h),
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
@@ -683,66 +881,129 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                               Text(
                                                 "CIRCULATORY SYSTEM",
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                               Text(
                                                 "Yes/No",
                                                 style: TextStyle(
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                             ],
                                           ),
                                           customCaseDetailFormRow(
-                                              title: "Anemia",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.anemia
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Anemia",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.anemia
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.anemia
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "BleedingDisorde",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.bleedingDisorder
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Bleeding Disorder",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.bleedingDisorder
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.bleedingDisorder
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "ClothingDisorde",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.clothingDisorder
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Clothing Disorder",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.clothingDisorder
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.clothingDisorder
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Leukemia",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.leukemia
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Leukemia",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.leukemia
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.leukemia
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customcasedetailOtherText(
-                                              "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.circulatoryOthers.toString() ?? ""}")
+                                            "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.circulatoryOthers == null ? "" : admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.circulatoryOthers.toString() ?? ""}",
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -752,14 +1013,18 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: const Color(0xff2E2E2E)
-                                                .withOpacity(0.2))),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: const Color(0xff2E2E2E)
+                                            .withOpacity(0.2),
+                                      ),
+                                    ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 5.w, vertical: 1.h),
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
@@ -768,44 +1033,77 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                               Text(
                                                 "URINARY TRACT SYSTEM",
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                               Text(
                                                 "Yes/No",
                                                 style: TextStyle(
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                             ],
                                           ),
                                           customCaseDetailFormRow(
-                                              title: "U.T.I",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.uti
-                                                      .toString() ??
-                                                  ""),
+                                            title: "U.T.I",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.uti
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.uti
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Kenal Failure",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.kenalFailure
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Kidney Failure",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.kenalFailure
+                                                            .toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.kenalFailure
+                                                                .toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : "",
+                                          ),
                                           customcasedetailOtherText(
-                                              "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.urinaryOthers.toString() ?? ""}")
+                                            "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.urinaryOthers == null ? "" : admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.urinaryOthers.toString() ?? ""}",
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -815,14 +1113,18 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: const Color(0xff2E2E2E)
-                                                .withOpacity(0.2))),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: const Color(0xff2E2E2E)
+                                            .withOpacity(0.2),
+                                      ),
+                                    ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 5.w, vertical: 1.h),
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
@@ -831,66 +1133,161 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                               Text(
                                                 "ENDOCRINE SYSTEM",
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                               Text(
                                                 "Yes/No",
                                                 style: TextStyle(
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                             ],
                                           ),
                                           customCaseDetailFormRow(
-                                              title: "Diabetes",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.diabetes
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Diabetes",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.diabetes
+                                                            ?.toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.diabetes
+                                                                ?.toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.diabetes
+                                                            ?.toString() ??
+                                                        "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Hyperparathyroidism",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.hyperparathyrodism
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Hyperparathyroidism",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.hyperparathyrodism
+                                                            ?.toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.hyperparathyrodism
+                                                                ?.toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.hyperparathyrodism
+                                                            ?.toString() ??
+                                                        "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Hypothyroidism",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.hyperthyrodismNew
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Hypothyroidism",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.hyperthyrodismNew
+                                                            ?.toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.hyperthyrodismNew
+                                                                ?.toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.hyperthyrodismNew
+                                                            ?.toString() ??
+                                                        "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Hyperthyroidism",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.hyperthyrodism
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Hyperthyroidism",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.hyperthyrodism
+                                                            ?.toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.hyperthyrodism
+                                                                ?.toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.hyperthyrodism
+                                                            ?.toString() ??
+                                                        "",
+                                          ),
                                           customcasedetailOtherText(
-                                              "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.endocrineOthers.toString() ?? ""}")
+                                            "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.endocrineOthers == null ? "" : admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.endocrineOthers.toString() ?? ""}",
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -900,14 +1297,18 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: const Color(0xff2E2E2E)
-                                                .withOpacity(0.2))),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: const Color(0xff2E2E2E)
+                                            .withOpacity(0.2),
+                                      ),
+                                    ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 5.w, vertical: 1.h),
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
@@ -916,44 +1317,93 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                               Text(
                                                 "NERVOUS SYSTEM",
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                               Text(
                                                 "Yes/No",
                                                 style: TextStyle(
-                                                    color:
-                                                        const Color(0xff949494),
-                                                    fontSize: 17.sp),
+                                                  color:
+                                                      const Color(0xff949494),
+                                                  fontSize: 17.sp,
+                                                ),
                                               ),
                                             ],
                                           ),
                                           customCaseDetailFormRow(
-                                              title: "Seizure",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.seizure
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Seizure",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.seizure
+                                                            ?.toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.seizure
+                                                                ?.toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.seizure
+                                                            ?.toString() ??
+                                                        "",
+                                          ),
                                           customCaseDetailFormRow(
-                                              title: "Epilepsy",
-                                              result: admincontroller
-                                                      .admingetcasebyid
-                                                      .value
-                                                      ?.data
-                                                      ?.cases
-                                                      ?.cvs
-                                                      ?.epilepsy
-                                                      .toString() ??
-                                                  ""),
+                                            title: "Epilepsy",
+                                            result: (admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.epilepsy
+                                                            ?.toString() ??
+                                                        "") ==
+                                                    "0"
+                                                ? "No"
+                                                : (admincontroller
+                                                                .admingetcasebyid
+                                                                .value
+                                                                ?.data
+                                                                ?.cases
+                                                                ?.cvs
+                                                                ?.epilepsy
+                                                                ?.toString() ??
+                                                            "") ==
+                                                        "1"
+                                                    ? "Yes"
+                                                    : admincontroller
+                                                            .admingetcasebyid
+                                                            .value
+                                                            ?.data
+                                                            ?.cases
+                                                            ?.cvs
+                                                            ?.epilepsy
+                                                            ?.toString() ??
+                                                        "",
+                                          ),
                                           customcasedetailOtherText(
-                                              "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.nervousOthers.toString() ?? ""}")
+                                            "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.nervousOthers == null ? "" : admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.nervousOthers.toString() ?? ""}",
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -963,11 +1413,44 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                         SizedBox(
                           height: 2.h,
                         ),
-                        custombutton(
-                            title: "Assigned to",
-                            ontap: () {
-                              Get.toNamed(RouteConstants.consultantlistscreen);
-                            }),
+                        admincontroller.admingetcasebyid.value?.data?.cases
+                                    ?.doctor ==
+                                null
+                            ? custombutton(
+                                title: "Assigned to",
+                                ontap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(24)),
+                                    ),
+                                    isScrollControlled: true,
+                                    builder: (context) =>
+                                        DraggableScrollableSheet(
+                                      initialChildSize: 0.5,
+                                      minChildSize: 0.3,
+                                      maxChildSize: 0.9,
+                                      expand: false,
+                                      builder: (context, scrollController) {
+                                        return ConsultantListBottomSheet(
+                                          scrollController: scrollController,
+                                          caseguid: admincontroller
+                                                  .admingetcasebyid
+                                                  .value
+                                                  ?.data
+                                                  ?.cases
+                                                  ?.guid
+                                                  .toString() ??
+                                              "",
+                                        );
+                                      },
+                                    ),
+                                  );
+                                  // Get.toNamed(
+                                  //     RouteConstants.consultantlistscreen);
+                                })
+                            : const SizedBox(),
                         SizedBox(
                           height: 2.h,
                         ),
