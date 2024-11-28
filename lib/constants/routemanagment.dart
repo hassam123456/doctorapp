@@ -1,6 +1,7 @@
 import 'package:doctorapp/constants/routeconstants.dart';
 import 'package:doctorapp/views/admin/addconsultant_screen.dart';
 import 'package:doctorapp/views/admin/adminalreadyassignedcasedetails_screen.dart';
+import 'package:doctorapp/views/admin/admincaseUserDetailsScreen.dart';
 import 'package:doctorapp/views/admin/admincaseconsult_screen.dart';
 import 'package:doctorapp/views/admin/admincasedetails_screen.dart';
 import 'package:doctorapp/views/admin/adminhomescreen.dart';
@@ -109,6 +110,9 @@ class Routes {
       GetPage(name: RouteConstants.ebookscreen, page: () => EBookListScreen()),
       GetPage(name: RouteConstants.videoscreen, page: () => VideoBookScreen()),
       GetPage(name: RouteConstants.profilescreen, page: () => ProfileScreen()),
+      GetPage(
+          name: RouteConstants.admincaseuserdetailscreen,
+          page: () => AdminCaseUserDetailScreen()),
     ];
   }
 }

@@ -58,17 +58,20 @@ class Data {
 }
 
 class Case {
+  int? id;
   String? title; // Nullable String
   String? description; // Nullable String
   // List<Media>? media; // Nullable List<Media>
 
   Case({
+    this.id,
     this.title,
     this.description,
     // this.media,
   });
 
   factory Case.fromJson(Map<String, dynamic> json) => Case(
+        id: json["id"],
         title: json["title"],
         description: json["description"],
         // media: json["media"] != null
@@ -78,6 +81,7 @@ class Case {
 
   Map<String, dynamic> toJson() => {
         "title": title,
+        "id": id,
         "description": description,
         // "media": media != null
         //     ? List<dynamic>.from(media!.map((x) => x.toJson()))

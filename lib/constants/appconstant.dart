@@ -24,4 +24,7 @@ class AppConstants {
   static String useruploadCase = "case/create";
   static String useruploadcasedetails = "case/create-update-cvs/";
   static String adminaddconsultants = "case/register-doctor";
+
+  static String admingetcasebyid = "case/get-by-id/";
+  static String adminassigncase = "case/assign-doctor/";
 }
