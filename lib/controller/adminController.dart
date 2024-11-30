@@ -253,6 +253,38 @@ class AdminController extends GetxController {
     }
   }
 
+  // get casedetails
+  final Rx<AdminConsultantList?> usercaseconsult =
+      Rx<AdminConsultantList?>(null);
+  final RxBool usercaseconsultloading = false.obs;
+  getusercaseconsul() async {
+    try {
+      usercaseconsultloading(true);
+      await adminRepo.GetUserMethod().then((value) {
+        usercaseconsult.value = value;
+        usercaseconsultloading(false);
+      });
+    } catch (e) {
+      usercaseconsultloading(false);
+    }
+  }
+
+  // get doctorcasedetails
+  final Rx<AdminConsultantList?> doctorcaseconsult =
+      Rx<AdminConsultantList?>(null);
+  final RxBool doctorcaseconsultloading = false.obs;
+  getdoctorcaseconsul() async {
+    try {
+      doctorcaseconsultloading(true);
+      await adminRepo.GetdoctorMethod().then((value) {
+        doctorcaseconsult.value = value;
+        doctorcaseconsultloading(false);
+      });
+    } catch (e) {
+      doctorcaseconsultloading(false);
+    }
+  }
+
   // get consultant list method
   // get casedetails
   final Rx<ConsultantListModel?> consultantlist =

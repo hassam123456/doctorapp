@@ -103,6 +103,48 @@ class AdminRepo extends GetxService {
     }
   }
 
+  //doctor case method
+  Future<AdminConsultantList?> GetdoctorMethod() async {
+    try {
+      final res = await apiClient.getFromServer(
+        endPoint: AppConstants.doctorcase,
+      );
+
+      if (res.statusCode == 200) {
+        // print('notifcationoff');
+        print("data");
+        print(res.body);
+        final listofamdincase = adminConsultantListFromJson(res.body);
+        return listofamdincase;
+      } else {
+        throw Exception("No data field found in the admin case data");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  //consultant user method
+  Future<AdminConsultantList?> GetUserMethod() async {
+    try {
+      final res = await apiClient.getFromServer(
+        endPoint: AppConstants.usercase,
+      );
+
+      if (res.statusCode == 200) {
+        // print('notifcationoff');
+        print("data");
+        print(res.body);
+        final listofamdincase = adminConsultantListFromJson(res.body);
+        return listofamdincase;
+      } else {
+        throw Exception("No data field found in the admin case data");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   //consultant doctor list method
   Future<ConsultantListModel?> Getconsultantlist() async {
     try {

@@ -11,6 +11,8 @@ class AppConstants {
   static const ebook = "ebook";
   static const video = "video-library";
   static const caseadmin = "case/admin";
+  static const doctorcase = "case/doctor";
+  static const usercase = "case";
   static const consultantlist = "case/doctors";
   static const ebooksearch = "ebook/search?search_key=";
   static const videosearch = "video-library/get-by-id/";
