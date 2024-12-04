@@ -8,6 +8,7 @@ import 'package:doctorapp/model/consultantlistmodel.dart';
 import 'package:doctorapp/model/ebookmodel.dart';
 import 'package:doctorapp/model/videomodel.dart';
 import 'package:doctorapp/repositary/adminRepo.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -353,6 +354,45 @@ class AdminController extends GetxController {
       adminassigncaseloading.value = false;
     } finally {
       adminassigncaseloading.value = false;
+    }
+  }
+
+/////////////doctor upload treatment
+  var doctoruploadtreatmentfilename = ''.obs;
+  var doctoruploadtreatmentfile = Rx<File?>(null).obs;
+
+  Future<void> doctorPickTreatmentfile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'doc', 'docx'],
+    );
+
+    if (result != null) {
+      String? filePath = result.files.single.path;
+      if (filePath != null) {
+        doctoruploadtreatmentfile.value.value = File(filePath);
+        doctoruploadtreatmentfilename.value = result.files.single.name;
+      }
+    } else {
+      // No file selected
+      doctoruploadtreatmentfilename.value = '';
+      doctoruploadtreatmentfile.value.value = null;
+    }
+  }
+
+  final RxBool doctoruploadTreatmentloading = false.obs;
+  Future<void> doctorUploadTreatment({
+    required String caseguid,
+  }) async {
+    try {
+      doctoruploadTreatmentloading.value = true;
+      await adminRepo.doctorUploadTreatment(
+          caseguid: caseguid,
+          treatment: doctoruploadtreatmentfile.value.value!);
+
+      doctoruploadTreatmentloading.value = false;
+    } finally {
+      doctoruploadTreatmentloading.value = false;
     }
   }
 }

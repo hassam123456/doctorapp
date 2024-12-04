@@ -409,4 +409,39 @@ class AdminRepo extends GetxService {
           'An unexpected error occurred. Please try again later.');
     }
   }
+
+/////////////doctor upload treatment
+  Future<void> doctorUploadTreatment({
+    required String caseguid,
+    required File treatment,
+  }) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      var request = http.MultipartRequest(
+          'POST',
+          Uri.parse(
+              '${AppConstants.apibaseurl}${AppConstants.doctoruploadtreatment}$caseguid'));
+
+      request.files.add(await http.MultipartFile.fromPath(
+        'file',
+        treatment.path,
+      ));
+      request.headers['Authorization'] = 'Bearer $token';
+      var response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        Get.back();
+        final message = jsonDecode(responseBody)['message'];
+        customSuccessSnackBar(message);
+      } else {
+        final message = jsonDecode(responseBody)['message'];
+        customErrorSnackBar(message);
+      }
+    } catch (e) {
+      customErrorSnackBar(
+          'An unexpected error occurred. Please try again later.');
+      print("Error uploading video: $e");
+    }
+  }
 }

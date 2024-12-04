@@ -58,7 +58,7 @@ class _DoctorCaseConsultScreenState extends State<DoctorCaseConsultScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: admincontroller
-                      .doctorcaseconsult.value!.data!.cases!.length!,
+                      .doctorcaseconsult.value!.data!.cases!.length,
                   itemBuilder: (context, index) {
                     final caseData = admincontroller
                         .doctorcaseconsult.value!.data!.cases![index];
@@ -68,7 +68,7 @@ class _DoctorCaseConsultScreenState extends State<DoctorCaseConsultScreen> {
                       viewdetailontap: () {
                         admincontroller
                             .getAdminCaseById(caseData.guid.toString());
-                        Get.toNamed(RouteConstants.admincasedetailscreen);
+                        Get.toNamed(RouteConstants.doctoruploadtreatmentscreen);
                       },
                       days: "3 days ago",
                     );
