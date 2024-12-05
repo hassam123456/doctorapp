@@ -90,7 +90,7 @@ class AuthRepo extends GetxService {
           final message = jsonDecode(response.body)['message'];
           showVerificationPopup(context, "Verification Done!", message);
           await Future.delayed(Duration(seconds: 2));
-          Get.offAllNamed(RouteConstants.splashscreen);
+          Get.offAllNamed(RouteConstants.signinscreen);
         }
       } else {
         final message = jsonDecode(response.body)['message'];
@@ -272,7 +272,7 @@ class AuthRepo extends GetxService {
         // await LocalStorage().setString('guest_user_id', guestUserId);
         await prefs.setString('token', token);
         await prefs.setString('email', email);
-
+        await prefs.setString('isuser', isuser);
         await LocalStorage().remove('guest_user_id');
         // gettoken();
         isuser == "1"

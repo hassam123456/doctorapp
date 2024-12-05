@@ -1456,7 +1456,9 @@ class _DoctorUploadTreatmentScreenState
                           height: 2.h,
                         ),
                         admincontroller.doctoruploadTreatmentloading.value
-                            ? customcircularProgress()
+                            ? Center(
+                                child: customcircularProgress(),
+                              )
                             : GestureDetector(
                                 onTap: () {
                                   admincontroller.doctoruploadtreatmentfilename

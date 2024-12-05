@@ -188,7 +188,7 @@ class _SignupPageState extends State<SignupPage> {
                           style: TextStyle(fontSize: 16.sp)),
                       TextButton(
                         onPressed: () {
-                          Get.toNamed(RouteConstants.splashscreen);
+                          Get.toNamed(RouteConstants.signinscreen);
                         },
                         child: Text('Login',
                             style: TextStyle(color: AppColors.primaryColor)),

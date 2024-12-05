@@ -212,9 +212,10 @@ class AuthController extends GetxController {
 
 ///////////logout
   void logout() async {
-    Get.offAllNamed(RouteConstants.splashscreen);
+    Get.offAllNamed(RouteConstants.signinscreen);
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
     await prefs.remove('email');
+    await prefs.remove('isuser');
   }
 }
