@@ -6,8 +6,11 @@ import 'package:doctorapp/model/adminconsultantmodel.dart';
 import 'package:doctorapp/model/admingetcaseByIdModel.dart';
 import 'package:doctorapp/model/consultantlistmodel.dart';
 import 'package:doctorapp/model/ebookmodel.dart';
+import 'package:doctorapp/model/notificationmodel.dart';
+import 'package:doctorapp/model/profilemodel.dart';
 import 'package:doctorapp/model/videomodel.dart';
 import 'package:doctorapp/repositary/adminRepo.dart';
+import 'package:doctorapp/views/notifcationscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -77,6 +80,202 @@ class AdminController extends GetxController {
       createebookloading.value = false;
     } finally {
       createebookloading.value = false;
+    }
+  }
+
+//   final RxBool updateSellerProfileDataloading = false.obs;
+// final Rx<ProfileModel?> getsellerprofiledata =
+//       Rx<ProfileModel?>(null);
+//   final RxBool getsellerprofiledataloading = false.obs;
+//   Future<void> updateSellerProfileData({
+//     required BuildContext context,
+//     required String address,
+//     required String city,
+//     required String state,
+//     required String country,
+//     required String zipcode,
+//     // required int orangepay,
+//   }) async {
+//     try {
+//       updateSellerProfileDataloading.value = true;
+//       await
+//           .updatesellerprofiledata(
+//               context: context,
+//               orangepay: updateorangenumber.value.text.isEmpty
+//                   ? getsellerprofiledata.value?.data?.orangepay.toString() ?? ""
+//                   : updateorangenumber.value.text.toString(),
+//               phonecountrycode:
+//                   updatesellerprofilephonecountrycode.value.isEmpty
+//                       ? getsellerprofiledata.value?.data?.phonecountrycode
+//                               .toString() ??
+//                           ""
+//                       : updatesellerprofilephonecountrycode.value.toString(),
+//               name: updatesellerprofilename.value.text.isEmpty
+//                   ? getsellerprofiledata.value?.data?.name.toString() ?? ""
+//                   : updatesellerprofilename.value.text.toString(),
+//               address: address.isEmpty
+//                   ? getsellerprofiledata.value?.data?.address.toString() ?? ""
+//                   : address,
+//               city: city.isEmpty
+//                   ? getsellerprofiledata.value?.data?.city.toString() ?? ""
+//                   : city,
+//               state: state.isEmpty
+//                   ? getsellerprofiledata.value?.data?.state.toString() ?? ""
+//                   : state,
+//               country: country.isEmpty
+//                   ? getsellerprofiledata.value?.data?.country.toString() ?? ""
+//                   : country,
+//               zipcode: zipcode.isEmpty
+//                   ? getsellerprofiledata.value?.data?.zipCode.toString() ?? ""
+//                   : zipcode,
+//               phonecode: updatesellerprofilephonecode.value.isEmpty
+//                   ? getsellerprofiledata.value?.data?.phoneCode.toString() ?? ""
+//                   : updatesellerprofilephonecode.value.toString(),
+//               phonenumber: updatesellerprofilephonenumber.value.text.isEmpty
+//                   ? getsellerprofiledata.value?.data?.phoneNumber.toString() ??
+//                       ""
+//                   : updatesellerprofilephonenumber.value.text.toString(),
+//               profileimage: sellershopuploadedprofileImage.value)
+//           .then((value) => getsellerprofiledata());
+
+//       updateSellerProfileDataloading.value = false;
+//     } finally {
+//       updateSellerProfileDataloading.value = false;
+//     }
+//   }
+
+  var sellershopuploadedprofileImage = Rx<File?>(null);
+  final updatesellerprofilephonenumber = TextEditingController().obs;
+  final updatesellerprofilename = TextEditingController().obs;
+  final updateorangenumber = TextEditingController().obs;
+  final updatesellerprofilephonecode = ''.obs;
+  final updatesellerprofilephonecountrycode = ''.obs;
+  void sellershopprofileImage(File? image) {
+    sellershopuploadedprofileImage.value = image;
+  }
+
+  Future<void> uploadsellershopprofileImage(BuildContext context) async {
+    final picker = ImagePicker();
+    final pickedImage = await showDialog<ImageSource>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Select Image Source"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                GestureDetector(
+                  child: const Text("Gallery"),
+                  onTap: () {
+                    Navigator.of(context).pop(ImageSource.gallery);
+                  },
+                ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  child: const Text("Camera"),
+                  onTap: () {
+                    Navigator.of(context).pop(ImageSource.camera);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    if (pickedImage != null) {
+      final pickedFile = await picker.pickImage(source: pickedImage);
+      if (pickedFile != null) {
+        sellershopprofileImage(File(pickedFile.path));
+      }
+    }
+  }
+  // final RxBool updateSellerProfileDataloading = false.obs;
+  // final Rx<ProfileModel?> getsellerprofiledata =
+  //     Rx<ProfileModel?>(null);
+  // final RxBool getsellerprofiledataloading = false.obs;
+  // Future<void> updateSellerProfileData({
+  //   required BuildContext context,
+  //   required String address,
+  //   required String city,
+  //   required String state,
+  //   required String country,
+  //   required String zipcode,
+  //   // required int orangepay,
+  // }) async {
+  //   try {
+  //     updateSellerProfileDataloading.value = true;
+  //     await adminRepo
+  //         .updatesellerprofiledata(
+  //             context: context,
+
+  //             phonecountrycode:
+  //                 updatesellerprofilephonecountrycode.value.isEmpty
+  //                     ? getsellerprofiledata.value?.data?.phonecountrycode
+  //                             .toString() ??
+  //                         ""
+  //                     : updatesellerprofilephonecountrycode.value.toString(),
+  //             name: updatesellerprofilename.value.text.isEmpty
+  //                 ? getsellerprofiledata.value?.data?.name.toString() ?? ""
+  //                 : updatesellerprofilename.value.text.toString(),
+  //             address: address.isEmpty
+  //                 ? getsellerprofiledata.value?.data?.address.toString() ?? ""
+  //                 : address,
+  //             city: city.isEmpty
+  //                 ? getsellerprofiledata.value?.data?.city.toString() ?? ""
+  //                 : city,
+  //             state: state.isEmpty
+  //                 ? getsellerprofiledata.value?.data?.state.toString() ?? ""
+  //                 : state,
+  //             country: country.isEmpty
+  //                 ? getsellerprofiledata.value?.data?.country.toString() ?? ""
+  //                 : country,
+  //             zipcode: zipcode.isEmpty
+  //                 ? getsellerprofiledata.value?.data?.zipCode.toString() ?? ""
+  //                 : zipcode,
+  //             phonecode: updatesellerprofilephonecode.value.isEmpty
+  //                 ? getsellerprofiledata.value?.data?.phoneCode.toString() ?? ""
+  //                 : updatesellerprofilephonecode.value.toString(),
+  //             phonenumber: updatesellerprofilephonenumber.value.text.isEmpty
+  //                 ? getsellerprofiledata.value?.data?.phoneNumber.toString() ??
+  //                     ""
+  //                 : updatesellerprofilephonenumber.value.text.toString(),
+  //             profileimage: sellershopuploadedprofileImage.value)
+  //         .then((value) => getsellerprofiledata());
+
+  //     updateSellerProfileDataloading.value = false;
+  //   } finally {
+  //     updateSellerProfileDataloading.value = false;
+  //   }
+
+  // get profile data
+  final Rx<ProfileModel?> getprofiledata = Rx<ProfileModel?>(null);
+  final RxBool getprofiledataloading = false.obs;
+  getProfileData() async {
+    try {
+      getprofiledataloading(true);
+      await adminRepo.getProfileData().then((value) {
+        getprofiledata.value = value;
+        getprofiledataloading(false);
+      });
+    } catch (e) {
+      getprofiledataloading(false);
+    }
+  }
+
+  // get notification data
+  final Rx<NotificationModel?> getnotificationdata =
+      Rx<NotificationModel?>(null);
+  final RxBool getnotificationdatloading = false.obs;
+  getnotification() async {
+    try {
+      getnotificationdatloading(true);
+      await adminRepo.getnotificationdata().then((value) {
+        getnotificationdata.value = value;
+        getnotificationdatloading(false);
+      });
+    } catch (e) {
+      getnotificationdatloading(false);
     }
   }
 

@@ -41,11 +41,6 @@ class _UserCaseConsultScreennState extends State<UserCaseConsultScreen> {
                   return Center(child: customcircularprogress());
                 }
 
-                // // Check for error message
-                // if (admincontroller.admincaseconsult!..isNotEmpty) {
-                //   return Center(child: Text(caseController.errorMessage.value));
-                // }
-
                 // Check if no cases are available
                 if (admincontroller
                     .usercaseconsult.value!.data!.cases!.isEmpty) {
@@ -77,6 +72,16 @@ class _UserCaseConsultScreennState extends State<UserCaseConsultScreen> {
             ],
           ),
         ),
+      ),
+      // Floating Action Button to add new case or navigate to another screen
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // You can define your action here, for example, navigating to another screen
+          Get.toNamed(
+              RouteConstants.useruploadcasescreen); // Replace with your route
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Color(0xff34A853), // You can change the color here
       ),
     );
   }

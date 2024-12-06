@@ -17,7 +17,6 @@ class RouteConstants {
       "/adminassignedcasedetailscreen";
   static String doctorbottomnavbar = "/doctorbottomnavbar";
   static String userbottomnavbar = "/userbottomnavbar";
-
   ///////hassam screens
   static String splashscreen = "/splashscreen";
   static String kcasedetails2 = "/kcasedetails2";

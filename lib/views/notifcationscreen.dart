@@ -1,6 +1,23 @@
+import 'package:doctorapp/controller/adminController.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
+  final AdminController homecontroller = Get.put(
+    AdminController(adminRepo: Get.find()),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    homecontroller.getnotification();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,52 +30,48 @@ class NotificationScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: ListView(
-        padding: EdgeInsets.all(16),
-        children: [
-          NotificationCard(
-            icon: Icons.check_circle,
-            title: 'Login Success!',
-            description: 'Congratulations! You have successfully logged in.',
-            time: '9:56 AM',
-            backgroundColor: Colors.green[100]!,
-          ),
-          NotificationCard(
-            icon: Icons.file_upload,
-            title: 'Case Uploaded!',
-            description: 'A new case has been uploaded by Dr. Lisa.',
-            time: '9:56 AM',
-            backgroundColor: Colors.white,
-          ),
-          NotificationCard(
-            icon: Icons.person_add,
-            title: 'Personalized Consultant Created',
-            description: 'You have successfully created personalized...',
-            time: '9:56 AM',
-            backgroundColor: Colors.white,
-          ),
-          NotificationCard(
-            icon: Icons.person,
-            title: 'Personalized Consultant Assigned',
-            description: 'You have successfully assigned Dr. Emily...',
-            time: '9:56 AM',
-            backgroundColor: Colors.white,
-          ),
-        ],
-      ),
+      body: Obx(() {
+        if (homecontroller.getnotificationdatloading.value) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (homecontroller
+            .getnotificationdata.value!.data.notifications.isEmpty) {
+          return Center(
+            child: Text("No notifications available."),
+          );
+        } else {
+          return ListView.builder(
+            padding: EdgeInsets.all(16),
+            itemCount: homecontroller
+                .getnotificationdata.value!.data.notifications.length,
+            itemBuilder: (context, index) {
+              final notification = homecontroller
+                  .getnotificationdata.value!.data.notifications[index];
+              return NotificationCard(
+                // icon: ,
+                title: notification.title,
+                description: notification.message,
+                time: "10:00",
+                backgroundColor: Color.fromARGB(255, 241, 240, 240),
+              );
+            },
+          );
+        }
+      }),
     );
   }
 }
 
 class NotificationCard extends StatelessWidget {
-  final IconData icon;
+  // final IconData icon;
   final String title;
   final String description;
   final String time;
   final Color backgroundColor;
 
   NotificationCard({
-    required this.icon,
+    // required this.icon,
     required this.title,
     required this.description,
     required this.time,
@@ -73,7 +86,7 @@ class NotificationCard extends StatelessWidget {
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: Colors.white,
-          child: Icon(icon, color: Colors.green),
+          child: Icon(Icons.notification_add, color: Colors.green),
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

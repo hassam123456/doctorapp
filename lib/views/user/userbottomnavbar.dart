@@ -1,3 +1,4 @@
+import 'package:doctorapp/model/profilemodel.dart';
 import 'package:doctorapp/views/notifcationscreen.dart';
 import 'package:doctorapp/views/user/userhomescreen.dart';
 import 'package:doctorapp/views/user/userprofileScreen.dart';
@@ -13,7 +14,7 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
   int _currentIndex = 1;
 
   final List<Widget> _tabs = [
-    UserProfileScreen(),
+    Profileinfo(),
     UserHomeScreen(),
     NotificationScreen()
   ];

@@ -1,11 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:doctorapp/components/errordailog.dart';
 import 'package:doctorapp/constants/routeconstants.dart';
 import 'package:doctorapp/model/adminconsultantmodel.dart';
 import 'package:doctorapp/model/admingetcaseByIdModel.dart';
 import 'package:doctorapp/model/consultantlistmodel.dart';
 import 'package:doctorapp/model/ebookmodel.dart';
+import 'package:doctorapp/model/notificationmodel.dart';
+import 'package:doctorapp/model/profilemodel.dart';
 import 'package:doctorapp/model/videomodel.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:doctorapp/components/customSnackBar.dart';
 import 'package:doctorapp/constants/api_service.dart';
@@ -121,6 +125,103 @@ class AdminRepo extends GetxService {
       }
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+///////get profile data
+  Future<ProfileModel?> getProfileData() async {
+    try {
+      final res = await apiClient.getFromServer(
+        endPoint: AppConstants.getnotiifcationdata,
+      );
+      if (res.statusCode == 200) {
+        print(res.body);
+        // final istrustedseller =
+        //     jsonDecode(res.body)['data']['is_trusted_seller'];
+        // LocalStorage().setBool("istrustedseller", istrustedseller);
+        final listofprofiledata = profileModelFromJson(res.body);
+        return listofprofiledata;
+      } else {
+        throw Exception("No data field found in the Get Profile Data");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+///////get profile data
+
+///////get profile data
+  Future<NotificationModel?> getnotificationdata() async {
+    try {
+      final res = await apiClient.getFromServer(
+        endPoint: AppConstants.getnotiifcationdata,
+      );
+      if (res.statusCode == 200) {
+        print(res.body);
+        // final istrustedseller =
+        //     jsonDecode(res.body)['data']['is_trusted_seller'];
+        // LocalStorage().setBool("istrustedseller", istrustedseller);
+        final listofnotifiicationdata = notificationModelFromJson(res.body);
+        return listofnotifiicationdata;
+      } else {
+        throw Exception("No data field found in the Get Profile Data");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  // get profile setting
+  /////////update seller profile data
+  Future updatesellerprofiledata({
+    required String orangepay,
+    required BuildContext context,
+    required String name,
+    required String address,
+    required String city,
+    required String state,
+    required String country,
+    required String zipcode,
+    required String phonecode,
+    required String phonenumber,
+    required String phonecountrycode,
+    required File? profileimage,
+  }) async {
+    final mapData = {
+      "name": name,
+      "orange_pay": orangepay,
+      "phone_code": phonecode,
+      "phone_number": phonenumber,
+      "phone_country_code": phonecountrycode,
+      "address": address,
+      "city": city,
+      "state": state,
+      "country": country,
+      "zip_code": zipcode,
+    };
+    Map<String, String> stringMapData =
+        mapData.map((key, value) => MapEntry(key, value.toString()));
+    // print(stringMapData);
+    try {
+      final res = await apiClient.postImagesToServer(
+          endPoint: AppConstants.userupdateprofile,
+          data: stringMapData,
+          files: {
+            "image": profileimage,
+          });
+      if (res.statusCode == 200) {
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context);
+        final message = jsonDecode(res.body)['message'];
+        showSuccessSnackbar(message: message);
+      } else {
+        final message = jsonDecode(res.body)['message'];
+        showErrrorSnackbar(message: message);
+      }
+    } on SocketException {
+      return showErrrorSnackbar(message: 'No Internet Connection');
+    } catch (e) {
+      showErrrorSnackbar(message: e.toString());
     }
   }
 

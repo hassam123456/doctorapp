@@ -731,7 +731,7 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                "REGARDING TUBERCULOSIS",
+                                                "REGARDING\nTUBERCULOSIS",
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color:

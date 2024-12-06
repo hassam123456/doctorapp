@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:doctorapp/constants/routeconstants.dart';
+import 'package:doctorapp/model/profilemodel.dart';
 import 'package:doctorapp/repositary/authRepo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
@@ -10,7 +14,7 @@ class AuthController extends GetxController {
   AuthController({required this.authRepo});
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  File? uploadedProfileImage;
   final formKey = GlobalKey<FormState>();
   TextEditingController fullNameController = TextEditingController();
   TextEditingController clinicNameController = TextEditingController();
@@ -54,6 +58,81 @@ class AuthController extends GetxController {
     experienceController.clear();
     signuppasswordController.clear();
     confirmPasswordController.clear();
+  }
+
+  ////getprofiledata
+  final RxBool profiledataloading = false.obs;
+  final Rx<ProfileModel?> profiledatalist = Rx<ProfileModel?>(null);
+  getprofiledata() async {
+    try {
+      profiledataloading(true);
+      await authRepo.GetProfileData().then((value) {
+        profiledatalist.value = value;
+        profiledataloading(false);
+      });
+    } catch (e) {
+      profiledataloading(false);
+    }
+  }
+
+  ////updateprofiledata
+  var profilestatusmessage = '';
+  var upprofiledataloading = false.obs;
+  final profilenamecontroller = TextEditingController().obs;
+  final profilelastnamecontroller = TextEditingController().obs;
+  final addressscontroller = TextEditingController().obs;
+  final profileemailcontroller = TextEditingController().obs;
+  final profilephonecontroller = TextEditingController().obs;
+  final profilespecializationcontroller = TextEditingController().obs;
+  final profilehospitalnamecontroller = TextEditingController().obs;
+  final profilexperiencecontroller = TextEditingController().obs;
+  final profilelicesnsecontroller = TextEditingController().obs;
+  updateprofiledata() async {
+    try {
+      upprofiledataloading(true);
+      await authRepo
+          .updatesellerprofiledata(
+        profilehospitalname: profilehospitalnamecontroller.value.text.isEmpty
+            ? profiledatalist.value?.data!.profile!.name ?? 'Hospital Name'
+            : profilehospitalnamecontroller.value.text,
+        specialization: profilespecializationcontroller.value.text.isEmpty
+            ? profiledatalist.value?.data!.profile!.name ?? 'Specialization'
+            : profilespecializationcontroller.value.text,
+        profileimage: uploadedProfileImage,
+        profilename: profilenamecontroller.value.text.isEmpty
+            ? profiledatalist.value?.data!.profile!.name ?? 'Name'
+            : profilenamecontroller.value.text,
+        phone_number: profilephonecontroller.value.text.isEmpty
+            ? profiledatalist.value?.data!.profile!.phoneNumber ?? 'phoneNumber'
+            : profilephonecontroller.value.text,
+        experience: profilexperiencecontroller.value.text.isEmpty
+            ? profiledatalist.value?.data!.profile!.experience ?? 'experience'
+            : profilexperiencecontroller.value.text,
+        licesnsenumber: profilelicesnsecontroller.value.text.isEmpty
+            ? profiledatalist.value?.data!.profile!.licenseNumber ??
+                "licenseNumber"
+            : profilelicesnsecontroller.value.text,
+        profileaddress: addressscontroller.value.text.isEmpty
+            ? profiledatalist.value?.data!.profile!.address ?? 'Address'
+            : addressscontroller.value.text.toString(),
+        // profilehospitalname:  ,
+      )
+          .then((value) {
+        //after successfullu submission then remove data
+
+        uploadedProfileImage = null;
+        profilenamecontroller.value.clear();
+        profilelastnamecontroller.value.clear();
+        profileemailcontroller.value.clear();
+        profilephonecontroller.value.clear();
+        profilehospitalnamecontroller.value.clear();
+        profilexperiencecontroller.value.clear();
+        upprofiledataloading(false);
+      });
+    } catch (e) {
+      print("Error in Update Profile Info: $e");
+      upprofiledataloading(false);
+    }
   }
 
 ////////////signup
