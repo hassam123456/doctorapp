@@ -52,7 +52,7 @@ class _UserCaseConsultScreennState extends State<UserCaseConsultScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: admincontroller
-                      .usercaseconsult.value!.data!.cases!.length!,
+                      .usercaseconsult.value!.data!.cases!.length,
                   itemBuilder: (context, index) {
                     final caseData = admincontroller
                         .usercaseconsult.value!.data!.cases![index];
@@ -62,9 +62,9 @@ class _UserCaseConsultScreennState extends State<UserCaseConsultScreen> {
                       viewdetailontap: () {
                         admincontroller
                             .getAdminCaseById(caseData.guid.toString());
-                        Get.toNamed(RouteConstants.admincasedetailscreen);
+                        Get.toNamed(RouteConstants.usercasedetailscreen);
                       },
-                      days: "3 days ago",
+                      days: caseData.date.toString(),
                     );
                   },
                 );

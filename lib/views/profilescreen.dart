@@ -1,6 +1,5 @@
 import 'package:doctorapp/components/customcomponents.dart';
 import 'package:doctorapp/components/errordailog.dart';
-import 'package:doctorapp/constants/appconstant.dart';
 import 'package:doctorapp/controller/adminController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -60,6 +60,7 @@ class Data {
 class Case {
   int? id;
   String? guid;
+  String? date;
   String? title; // Nullable String
   String? description; // Nullable String
   // List<Media>? media; // Nullable List<Media>
@@ -69,6 +70,7 @@ class Case {
     this.title,
     this.description,
     this.guid,
+    this.date,
   });
 
   factory Case.fromJson(Map<String, dynamic> json) => Case(
@@ -76,6 +78,7 @@ class Case {
         title: json["title"],
         description: json["description"],
         guid: json["guid"],
+        date: json["date"],
         // media: json["media"] != null
         //     ? List<Media>.from(json["media"].map((x) => Media.fromJson(x)))
         //     : null,
@@ -86,6 +89,7 @@ class Case {
         "id": id,
         "description": description,
         "guid": guid,
+        "date": date,
         // "media": media != null
         //     ? List<dynamic>.from(media!.map((x) => x.toJson()))
         //     : [],

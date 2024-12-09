@@ -1,4 +1,3 @@
-import 'package:doctorapp/model/profilemodel.dart';
 import 'package:doctorapp/views/notifcationscreen.dart';
 import 'package:doctorapp/views/user/userhomescreen.dart';
 import 'package:doctorapp/views/user/userprofileScreen.dart';

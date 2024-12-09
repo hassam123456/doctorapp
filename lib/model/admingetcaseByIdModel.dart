@@ -61,6 +61,7 @@ class Cases {
   DateTime? updatedAt;
   String? status;
   List<Media>? media;
+  List<Media>? treatment;
   Cvs? cvs;
   Doctor? user;
   Doctor? doctor;
@@ -79,6 +80,7 @@ class Cases {
     this.updatedAt,
     this.status,
     this.media,
+    this.treatment,
     this.cvs,
     this.user,
     this.doctor,
@@ -104,6 +106,9 @@ class Cases {
         media: json["media"] != null
             ? List<Media>.from(json["media"].map((x) => Media.fromJson(x)))
             : null,
+        treatment: json["treatment"] != null
+            ? List<Media>.from(json["treatment"].map((x) => Media.fromJson(x)))
+            : null,
         cvs: json["cvs"] != null ? Cvs.fromJson(json["cvs"]) : null,
         user: json["user"] != null ? Doctor.fromJson(json["user"]) : null,
         doctor: json["doctor"] != null ? Doctor.fromJson(json["doctor"]) : null,
@@ -124,6 +129,9 @@ class Cases {
         "status": status,
         "media": media != null
             ? List<dynamic>.from(media!.map((x) => x.toJson()))
+            : null,
+        "treatment": treatment != null
+            ? List<dynamic>.from(treatment!.map((x) => x.toJson()))
             : null,
         "cvs": cvs?.toJson(),
         "user": user?.toJson(),

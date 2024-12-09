@@ -525,7 +525,7 @@ class AdminRepo extends GetxService {
               '${AppConstants.apibaseurl}${AppConstants.doctoruploadtreatment}$caseguid'));
 
       request.files.add(await http.MultipartFile.fromPath(
-        'file',
+        'treatment[]',
         treatment.path,
       ));
       request.headers['Authorization'] = 'Bearer $token';

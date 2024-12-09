@@ -10,6 +10,7 @@ import 'package:doctorapp/model/notificationmodel.dart';
 import 'package:doctorapp/model/profilemodel.dart';
 import 'package:doctorapp/model/videomodel.dart';
 import 'package:doctorapp/repositary/adminRepo.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';

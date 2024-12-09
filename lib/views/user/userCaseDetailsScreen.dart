@@ -1,33 +1,30 @@
-import 'package:doctorapp/components/customSnackBar.dart';
 import 'package:doctorapp/components/customcomponents.dart';
+import 'package:doctorapp/components/customconsultantbox.dart';
 import 'package:doctorapp/constants/appconstant.dart';
-import 'package:doctorapp/constants/colors.dart';
-import 'package:doctorapp/constants/routeconstants.dart';
 import 'package:doctorapp/controller/adminController.dart';
 import 'package:doctorapp/controller/componentsController.dart';
 import 'package:doctorapp/views/admin/admincasedetails_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class DoctorUploadTreatmentScreen extends StatefulWidget {
-  const DoctorUploadTreatmentScreen({super.key});
+class UserCaseDetailScreen extends StatefulWidget {
+  const UserCaseDetailScreen({super.key});
 
   @override
-  State<DoctorUploadTreatmentScreen> createState() =>
-      _DoctorUploadTreatmentScreenState();
+  State<UserCaseDetailScreen> createState() => _UserCaseDetailScreenState();
 }
 
-class _DoctorUploadTreatmentScreenState
-    extends State<DoctorUploadTreatmentScreen> {
+class _UserCaseDetailScreenState extends State<UserCaseDetailScreen> {
   final componentcontroller = Get.put(ComponentsController());
   final admincontroller = Get.put(AdminController(adminRepo: Get.find()));
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    admincontroller.doctoruploadtreatmentfilename.value = '';
+  Future<void> _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print("Could not open the URL.");
+    }
   }
 
   @override
@@ -58,49 +55,51 @@ class _DoctorUploadTreatmentScreenState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         admincontroller.admingetcasebyid.value?.data?.cases
-                                    ?.user ==
+                                    ?.doctor ==
                                 null
                             ? const SizedBox()
-                            : GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(
-                                      RouteConstants.admincaseuserdetailscreen);
-                                },
-                                child: Container(
-                                  height: 5.h,
-                                  width: Get.width,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Color(0xff2E2E2E)
-                                              .withOpacity(0.2)),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 2.w),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "User Details",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16.sp),
-                                        ),
-                                        Text(
-                                          "View",
-                                          style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              decorationColor: mainColor,
-                                              color: mainColor,
-                                              fontSize: 16.sp),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            : customConsultantBox(
+                                image: "assets/images/noimage.jpg",
+                                name: admincontroller.admingetcasebyid.value
+                                        ?.data?.cases?.doctor?.name
+                                        .toString() ??
+                                    "",
+                                cases: "Active Cases",
+                                speciality: admincontroller
+                                        .admingetcasebyid
+                                        .value
+                                        ?.data
+                                        ?.cases
+                                        ?.doctor
+                                        ?.specialization
+                                        .toString() ??
+                                    "",
+                                hospital: admincontroller.admingetcasebyid.value
+                                        ?.data?.cases?.doctor?.hospitalName
+                                        .toString() ??
+                                    "",
+                                ontap: () {
+                                  // Get.toNamed(RouteConstants.profilescreen);
+                                }),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        RichText(
+                            text: TextSpan(children: [
+                          TextSpan(
+                            text: "Status: ",
+                            style: TextStyle(
+                                color: Color(0xff000000), fontSize: 15.sp),
+                          ),
+                          TextSpan(
+                            text: admincontroller
+                                    .admingetcasebyid.value?.data?.cases?.status
+                                    .toString() ??
+                                "",
+                            style: TextStyle(
+                                color: Color(0xffFF0000), fontSize: 15.sp),
+                          ),
+                        ])),
                         SizedBox(
                           height: 2.h,
                         ),
@@ -181,6 +180,76 @@ class _DoctorUploadTreatmentScreenState
                                     ],
                                   ),
                                 ),
+                              ),
+                        admincontroller.admingetcasebyid.value!.data!.cases!
+                                    .treatment!.isEmpty ||
+                                admincontroller.admingetcasebyid.value?.data
+                                        ?.cases?.treatment ==
+                                    null
+                            ? const SizedBox()
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  Text(
+                                    "Treatments",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 1.h,
+                                  ),
+                                  ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: admincontroller
+                                          .admingetcasebyid
+                                          .value
+                                          ?.data
+                                          ?.cases
+                                          ?.treatment
+                                          ?.length,
+                                      itemBuilder: (context, index) {
+                                        final treatmentdata = admincontroller
+                                            .admingetcasebyid
+                                            .value
+                                            ?.data
+                                            ?.cases
+                                            ?.treatment?[index];
+                                        return Column(
+                                          children: [
+                                            ListTile(
+                                              title: Text(
+                                                  "Treatment ${index + 1}"),
+                                              trailing: GestureDetector(
+                                                onTap: () {
+                                                  _launchURL(treatmentdata
+                                                          ?.originalUrl
+                                                          .toString() ??
+                                                      "");
+                                                },
+                                                child: Text("View",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xffFF0000),
+                                                        fontSize: 15.sp,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline,
+                                                        decorationColor:
+                                                            Color(0xffFF0000),
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ),
+                                            ),
+                                            Divider()
+                                          ],
+                                        );
+                                      })
+                                ],
                               ),
                         SizedBox(
                           height: 2.h,
@@ -692,7 +761,7 @@ class _DoctorUploadTreatmentScreenState
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                "REGARDING TUBERCULOSIS",
+                                                "REGARDING\nTUBERCULOSIS",
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color:
@@ -1374,182 +1443,10 @@ class _DoctorUploadTreatmentScreenState
                         SizedBox(
                           height: 2.h,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            admincontroller.doctorPickTreatmentfile();
-                          },
-                          child: Container(
-                            height: 5.h,
-                            width: Get.width,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Color(0xff34A853)),
-                                color: Color(0xff34A853).withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.file_upload_outlined,
-                                  size: 22.sp,
-                                  color: const Color(0xff34A853),
-                                ),
-                                SizedBox(
-                                  width: 1.w,
-                                ),
-                                Text(
-                                  "Upload Treatment",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 16.sp),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 2.h,
-                        ),
-                        admincontroller
-                                .doctoruploadtreatmentfilename.value.isEmpty
-                            ? const SizedBox()
-                            : Container(
-                                height: 6.h,
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0xffD9D9D9)),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 2.w),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          admincontroller
-                                              .doctoruploadtreatmentfilename
-                                              .value
-                                              .toString(),
-                                          style: TextStyle(
-                                            fontSize: 15.sp,
-                                          ),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          admincontroller
-                                              .doctoruploadtreatmentfilename
-                                              .value = '';
-                                          admincontroller
-                                              .doctoruploadtreatmentfile
-                                              .value
-                                              .value = null;
-                                        },
-                                        child: CircleAvatar(
-                                          radius: 14.sp,
-                                          backgroundColor: mainColor,
-                                          child: Icon(
-                                            Icons.clear,
-                                            color: Colors.white,
-                                            size: 17.sp,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                        SizedBox(
-                          height: 2.h,
-                        ),
-                        admincontroller.doctoruploadTreatmentloading.value
-                            ? Center(
-                                child: customcircularProgress(),
-                              )
-                            : GestureDetector(
-                                onTap: () {
-                                  admincontroller.doctoruploadtreatmentfilename
-                                              .value.isEmpty ||
-                                          admincontroller
-                                                  .doctoruploadtreatmentfile
-                                                  .value
-                                                  .value ==
-                                              null
-                                      ? customErrorSnackBar(
-                                          "Please Upload Treatment")
-                                      : admincontroller.doctorUploadTreatment(
-                                          caseguid: admincontroller
-                                                  .admingetcasebyid
-                                                  .value
-                                                  ?.data
-                                                  ?.cases
-                                                  ?.guid
-                                                  .toString() ??
-                                              "");
-                                },
-                                child: Container(
-                                  height: 5.h,
-                                  width: Get.width,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xff34A853),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.file_upload_outlined,
-                                        size: 22.sp,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(
-                                        width: 1.w,
-                                      ),
-                                      Text(
-                                        "Upload Treatment Plan",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16.sp),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                        SizedBox(
-                          height: 2.h,
-                        ),
                       ],
                     ),
         )),
       ),
     );
   }
-}
-
-////////custom admin case details box
-Container customadmincasedetailbox({
-  required String title,
-  required String subtitle,
-}) {
-  return Container(
-    width: Get.width,
-    decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xff2E2E2E).withOpacity(0.2)),
-        borderRadius: BorderRadius.circular(10)),
-    child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(color: const Color(0xff949494), fontSize: 16.sp),
-          ),
-          Text(
-            subtitle,
-            style: TextStyle(color: Colors.black, fontSize: 16.sp),
-          ),
-        ],
-      ),
-    ),
-  );
 }
