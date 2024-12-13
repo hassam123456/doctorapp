@@ -268,10 +268,10 @@ class AdminRepo extends GetxService {
   }
 
   //video method
-  Future<VideoModel?> GetVideoData() async {
+  Future<VideoModel?> GetVideoData({required String page}) async {
     try {
       final res = await apiClient.getFromServer(
-        endPoint: AppConstants.video,
+        endPoint: "${AppConstants.video}?page=$page",
       );
 
       if (res.statusCode == 200) {

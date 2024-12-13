@@ -19,9 +19,9 @@ class SigninPage extends StatelessWidget {
             children: [
               SizedBox(height: 20),
               Text(
-                'Welcome to Doctor App 👋',
+                'Welcome to ConsultDent by LCMD👋',
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 15,
                   // fontWeight: FontWeight.bold,
                 ),
               ),

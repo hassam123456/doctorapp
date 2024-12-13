@@ -30,9 +30,9 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Medical History"),
+        title: const Text("History of Presenting Complain"),
         titleTextStyle: TextStyle(
-            fontSize: 25.sp,
+            fontSize: 17.sp,
             color: const Color(0xff34A853),
             fontWeight: FontWeight.w700),
       ),
@@ -56,13 +56,12 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                 height: 1.h,
               ),
               Container(
-                height: 55.h,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                         color: const Color(0xff2E2E2E).withOpacity(0.2))),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                   child: Column(
                     children: [
                       Row(
@@ -178,13 +177,12 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                 height: 1.h,
               ),
               Container(
-                height: 30.h,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                         color: const Color(0xff2E2E2E).withOpacity(0.2))),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                   child: Column(
                     children: [
                       Row(
@@ -267,13 +265,12 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                 height: 1.h,
               ),
               Container(
-                height: 36.h,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                         color: const Color(0xff2E2E2E).withOpacity(0.2))),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                   child: Column(
                     children: [
                       Row(
@@ -365,13 +362,12 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                 height: 1.h,
               ),
               Container(
-                height: 18.h,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                         color: const Color(0xff2E2E2E).withOpacity(0.2))),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                   child: Column(
                     children: [
                       Row(
@@ -440,13 +436,12 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                 height: 1.h,
               ),
               Container(
-                height: 18.h,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                         color: const Color(0xff2E2E2E).withOpacity(0.2))),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                   child: Column(
                     children: [
                       Row(
@@ -515,13 +510,12 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                 height: 1.h,
               ),
               Container(
-                height: 36.h,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                         color: const Color(0xff2E2E2E).withOpacity(0.2))),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                   child: Column(
                     children: [
                       Row(
@@ -613,13 +607,12 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                 height: 1.h,
               ),
               Container(
-                height: 25.h,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                         color: const Color(0xff2E2E2E).withOpacity(0.2))),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                   child: Column(
                     children: [
                       Row(
@@ -695,13 +688,12 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                 height: 1.h,
               ),
               Container(
-                height: 36.h,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                         color: const Color(0xff2E2E2E).withOpacity(0.2))),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                   child: Column(
                     children: [
                       Row(
@@ -794,13 +786,12 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                 height: 1.h,
               ),
               Container(
-                height: 25.h,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                         color: const Color(0xff2E2E2E).withOpacity(0.2))),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                   child: Column(
                     children: [
                       Row(
@@ -868,7 +859,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                             ),
                           )
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),

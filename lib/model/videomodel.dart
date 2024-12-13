@@ -6,72 +6,66 @@ VideoModel videoModelFromJson(String str) =>
 String videoModelToJson(VideoModel data) => json.encode(data.toJson());
 
 class VideoModel {
-  bool status;
-  Data? data; // Nullable data
-  String message;
+  bool? status; // Made nullable
+  Data? data; // Made nullable
+  String? message; // Made nullable
 
   VideoModel({
-    required this.status,
-    this.data, // Nullable data
-    required this.message,
+    this.status,
+    this.data,
+    this.message,
   });
 
   factory VideoModel.fromJson(Map<String, dynamic> json) => VideoModel(
         status: json["status"],
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+        data: json["data"] != null ? Data.fromJson(json["data"]) : null,
         message: json["message"],
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "data": data?.toJson(), // Handle nullability of data
+        "data": data?.toJson(),
         "message": message,
       };
 }
 
 class Data {
-  List<Video>? videos; // Nullable list
-  Pagination? pagination; // Nullable pagination
+  List<Video>? videos; // Made nullable
+  Pagination? pagination; // Made nullable
 
   Data({
-    this.videos, // Nullable videos
-    this.pagination, // Nullable pagination
+    this.videos,
+    this.pagination,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        videos: json["videos"] == null
-            ? null
-            : List<Video>.from(json["videos"].map((x) => Video.fromJson(x))),
-        pagination: json["pagination"] == null
-            ? null
-            : Pagination.fromJson(json["pagination"]),
+        videos: json["videos"] != null
+            ? List<Video>.from(json["videos"].map((x) => Video.fromJson(x)))
+            : null,
+        pagination: json["pagination"] != null
+            ? Pagination.fromJson(json["pagination"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
-        "videos": videos == null
-            ? []
-            : List<dynamic>.from(videos!.map((x) => x.toJson())),
+        "videos": videos != null
+            ? List<dynamic>.from(videos!.map((x) => x.toJson()))
+            : [],
         "pagination": pagination?.toJson(),
       };
 }
 
 class Pagination {
-  int? total; // Nullable
-  int? page; // Nullable
-  int? pageSize; // Nullable
-  int? totalPages; // Nullable
-  int? remaining; // Nullable
-  int? nextPage; // Nullable
-  int? prevPage; // Nullable
+  dynamic total; // Made nullable
+  dynamic page; // Made nullable
+  dynamic pageSize; // Made nullable
+  dynamic totalPages; // Made nullable
 
   Pagination({
     this.total,
     this.page,
     this.pageSize,
     this.totalPages,
-    this.remaining,
-    this.nextPage,
-    this.prevPage,
   });
 
   factory Pagination.fromJson(Map<String, dynamic> json) => Pagination(
@@ -79,9 +73,6 @@ class Pagination {
         page: json["page"],
         pageSize: json["page_size"],
         totalPages: json["total_pages"],
-        remaining: json["remaining"],
-        nextPage: json["next_page"],
-        prevPage: json["prev_page"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -89,85 +80,71 @@ class Pagination {
         "page": page,
         "page_size": pageSize,
         "total_pages": totalPages,
-        "remaining": remaining,
-        "next_page": nextPage,
-        "prev_page": prevPage,
       };
 }
 
 class Video {
-  Title title;
-
-  Category category;
-  String? description; // Nullable
-  String url;
-
-  List<Media>? media; // Nullable list
+  int? id; // Made nullable
+  String? title; // Made nullable
+  String? guid; // Made nullable
+  String? category; // Made nullable
+  String? description; // Made nullable
+  String? url; // Made nullable
+  int? status; // Made nullable
+  List<Media>? media; // Made nullable
 
   Video({
-    required this.title,
-    required this.category,
-    this.description, // Nullable description
-    required this.url,
-    this.media, // Nullable media
+    this.id,
+    this.title,
+    this.guid,
+    this.category,
+    this.description,
+    this.url,
+    this.status,
+    this.media,
   });
 
   factory Video.fromJson(Map<String, dynamic> json) => Video(
-        title: titleValues.map[json["title"]]!,
-
-        category: categoryValues.map[json["category"]]!,
-        description: json["description"], // Nullable
+        id: json["id"],
+        title: json["title"],
+        guid: json["guid"],
+        category: json["category"],
+        description: json["description"],
         url: json["url"],
-
-        media: json["media"] == null
-            ? null
-            : List<Media>.from(json["media"].map((x) => Media.fromJson(x))),
+        status: json["status"],
+        media: json["media"] != null
+            ? List<Media>.from(json["media"].map((x) => Media.fromJson(x)))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
-        "title": titleValues.reverse[title],
-        "category": categoryValues.reverse[category],
+        "id": id,
+        "title": title,
+        "guid": guid,
+        "category": category,
         "description": description,
         "url": url,
-        "media": media == null
-            ? []
-            : List<dynamic>.from(media!.map((x) => x.toJson())),
+        "status": status,
+        "media": media != null
+            ? List<dynamic>.from(media!.map((x) => x.toJson()))
+            : [],
       };
 }
-
-enum Category { ASD, TB }
-
-final categoryValues = EnumValues({"asd": Category.ASD, "TB": Category.TB});
 
 class Media {
-  String? originalUrl; // Nullable
+  int? id; // Made nullable
+  String? originalUrl; // Made nullable
 
   Media({
-    this.originalUrl, // Nullable
+    this.id,
+    this.originalUrl,
   });
 
-  factory Media.fromJson(Map<String, dynamic> json) => Media(
-        originalUrl: json["original_url"], // Nullable
-      );
+  factory Media.fromJson(Map<String, dynamic> json) =>
+      Media(id: json["id"], originalUrl: json["original_url"]);
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "original_url": originalUrl,
       };
-}
-
-enum Title { ASDS, NEW_VIDEO }
-
-final titleValues =
-    EnumValues({"asds": Title.ASDS, "New Video": Title.NEW_VIDEO});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

@@ -423,16 +423,34 @@ class AdminController extends GetxController {
 
 // get video section
   final Rx<VideoModel?> videodata = Rx<VideoModel?>(null);
-  final RxBool videloading = false.obs;
-  getvideodata() async {
+  final RxBool videoloading = false.obs;
+  final RxBool videoReloading = false.obs;
+  final RxInt videodatapage = 1.obs;
+  Future<void> getvideodata() async {
+    if (videoReloading.value || videoloading.value) return;
+    if (videodatapage.value > 1 &&
+        videodatapage.value >
+            (videodata.value?.data?.pagination?.totalPages ?? 0)) {
+      return;
+    }
+
     try {
-      ebookloading(true);
-      await adminRepo.GetVideoData().then((value) {
+      videodatapage.value > 1
+          ? videoReloading.value = true
+          : videoloading.value = true;
+      final value =
+          await adminRepo.GetVideoData(page: videodatapage.value.toString());
+      if (videodatapage.value > 1) {
+        videodata.value?.data?.videos?.addAll(value?.data?.videos ?? []);
+      } else {
         videodata.value = value;
-        videloading(false);
-      });
+      }
+      videodatapage.value++;
+      videoReloading.value = false;
+      videoloading.value = false;
     } catch (e) {
-      ebookloading(false);
+      videoReloading.value = false;
+      videoloading.value = false;
     }
   }
 
