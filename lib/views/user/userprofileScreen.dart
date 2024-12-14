@@ -82,300 +82,179 @@ class _ProfileinfoState extends State<Profileinfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:
-            Colors.transparent, // Set the background color to transparent
-        elevation: 0.0, // Remove the shadow
-        title: Padding(
-          padding: EdgeInsets.only(top: 8.0), // Adjust the padding as needed
-          child: Row(
-            children: [
-              Text(
-                'Profile Settings',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-        ), // Your app bar title
-        leading: Padding(
-          padding: EdgeInsets.only(top: 10.0, right: 15),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Image.asset(
-              'assets/arrowback1.png',
-            ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent, // Transparent background
+        elevation: 0.0, // Remove shadow
+        title: Text(
+          'User Details',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 17,
+            color: Colors.black,
           ),
         ),
+        // leading: Padding(
+        //   padding: const EdgeInsets.only(top: 10.0, right: 15),
+        //   child: GestureDetector(
+        //     onTap: () => Navigator.pop(context),
+        //     child: Icon(Icons.arrow_back),
+        //   ),
+        // ),
       ),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   automaticallyImplyLeading: false, // Remove the back button
-      //   title: Row(
-      //     children: [
-      //       GestureDetector(
-      //           onTap: () {
-      //             Navigator.pop(context);
-      //           },
-      //           child: Image.asset('assets/arrowback.png')),
-      //       SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-      //       Text(
-      //         'Sign Up',
-      //         style: TextStyle(
-      //             color: Colors.black,
-      //                  fontSize: 17,
-      //             fontWeight: FontWeight.bold),
-      //       ),
-      //       SizedBox(width: MediaQuery.of(context).size.width * 0.54),
-      //       Image.asset('assets/Group 421 (2).png'),
-      //     ],
-      //   ),
-      // ),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
           child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Obx(
-                () => Column(
-                  children: [
-                    // GestureDetector(
-                    //   onTap: uploadImage,
-                    //   child: CircleAvatar(
-                    //       radius: 50,
-                    //       backgroundImage: controller.uploadedProfileImage !=
-                    //               null
-                    //           ? FileImage(controller.uploadedProfileImage!)
-                    //           : controller.profiledatalist.value!.data!.profile!
-                    //                       .image !=
-                    //                   null
-                    //               ? NetworkImage(
-                    //                   "${controller.profiledatalist.value?.data!.profile!.image}")
-                    //               : NetworkImage(
-                    //                       "https://www.pngitem.com/pimgs/m/522-5220445_anonymous-profile-grey-person-sticker-glitch-empty-profile.png")
-                    //                   as ImageProvider),
-                    // ),
-                    Text(
-                      controller.profiledatalist.value?.data!.profile!.name ??
-                          'Name',
-                      // 'Micheal Kroll',
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.w400),
-                    ),
+            padding: const EdgeInsets.all(16.0),
+            child: Obx(() {
+              final profile = controller.profiledatalist.value?.data?.profile;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Name
+                  _buildInputField(
+                    label: "Name",
+                    controller: controller.profilenamecontroller.value,
+                    hintText: profile?.name ?? 'Enter your name',
+                    // validator: _validateName,
+                  ),
+                  const SizedBox(height: 20),
 
-                    // Your form fields go here
-                    // Example:
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "First Name",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        TextFormField(
-                          controller: controller.profilenamecontroller.value,
-                          decoration: InputDecoration(
-                            // labelText: "First Name",
-                            suffixIcon: Image.asset('assets/editicon.png'),
-                            contentPadding: EdgeInsets.all(15),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xffDBDBDB)),
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            fillColor: Colors.white,
-                            hintText: controller.profiledatalist.value!.data!
-                                    .profile!.name!.isEmpty
-                                ? 'First Name'
-                                : controller
-                                    .profiledatalist.value?.data!.profile!.name,
-                            hintStyle:
-                                TextStyle(color: Colors.grey, fontSize: 13),
-                          ),
-                          validator: (firstname) {
-                            if (firstname != null && firstname.isNotEmpty) {
-                              if (!RegExp(r'^[a-zA-Z\s]+$')
-                                  .hasMatch(firstname)) {
-                                return "Only letters and spaces allowed";
-                              }
+                  // Hospital Name
+                  _buildInputField(
+                    label: "Hospital Name",
+                    controller: controller.profilehospitalnamecontroller.value,
+                    hintText: profile?.hospitalName ?? 'Enter hospital name',
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Address
+                  _buildInputField(
+                    label: "Address",
+                    controller: controller.addressController.value,
+                    hintText: profile?.address ?? 'Enter address',
+                  ),
+                  const SizedBox(height: 20),
+
+                  // License Number
+                  _buildInputField(
+                    label: "License Number",
+                    controller: controller.licenseController.value,
+                    hintText: profile?.licenseNumber ?? 'Enter license number',
+                    // validator: _validateRequiredField,
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Specialization
+                  _buildInputField(
+                    label: "Specialization",
+                    controller: controller.specializationController.value,
+                    hintText: profile?.specialization ?? 'Enter specialization',
+                    // validator: _validateRequiredField,
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Experience
+                  _buildInputField(
+                    label: "Experience (Years)",
+                    controller: controller.experienceController.value,
+                    hintText: profile?.experience ?? 'Enter experience',
+                    keyboardType: TextInputType.number,
+                    // validator: _validateNumberField,
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Phone Number
+                  _buildInputField(
+                    label: "Phone Number",
+                    controller: controller.profilephonecontroller.value,
+                    hintText: profile?.phoneNumber ?? 'Enter phone number',
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Submit Button
+                  controller.upprofiledataloading.value
+                      ? const Center(child: CircularProgressIndicator())
+                      : custombutton(
+                          title: 'Done',
+                          ontap: () {
+                            if (_formKey.currentState!.validate()) {
+                              controller.updateprofiledata();
                             }
-                            return null;
                           },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'[a-zA-Z\s]')),
-                          ],
-                          onSaved: (value) {},
                         ),
-                        // Repeat the pattern for other fields
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Last Name",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        // Password field
-                        TextFormField(
-                          controller: controller.addressscontroller.value,
-                          decoration: InputDecoration(
-                            // labelText: "Last Name",
-                            suffixIcon: Image.asset('assets/editicon.png'),
-                            contentPadding: EdgeInsets.all(15),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xffDBDBDB)),
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            fillColor: Colors.white,
-                            hintText: controller.profiledatalist.value!.data!
-                                    .profile!.address!.isEmpty
-                                ? "Address"
-                                : controller.profiledatalist.value!.data!
-                                    .profile!.address,
-                            hintStyle:
-                                TextStyle(color: Colors.grey, fontSize: 13),
-                          ),
-                          validator: (lastname) {
-                            if (lastname != null && lastname.isNotEmpty) {
-                              if (!RegExp(r'^[a-zA-Z\s]+$')
-                                  .hasMatch(lastname)) {
-                                return "Only letters and spaces allowed";
-                              }
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'[a-zA-Z\s]')),
-                          ],
-                          onSaved: (value) {},
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Email",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        // Confirm Password field
-                        TextFormField(
-                          enabled: false,
-                          validator: (value) {
-                            if (value != null && value.isNotEmpty) {
-                              final emailRegex =
-                                  RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-                              if (!emailRegex.hasMatch(value)) {
-                                return 'Please enter a valid email address';
-                              }
-                            }
-                            return null;
-                          },
-                          controller: controller.profileemailcontroller.value,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(15),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xffDBDBDB)),
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            fillColor: Colors.white,
-
-                            hintText: controller
-                                .profiledatalist.value!.data!.profile!.email,
-                            hintStyle: TextStyle(fontSize: 13),
-                            // suffixIcon: Image.asset('assets/editicon.png'),
-                          ),
-                          // validator: null,
-                          onSaved: (value) {},
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Phone Number",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        TextFormField(
-                          keyboardType: TextInputType.number,
-                          controller: controller.profilephonecontroller.value,
-                          decoration: InputDecoration(
-                            // labelText: "Phone Number",
-                            contentPadding: EdgeInsets.all(15),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xffDBDBDB)),
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            fillColor: Colors.white,
-                            hintText: controller.profiledatalist.value!.data!
-                                    .profile!.phoneNumber!.isEmpty
-                                ? 'Phone Number'
-                                : controller.profiledatalist.value?.data!
-                                    .profile!.phoneNumber,
-                            hintStyle:
-                                TextStyle(color: Colors.grey, fontSize: 13),
-                            suffixIcon: Image.asset('assets/editicon.png'),
-                          ),
-                          validator: null,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
-                    // SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-
-                    // () => controller.isLoading.value
-                    //     ?  Center(
-                    //         child: CircularProgressIndicator(
-                    //           color: Colorant.creamColor,
-                    //         ),
-                    //       )
-                    //     :
-                    controller.upprofiledataloading.value
-                        ? const CircularProgressIndicator()
-                        : custombutton(
-                            title: 'Done',
-
-                            ontap: () {
-                              if (_formKey.currentState!.validate()) {
-                                controller.updateprofiledata();
-                              }
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) => Emailverification()),
-                              // );
-                            },
-                            // : 14,
-                            // width: MediaQuery.of(context).size.width * 0.92,
-                            // gradientColors: [
-                            //   Color(0xFF8B2CA0),
-                            //   Color(0xFF00C3C9)
-                            // ],
-                          ),
-                  ],
-                ),
-              )),
+                ],
+              );
+            }),
+          ),
         ),
       ),
     );
+  }
+
+  /// Helper method to create input fields
+  Widget _buildInputField({
+    required String label,
+    required TextEditingController? controller,
+    required String hintText,
+    bool enabled = true,
+    TextInputType keyboardType = TextInputType.text,
+    String? Function(String?)? validator,
+    List<TextInputFormatter>? inputFormatters,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: TextStyle(fontSize: 12)),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          enabled: enabled,
+          keyboardType: keyboardType,
+          validator: validator,
+          inputFormatters: inputFormatters,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(15),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Color(0xffDBDBDB)),
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            hintText: hintText,
+            hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
+            fillColor: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Validators
+  String? _validateName(String? value) {
+    if (value == null || value.isEmpty) {
+      return "This field is required";
+    }
+    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+      return "Only letters and spaces are allowed";
+    }
+    return null;
+  }
+
+  String? _validateRequiredField(String? value) {
+    if (value == null || value.isEmpty) {
+      return "This field is required";
+    }
+    return null;
+  }
+
+  String? _validateNumberField(String? value) {
+    if (value == null || value.isEmpty) {
+      return "This field is required";
+    }
+    if (!RegExp(r'^\d+$').hasMatch(value)) {
+      return "Only numbers are allowed";
+    }
+    return null;
   }
 }

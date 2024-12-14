@@ -24,10 +24,10 @@ class _SignupPageState extends State<SignupPage> {
     authController.signupemailController.clear();
     authController.clinicNameController.clear();
     authController.phoneController.clear();
-    authController.addressController.clear();
-    authController.licenseController.clear();
-    authController.specializationController.clear();
-    authController.experienceController.clear();
+    authController.addressController.value.clear();
+    authController.licenseController.value.clear();
+    authController.specializationController.value.clear();
+    authController.experienceController.value.clear();
     authController.passwordController.clear();
     authController.confirmPasswordController.clear();
   }
@@ -96,7 +96,7 @@ class _SignupPageState extends State<SignupPage> {
                   SizedBox(height: 2.h),
 
                   CustomTextField(
-                    controller: authController.addressController,
+                    controller: authController.addressController.value,
                     label: 'Address',
                     validator: (value) =>
                         value!.isEmpty ? 'Address is required' : null,
@@ -104,7 +104,7 @@ class _SignupPageState extends State<SignupPage> {
                   SizedBox(height: 2.h),
 
                   CustomTextField(
-                    controller: authController.licenseController,
+                    controller: authController.licenseController.value,
                     label: 'Medical License Number',
                     validator: (value) => value!.isEmpty
                         ? 'Medical License Number is required'
@@ -113,7 +113,7 @@ class _SignupPageState extends State<SignupPage> {
                   SizedBox(height: 2.h),
 
                   CustomTextField(
-                    controller: authController.specializationController,
+                    controller: authController.specializationController.value,
                     label: 'Specialization',
                     validator: (value) =>
                         value!.isEmpty ? 'Specialization is required' : null,
@@ -121,7 +121,7 @@ class _SignupPageState extends State<SignupPage> {
                   SizedBox(height: 2.h),
 
                   CustomTextField(
-                    controller: authController.experienceController,
+                    controller: authController.experienceController.value,
                     label: 'Years of Experience',
                     keyboardType: TextInputType.number,
                     validator: (value) => value!.isEmpty
