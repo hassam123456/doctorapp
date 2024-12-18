@@ -95,13 +95,13 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           ],
           title: Row(
             children: [
-              CircleAvatar(
-                radius: 20.sp,
-                backgroundImage: const AssetImage("assets/images/profile.png"),
-              ),
-              SizedBox(
-                width: 1.w,
-              ),
+              // CircleAvatar(
+              //   radius: 20.sp,
+              //   backgroundImage: const AssetImage("assets/images/profile.png"),
+              // ),
+              //  SizedBox(
+              //     width: 1.w,
+              //   ),
               Text(
                 username != null
                     ? "Hello $username" // Show username if fetched

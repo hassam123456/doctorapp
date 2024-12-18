@@ -385,17 +385,45 @@ class AdminController extends GetxController {
   }
 
 // get ebook section
+// get ebook section
   final Rx<EbookModel?> ebookdata = Rx<EbookModel?>(null);
   final RxBool ebookloading = false.obs;
-  getebookdata() async {
+  final RxBool ebookReloading = false.obs;
+  final RxInt ebookdatapage = 1.obs;
+
+  Future<void> getebookdata() async {
+    if (ebookReloading.value || ebookloading.value) return;
+
+    // Prevent further calls if we're beyond the total pages
+    if (ebookdatapage.value > 1 &&
+        ebookdatapage.value >
+            (ebookdata.value?.data?.pagination?.totalPages ?? 0)) {
+      return;
+    }
+
     try {
-      ebookloading(true);
-      await adminRepo.GetEbookdata().then((value) {
+      ebookdatapage.value > 1
+          ? ebookReloading.value = true
+          : ebookloading.value = true;
+
+      // Fetch data from API
+      final value =
+          await adminRepo.GetEbookdata(page: ebookdatapage.value.toString());
+
+      // Append or assign data based on the current page
+      if (ebookdatapage.value > 1) {
+        ebookdata.value?.data?.ebooks?.addAll(value?.data?.ebooks ?? []);
+      } else {
         ebookdata.value = value;
-        ebookloading(false);
-      });
+      }
+
+      // Increment page number for next fetch
+      ebookdatapage.value++;
+      ebookReloading.value = false;
+      ebookloading.value = false;
     } catch (e) {
-      ebookloading(false);
+      ebookReloading.value = false;
+      ebookloading.value = false;
     }
   }
 
@@ -504,18 +532,50 @@ class AdminController extends GetxController {
 
   // get consultant list method
   // get casedetails
+// Consultant list pagination variables
   final Rx<ConsultantListModel?> consultantlist =
       Rx<ConsultantListModel?>(null);
   final RxBool consultantlistloading = false.obs;
-  getconsultantlist() async {
+  final RxBool consultantlistReloading = false.obs;
+  final RxInt consultantlistPage = 1.obs;
+
+// Method to fetch paginated consultant list
+  Future<void> getconsultantlist() async {
+    if (consultantlistReloading.value || consultantlistloading.value) return;
+
+    // Stop if all pages have been loaded
+    if (consultantlistPage.value > 1 &&
+        consultantlistPage.value >
+            (consultantlist.value?.data?.pagination?.totalPages ?? 0)) {
+      return;
+    }
+
     try {
-      consultantlistloading(true);
-      await adminRepo.Getconsultantlist().then((value) {
+      consultantlistPage.value > 1
+          ? consultantlistReloading.value = true
+          : consultantlistloading.value = true;
+
+      // Fetch data from API
+      final value = await adminRepo.Getconsultantlist(
+          page: consultantlistPage.value.toString());
+
+      if (consultantlistPage.value > 1) {
+        // Append new data if it's not the first page
+        consultantlist.value?.data?.doctors?.addAll(value?.data?.doctors ?? []);
+      } else {
+        // Set new data for the first page
         consultantlist.value = value;
-        consultantlistloading(false);
-      });
+      }
+
+      // Increment page for next request
+      consultantlistPage.value++;
+
+      consultantlistReloading.value = false;
+      consultantlistloading.value = false;
     } catch (e) {
-      consultantlistloading(false);
+      // Handle error and reset loading states
+      consultantlistReloading.value = false;
+      consultantlistloading.value = false;
     }
   }
 
