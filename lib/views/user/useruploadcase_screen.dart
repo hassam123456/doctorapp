@@ -97,7 +97,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                       usercontroller.useruploaddescriptioncontroller.value,
                   validator: (v) {
                     if (v == null || v.isEmpty) {
-                      return "Please enter description";
+                      return "Please enter Presenting Complain";
                     }
                     return null;
                   },
@@ -107,7 +107,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                           borderSide: BorderSide(
                               color:
                                   const Color(0xff2E2E2E).withOpacity(0.02))),
-                      labelText: "Description"),
+                      labelText: "Presenting Complain"),
                 ),
                 SizedBox(
                   height: 2.h,
