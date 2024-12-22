@@ -204,6 +204,8 @@ class _UserCaseDetailScreenState extends State<UserCaseDetailScreen> {
                                     height: 1.h,
                                   ),
                                   ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: admincontroller
                                           .admingetcasebyid

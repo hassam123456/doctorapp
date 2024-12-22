@@ -25,9 +25,9 @@ class _DoctorUploadTreatmentScreenState
   final admincontroller = Get.put(AdminController(adminRepo: Get.find()));
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    admincontroller.doctoruploadtreatmentfilename.value = '';
+    admincontroller.doctoruploadtreatmentfilenames.clear();
+    admincontroller.doctoruploadtreatmentfiles.clear();
   }
 
   @override
@@ -1408,57 +1408,68 @@ class _DoctorUploadTreatmentScreenState
                         SizedBox(
                           height: 2.h,
                         ),
-                        admincontroller
-                                .doctoruploadtreatmentfilename.value.isEmpty
+                        admincontroller.doctoruploadtreatmentfilenames ==
+                                    null ||
+                                admincontroller
+                                    .doctoruploadtreatmentfilenames.isEmpty
                             ? const SizedBox()
-                            : Container(
-                                height: 6.h,
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0xffD9D9D9)),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 2.w),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          admincontroller
-                                              .doctoruploadtreatmentfilename
-                                              .value
-                                              .toString(),
-                                          style: TextStyle(
-                                            fontSize: 15.sp,
-                                          ),
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: admincontroller
+                                    .doctoruploadtreatmentfilenames.length,
+                                itemBuilder: (context, index) {
+                                  final filesnamedata = admincontroller
+                                      .doctoruploadtreatmentfilenames[index];
+                                  return Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 2.w),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xffD9D9D9)),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 2.w, vertical: 1.h),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                filesnamedata.toString(),
+                                                style: TextStyle(
+                                                  fontSize: 15.sp,
+                                                ),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                admincontroller
+                                                    .doctoruploadtreatmentfilenames
+                                                    .removeAt(index);
+                                                admincontroller
+                                                    .doctoruploadtreatmentfiles
+                                                    .removeAt(index);
+                                              },
+                                              child: CircleAvatar(
+                                                radius: 14.sp,
+                                                backgroundColor: mainColor,
+                                                child: Icon(
+                                                  Icons.clear,
+                                                  color: Colors.white,
+                                                  size: 17.sp,
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          admincontroller
-                                              .doctoruploadtreatmentfilename
-                                              .value = '';
-                                          admincontroller
-                                              .doctoruploadtreatmentfile
-                                              .value
-                                              .value = null;
-                                        },
-                                        child: CircleAvatar(
-                                          radius: 14.sp,
-                                          backgroundColor: mainColor,
-                                          child: Icon(
-                                            Icons.clear,
-                                            color: Colors.white,
-                                            size: 17.sp,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
+                                    ),
+                                  );
+                                }),
                         SizedBox(
                           height: 2.h,
                         ),
@@ -1468,12 +1479,13 @@ class _DoctorUploadTreatmentScreenState
                               )
                             : GestureDetector(
                                 onTap: () {
-                                  admincontroller.doctoruploadtreatmentfilename
-                                              .value.isEmpty ||
+                                  admincontroller
+                                              .doctoruploadtreatmentfilenames.isEmpty ||
                                           admincontroller
-                                                  .doctoruploadtreatmentfile
-                                                  .value
-                                                  .value ==
+                                              .doctoruploadtreatmentfiles
+                                              .isEmpty ||
+                                          admincontroller
+                                                  .doctoruploadtreatmentfilenames ==
                                               null
                                       ? customErrorSnackBar(
                                           "Please Upload Treatment")

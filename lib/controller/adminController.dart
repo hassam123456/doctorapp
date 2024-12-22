@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:doctorapp/components/errordailog.dart';
@@ -13,6 +14,7 @@ import 'package:doctorapp/repositary/adminRepo.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AdminController extends GetxController {
@@ -574,25 +576,27 @@ class AdminController extends GetxController {
   }
 
 /////////////doctor upload treatment
-  var doctoruploadtreatmentfilename = ''.obs;
-  var doctoruploadtreatmentfile = Rx<File?>(null).obs;
+  var doctoruploadtreatmentfiles = <File>[].obs;
+  var doctoruploadtreatmentfilenames = <String?>[].obs;
 
   Future<void> doctorPickTreatmentfile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc', 'docx'],
-    );
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'doc', 'docx'],
+        allowMultiple: true);
 
-    if (result != null) {
-      String? filePath = result.files.single.path;
-      if (filePath != null) {
-        doctoruploadtreatmentfile.value.value = File(filePath);
-        doctoruploadtreatmentfilename.value = result.files.single.name;
+    if (result != null && result.files.isNotEmpty) {
+      for (var file in result.files) {
+        String? filePath = file.path;
+        if (filePath != null) {
+          String fileName = filePath.split('/').last;
+          doctoruploadtreatmentfiles.add(File(file.path!));
+          doctoruploadtreatmentfilenames.add(fileName);
+        }
       }
     } else {
-      // No file selected
-      doctoruploadtreatmentfilename.value = '';
-      doctoruploadtreatmentfile.value.value = null;
+      doctoruploadtreatmentfilenames.clear();
+      doctoruploadtreatmentfiles.clear();
     }
   }
 
@@ -603,8 +607,9 @@ class AdminController extends GetxController {
     try {
       doctoruploadTreatmentloading.value = true;
       await adminRepo.doctorUploadTreatment(
-          caseguid: caseguid,
-          treatment: doctoruploadtreatmentfile.value.value!);
+        caseguid: caseguid,
+        treatment: doctoruploadtreatmentfiles,
+      );
 
       doctoruploadTreatmentloading.value = false;
     } finally {
