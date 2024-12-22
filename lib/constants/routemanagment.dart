@@ -11,6 +11,7 @@ import 'package:doctorapp/views/casedetails_screen.dart';
 import 'package:doctorapp/views/casedetails_screen2.dart';
 import 'package:doctorapp/views/changepassword.dart';
 import 'package:doctorapp/views/consultantlist.dart';
+import 'package:doctorapp/views/doctor/consultantseeallpage.dart';
 import 'package:doctorapp/views/doctor/doctorHomeScreen.dart';
 import 'package:doctorapp/views/doctor/doctorbottomnavbar.dart';
 import 'package:doctorapp/views/doctor/doctorcaseconsult_screen.dart';
@@ -119,6 +120,9 @@ class Routes {
       GetPage(
           name: RouteConstants.admincaseuserdetailscreen,
           page: () => AdminCaseUserDetailScreen()),
+      GetPage(
+          name: RouteConstants.consultantseeallpage,
+          page: () => ConsultantsListPage()),
     ];
   }
 }

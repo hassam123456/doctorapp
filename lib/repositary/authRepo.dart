@@ -88,7 +88,7 @@ class AuthRepo extends GetxService {
 
   // get profile setting
   /////////update seller profile data
-  Future updatesellerprofiledata({
+  Future updateprofiledata({
     required String profilename,
     required String profilehospitalname,
     required String profileaddress,
@@ -118,6 +118,7 @@ class AuthRepo extends GetxService {
             "image": profileimage,
           });
       if (res.statusCode == 200) {
+        print(res.statusCode);
         // ignore: use_build_context_synchronously
         // Navigator.pop(context);
         final message = jsonDecode(res.body)['message'];
@@ -336,13 +337,16 @@ class AuthRepo extends GetxService {
         print(res.body);
         showSuccessSnackbar(message: "Login");
         final token = jsonDecode(res.body)['data']['token'];
-
+        final username = jsonDecode(res.body)['data']['name'];
+        // final userid = jsonDecode(res.body)['data']['id'];
         print("login data");
         final prefs = await SharedPreferences.getInstance();
         // await LocalStorage().setString('guest_user_id', guestUserId);
         await prefs.setString('token', token);
         await prefs.setString('email', email);
         await prefs.setString('isuser', isuser);
+        await prefs.setString('name', username);
+        // await prefs.setString('userid', userid);
         await LocalStorage().remove('guest_user_id');
         // gettoken();
         isuser == "1"

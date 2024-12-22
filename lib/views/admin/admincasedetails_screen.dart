@@ -180,7 +180,7 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                               borderRadius: BorderRadius.circular(10)),
                           child: Center(
                             child: Text(
-                              "Prescriptions",
+                              "Xray / Investigation",
                               style: TextStyle(
                                   color: Colors.black, fontSize: 16.sp),
                             ),

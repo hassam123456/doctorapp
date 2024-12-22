@@ -6,6 +6,7 @@ import 'package:doctorapp/repositary/authRepo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
@@ -19,10 +20,10 @@ class AuthController extends GetxController {
   TextEditingController clinicNameController = TextEditingController();
   TextEditingController signupemailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
-  TextEditingController licenseController = TextEditingController();
-  TextEditingController specializationController = TextEditingController();
-  TextEditingController experienceController = TextEditingController();
+  final addressController = TextEditingController().obs;
+  final licenseController = TextEditingController().obs;
+  final specializationController = TextEditingController().obs;
+  final experienceController = TextEditingController().obs;
   TextEditingController signuppasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController changepasswordController = TextEditingController();
@@ -51,10 +52,10 @@ class AuthController extends GetxController {
     clinicNameController.clear();
     signupemailController.clear();
     phoneController.clear();
-    addressController.clear();
-    licenseController.clear();
-    specializationController.clear();
-    experienceController.clear();
+    addressController.value.clear();
+    licenseController.value.clear();
+    specializationController.value.clear();
+    experienceController.value.clear();
     signuppasswordController.clear();
     confirmPasswordController.clear();
   }
@@ -90,12 +91,14 @@ class AuthController extends GetxController {
     try {
       upprofiledataloading(true);
       await authRepo
-          .updatesellerprofiledata(
+          .updateprofiledata(
         profilehospitalname: profilehospitalnamecontroller.value.text.isEmpty
-            ? profiledatalist.value?.data!.profile!.name ?? 'Hospital Name'
+            ? profiledatalist.value?.data!.profile!.hospitalName ??
+                'Hospital Name'
             : profilehospitalnamecontroller.value.text,
         specialization: profilespecializationcontroller.value.text.isEmpty
-            ? profiledatalist.value?.data!.profile!.name ?? 'Specialization'
+            ? profiledatalist.value?.data!.profile!.specialization ??
+                'Specialization'
             : profilespecializationcontroller.value.text,
         profileimage: uploadedProfileImage,
         profilename: profilenamecontroller.value.text.isEmpty

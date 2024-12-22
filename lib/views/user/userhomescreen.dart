@@ -2,10 +2,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:doctorapp/components/homeBox.dart';
 import 'package:doctorapp/constants/colors.dart';
 import 'package:doctorapp/constants/routeconstants.dart';
+import 'package:doctorapp/controller/adminController.dart';
 import 'package:doctorapp/controller/authcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({super.key});
@@ -16,6 +18,30 @@ class UserHomeScreen extends StatefulWidget {
 
 class _UserHomeScreenState extends State<UserHomeScreen> {
   final authcontroller = Get.put(AuthController(authRepo: Get.find()));
+  final admincontroller = Get.put(AdminController(adminRepo: Get.find()));
+  String? username; // State variable for storing username
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      admincontroller.getprofiledata();
+      fetchData();
+    });
+  }
+
+  Future<void> fetchData() async {
+    // Fetch username
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString('name'); // Update state with fetched username
+    });
+
+    // Fetch other necessary data
+    admincontroller.getconsultantlist();
+    // admincontroller.getprofiledata();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,12 +53,13 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               authcontroller.logout();
             },
             child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 2.w),
-                child: Icon(
-                  Icons.logout,
-                  size: 20.sp,
-                  color: mainColor,
-                )),
+              padding: EdgeInsets.symmetric(horizontal: 2.w),
+              child: Icon(
+                Icons.logout,
+                size: 20.sp,
+                color: mainColor,
+              ),
+            ),
           ),
         ],
         title: Row(
@@ -41,22 +68,23 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               radius: 20.sp,
               backgroundImage: const AssetImage("assets/images/profile.png"),
             ),
-            SizedBox(
-              width: 1.w,
-            ),
+            SizedBox(width: 1.w),
             Text(
-              "Hello Dr. Sara",
-              style: TextStyle(fontSize: 16.sp, color: const Color(0xff474747)),
+              username != null
+                  ? "Hello $username" // Show username if fetched
+                  : "Hello Consultant", // Fallback text
+              style: TextStyle(
+                fontSize: 16.sp,
+                color: const Color(0xff474747),
+              ),
             ),
-            SizedBox(
-              width: 1.w,
-            ),
+            SizedBox(width: 1.w),
             Image.asset(
               "assets/images/helloicon.png",
               height: 3.h,
               width: 6.w,
               fit: BoxFit.fill,
-            )
+            ),
           ],
         ),
       ),

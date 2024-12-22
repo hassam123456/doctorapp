@@ -66,10 +66,10 @@ class AdminRepo extends GetxService {
 
 // get ebook data
 
-  Future<EbookModel?> GetEbookdata() async {
+  Future<EbookModel?> GetEbookdata({String? page}) async {
     try {
       final res = await apiClient.getFromServer(
-        endPoint: AppConstants.ebook,
+        endPoint: "${AppConstants.ebook}?page=$page",
       );
 
       if (res.statusCode == 200) {
@@ -247,10 +247,10 @@ class AdminRepo extends GetxService {
   }
 
   //consultant doctor list method
-  Future<ConsultantListModel?> Getconsultantlist() async {
+  Future<ConsultantListModel?> Getconsultantlist({String? page}) async {
     try {
       final res = await apiClient.getFromServer(
-        endPoint: AppConstants.consultantlist,
+        endPoint: "${AppConstants.consultantlist}?page=$page",
       );
 
       if (res.statusCode == 200) {
@@ -289,7 +289,7 @@ class AdminRepo extends GetxService {
   }
 
   ////Get Products By Search Key
-  Future<EbookModel> GetProductsBySearchKey(String key) async {
+  Future<EbookModel?> GetProductsBySearchKey(String key) async {
     try {
       final res = await apiClient.getFromServer(
         endPoint: "${AppConstants.ebooksearch}$key",
