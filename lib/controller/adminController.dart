@@ -1,10 +1,10 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:doctorapp/components/errordailog.dart';
 import 'package:doctorapp/components/resizeImage.dart';
 import 'package:doctorapp/model/adminconsultantmodel.dart';
 import 'package:doctorapp/model/admingetcaseByIdModel.dart';
+import 'package:doctorapp/model/bannermodel.dart';
 import 'package:doctorapp/model/consultantlistmodel.dart';
 import 'package:doctorapp/model/ebookmodel.dart';
 import 'package:doctorapp/model/notificationmodel.dart';
@@ -14,7 +14,7 @@ import 'package:doctorapp/repositary/adminRepo.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+// import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AdminController extends GetxController {
@@ -25,7 +25,8 @@ class AdminController extends GetxController {
 ///////////////admin upload e book screen
   var adminuploadebookimage = Rx<File?>(null);
 
-  Future<void> pickadminuploadebookimage(BuildContext context) async {
+  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  Future<void> pickadminuploadeimage(BuildContext context) async {
     final picker = ImagePicker();
     final pickedImage = await showDialog<ImageSource>(
       context: context,
@@ -64,6 +65,46 @@ class AdminController extends GetxController {
     }
   }
 
+  var adminuploadbanner = Rx<File?>(null);
+  Future<void> pickbannerimage(BuildContext context) async {
+    final picker = ImagePicker();
+    final pickedImage = await showDialog<ImageSource>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Select Image Source"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                GestureDetector(
+                  child: const Text("Gallery"),
+                  onTap: () {
+                    Navigator.of(context).pop(ImageSource.gallery);
+                  },
+                ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  child: const Text("Camera"),
+                  onTap: () {
+                    Navigator.of(context).pop(ImageSource.camera);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    if (pickedImage != null) {
+      final pickedFile = await picker.pickImage(source: pickedImage);
+      if (pickedFile != null) {
+        adminuploadbanner.value = pickedImage == ImageSource.camera
+            ? await resizeImage(File(pickedFile.path))
+            : File(pickedFile.path);
+      }
+    }
+  }
+
   final ebooktitlecontroller = TextEditingController().obs;
   final ebookcategorycontroller = TextEditingController().obs;
   final ebookurlcontroller = TextEditingController().obs;
@@ -85,6 +126,21 @@ class AdminController extends GetxController {
     }
   }
 
+  // create banner
+
+  final RxBool createbannerloading = false.obs;
+  Future<void> createbanner() async {
+    try {
+      createbannerloading.value = true;
+      await adminRepo.createbanner(
+        bannerfile: adminuploadbanner.value!,
+      );
+
+      createbannerloading.value = false;
+    } finally {
+      createbannerloading.value = false;
+    }
+  }
 //   final RxBool updateSellerProfileDataloading = false.obs;
 // final Rx<ProfileModel?> getsellerprofiledata =
 //       Rx<ProfileModel?>(null);
@@ -262,6 +318,47 @@ class AdminController extends GetxController {
       });
     } catch (e) {
       getprofiledataloading(false);
+    }
+  }
+
+// get banners
+  final Rx<BannerModel?> getbanner = Rx<BannerModel?>(null);
+  final RxBool bannerloading = false.obs;
+  getbannerdata() async {
+    try {
+      bannerloading(true);
+      await adminRepo.getbannerdata().then((value) {
+        getbanner.value = value;
+        bannerloading(false);
+      });
+    } catch (e) {
+      bannerloading(false);
+    }
+  }
+
+// delete banner
+// Delete banner
+  final RxBool deleteloading = false.obs;
+  Future<void> deleteBanner(int bannerId) async {
+    try {
+      deleteloading(true); // Start loading
+      await adminRepo.deleteBanners(bannerId); // No response check
+      // Refresh the banner data after successful deletion
+      // getbannerdata();
+      // Get.snackbar(
+      //   "Success",
+      //   "Banner deleted successfully!",
+      //   snackPosition: SnackPosition.BOTTOM,
+      // );
+    } catch (e) {
+      print("Error deleting banner: $e");
+      Get.snackbar(
+        "Error",
+        "Something went wrong.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      deleteloading(false); // Stop loading
     }
   }
 

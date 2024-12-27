@@ -29,7 +29,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   Widget build(BuildContext context) {
     var args = Get.arguments;
     String email = args['email'];
-    String isUser = args['isUser'];
+    // String isUser = args['isUser'];
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24),
@@ -80,7 +80,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   authcontroller.emailVerification(
                     type: "0",
                     otp: verificationCode.toString(),
-                    isUser: isUser,
+                    // isUser: isUser,
                     email: email,
                     context: context,
                   );
@@ -109,7 +109,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                               otp: authcontroller
                                   .signupemailverificationotp.value
                                   .toString(),
-                              isUser: isUser,
+                              // isUser: isUser,
                               email: email,
                               context: context,
                             );
@@ -131,7 +131,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                         : TextButton(
                             onPressed: () {
                               authcontroller.reSendOTP(
-                                  isUser: isUser.toString(),
+                                  // isUser: isUser.toString(),
                                   email: email.toString());
                             },
                             child: Text(

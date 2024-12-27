@@ -20,7 +20,7 @@ class AuthRepo extends GetxService {
 
 ///////////signup
   Future signUp({
-    required String isUser,
+    // required String isUser,
     required String name,
     required String email,
     required String hospitalname,
@@ -39,7 +39,7 @@ class AuthRepo extends GetxService {
       "specialization": specialization,
       // "phone_code":"+1",
       "phone_number": phone,
-      "is_user": isUser,
+
       "hospital_name": hospitalname,
       "license_number": licensenumber,
       "experience": experience
@@ -52,8 +52,9 @@ class AuthRepo extends GetxService {
       if (response.statusCode == 200) {
         final message = jsonDecode(response.body)['message'];
         customSuccessSnackBar(message);
-        Get.toNamed(RouteConstants.emailverification,
-            arguments: {'email': email, 'isUser': isUser});
+        Get.toNamed(RouteConstants.emailverification, arguments: {
+          'email': email,
+        });
       } else {
         final message = jsonDecode(response.body)['message'];
         customErrorSnackBar(message);
@@ -137,7 +138,6 @@ class AuthRepo extends GetxService {
 //////////////email verification
   Future emailVerification({
     required BuildContext context,
-    required String isUser,
     required String otp,
     required String email,
     String? type,
@@ -146,7 +146,6 @@ class AuthRepo extends GetxService {
       "email": email,
       "otp": otp,
       "type": type,
-      "is_user": isUser
     };
     try {
       final response = await apiClient.postToServer(
@@ -156,7 +155,8 @@ class AuthRepo extends GetxService {
       if (response.statusCode == 200) {
         if (type == "1") {
           showSuccessSnackbar(message: "Email Verified");
-          Get.toNamed(RouteConstants.changepassword, arguments: email);
+          Get.toNamed(RouteConstants.changepassword,
+              arguments: {'email': email});
         } else {
           final message = jsonDecode(response.body)['message'];
           showVerificationPopup(context, "Verification Done!", message);
@@ -221,8 +221,9 @@ class AuthRepo extends GetxService {
       "email": email,
       "password": password,
       "new_password": newpassword,
-      "is_user": "1"
     };
+    print(password);
+    print(newpassword);
     try {
       final res = await apiClient.postToServer(
           endPoint: AppConstants.resetpassword, data: mapData);
@@ -263,9 +264,12 @@ class AuthRepo extends GetxService {
   Future SendOTP({
     required String email,
     required String type,
-    required String isuser,
+    // required String isuser,
   }) async {
-    final mapData = {"email": email, "type": type, "is_user": isuser};
+    final mapData = {
+      "email": email,
+      "type": type,
+    };
     try {
       print(mapData);
       final res = await apiClient.postToServer(
@@ -274,8 +278,9 @@ class AuthRepo extends GetxService {
         print(res.body);
         print(type);
         showSuccessSnackbar(message: "OTP Sent");
-        Get.toNamed(RouteConstants.forgotemailverification,
-            arguments: {'email': email, 'isUser': isuser});
+        Get.toNamed(RouteConstants.forgotemailverification, arguments: {
+          'email': email,
+        });
       } else {
         final message = jsonDecode(res.body)['message'];
         showErrrorSnackbar(message: message);
@@ -289,13 +294,11 @@ class AuthRepo extends GetxService {
 
 /////////////resend otp
   Future reSendOTP({
-    required String isUser,
     required String email,
   }) async {
     final userData = {
       "email": email,
       "type": "0", //0 for email verification 1 for forgot password
-      "is_user": isUser
     };
     try {
       final response = await apiClient.postToServer(
@@ -317,16 +320,19 @@ class AuthRepo extends GetxService {
   }
 
   Future login({
-    required String isuser,
+    // required String isuser,
     required String email,
     required String password,
   }) async {
     // final guestUserId =
     // _generateRandomGuestUserId(); // Generate a random guest user ID
 
-    final mapData = {"email": email, "password": password, "is_user": isuser};
+    final mapData = {
+      "email": email,
+      "password": password,
+    };
     print(mapData);
-    print(isuser);
+    // print(isuser);
     try {
       final res = await apiClient.postToServer(
         endPoint: AppConstants.login,
@@ -338,20 +344,21 @@ class AuthRepo extends GetxService {
         showSuccessSnackbar(message: "Login");
         final token = jsonDecode(res.body)['data']['token'];
         final username = jsonDecode(res.body)['data']['name'];
+        final isuser = jsonDecode(res.body)['data']['is_user'];
         // final userid = jsonDecode(res.body)['data']['id'];
         print("login data");
         final prefs = await SharedPreferences.getInstance();
         // await LocalStorage().setString('guest_user_id', guestUserId);
         await prefs.setString('token', token);
         await prefs.setString('email', email);
-        await prefs.setString('isuser', isuser);
+        await prefs.setInt('isuser', isuser);
         await prefs.setString('name', username);
         // await prefs.setString('userid', userid);
         await LocalStorage().remove('guest_user_id');
         // gettoken();
-        isuser == "1"
+        isuser == 1
             ? Get.offAllNamed(RouteConstants.userbottomnavbar)
-            : isuser == "2"
+            : isuser == 2
                 ? Get.offAllNamed(RouteConstants.doctorbottomnavbar)
                 : Get.offAllNamed(RouteConstants.adminhomescreen);
       } else {

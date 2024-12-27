@@ -4,6 +4,7 @@ class AppConstants {
   static String signupemailverification = "auth/verify-otp";
   static String resendotp = "auth/send-otp";
   static String admincreateEbook = "ebook/create";
+  static String admincreatebanner = "banner/create";
   static String admincreatevideo = "video-library/create";
   static const login = "auth/login";
   static const verifyotp = "auth/verify-otp";
@@ -19,7 +20,8 @@ class AppConstants {
   static const userupdateprofile = "user/profile-update";
 
   static const getprofile = "user/profile";
-
+  static const deletebanner = "banner/delete";
+  static const getbanner = "banner";
   static const getnotiifcationdata = "user/get-notification";
   static const noimage =
       "https://static.vecteezy.com/system/resources/thumbnails/022/014/063/small_2x/missing-picture-page-for-website-design-or-mobile-app-design-no-image-available-icon-vector.jpg";

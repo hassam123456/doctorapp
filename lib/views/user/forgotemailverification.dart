@@ -30,7 +30,7 @@ class _ForgotEmailVerificationScreenState
   Widget build(BuildContext context) {
     var args = Get.arguments;
     String email = args['email'];
-    String isUser = args['isUser'];
+    // String isUser = args['isUser'];
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24),
@@ -81,7 +81,7 @@ class _ForgotEmailVerificationScreenState
                   authcontroller.emailVerification(
                     type: "1",
                     otp: verificationCode.toString(),
-                    isUser: isUser,
+                    // isUser: isUser,
                     email: email,
                     context: context,
                   );
@@ -110,7 +110,7 @@ class _ForgotEmailVerificationScreenState
                               otp: authcontroller
                                   .signupemailverificationotp.value
                                   .toString(),
-                              isUser: isUser,
+                              // isUser: isUser,
                               email: email,
                               context: context,
                             );
@@ -131,9 +131,7 @@ class _ForgotEmailVerificationScreenState
                         ? customcircularProgress()
                         : TextButton(
                             onPressed: () {
-                              authcontroller.reSendOTP(
-                                  isUser: isUser.toString(),
-                                  email: email.toString());
+                              authcontroller.reSendOTP(email: email.toString());
                             },
                             child: Text(
                               'Resend Code',

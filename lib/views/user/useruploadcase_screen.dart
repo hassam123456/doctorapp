@@ -97,7 +97,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                       usercontroller.useruploaddescriptioncontroller.value,
                   validator: (v) {
                     if (v == null || v.isEmpty) {
-                      return "Please enter Presenting Complain";
+                      return "Please enter Description ";
                     }
                     return null;
                   },
@@ -107,7 +107,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                           borderSide: BorderSide(
                               color:
                                   const Color(0xff2E2E2E).withOpacity(0.02))),
-                      labelText: "Presenting Complain"),
+                      labelText: "Description"),
                 ),
                 SizedBox(
                   height: 2.h,
@@ -128,7 +128,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                           borderSide: BorderSide(
                               color:
                                   const Color(0xff2E2E2E).withOpacity(0.02))),
-                      labelText: "Medical History"),
+                      labelText: "Clinical Finding"),
                 ),
                 SizedBox(
                   height: 2.h,
@@ -156,7 +156,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                           width: 1.w,
                         ),
                         Text(
-                          "Upload Prescriptions",
+                          "Upload X/Ray Investigation",
                           style:
                               TextStyle(color: Colors.black, fontSize: 16.sp),
                         ),
@@ -240,7 +240,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                           child: customcircularProgress(),
                         )
                       : custombutton(
-                          title: "Upload",
+                          title: "Next",
                           ontap: () {
                             if (formkey.currentState!.validate()) {
                               usercontroller.uploadUserCasePrescriptions.isEmpty

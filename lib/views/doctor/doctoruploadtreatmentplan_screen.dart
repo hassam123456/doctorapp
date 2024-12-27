@@ -141,7 +141,7 @@ class _DoctorUploadTreatmentScreenState
                               borderRadius: BorderRadius.circular(10)),
                           child: Center(
                             child: Text(
-                              "Prescriptions",
+                              "X/Ray Investigation",
                               style: TextStyle(
                                   color: Colors.black, fontSize: 16.sp),
                             ),
@@ -1397,7 +1397,7 @@ class _DoctorUploadTreatmentScreenState
                                   width: 1.w,
                                 ),
                                 Text(
-                                  "Upload Treatment",
+                                  "Upload Relevent Document",
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 16.sp),
                                 ),
@@ -1479,8 +1479,7 @@ class _DoctorUploadTreatmentScreenState
                               )
                             : GestureDetector(
                                 onTap: () {
-                                  admincontroller
-                                              .doctoruploadtreatmentfilenames.isEmpty ||
+                                  admincontroller.doctoruploadtreatmentfilenames.isEmpty ||
                                           admincontroller
                                               .doctoruploadtreatmentfiles
                                               .isEmpty ||
@@ -1488,7 +1487,7 @@ class _DoctorUploadTreatmentScreenState
                                                   .doctoruploadtreatmentfilenames ==
                                               null
                                       ? customErrorSnackBar(
-                                          "Please Upload Treatment")
+                                          "Please Upload Relevent Document")
                                       : admincontroller.doctorUploadTreatment(
                                           caseguid: admincontroller
                                                   .admingetcasebyid

@@ -139,11 +139,11 @@ class AuthController extends GetxController {
 
 ////////////signup
   final RxBool signuploading = false.obs;
-  Future<void> signup(String isUser) async {
+  Future<void> signup() async {
     try {
       signuploading.value = true;
       await authRepo.signUp(
-        isUser: isUser,
+        // isUser: isUser,
         name: fullNameController.value.text.toString(),
         email: signupemailController.value.text.toString(),
         hospitalname: clinicNameController.value.text.toString(),
@@ -167,7 +167,8 @@ class AuthController extends GetxController {
   RxList<TextEditingController> emailverifycontrollers =
       RxList.generate(5, (_) => TextEditingController());
   Future<void> emailVerification(
-      {required String isUser,
+      {
+      // required Sting isUser,
       required String type,
       required String email,
       required String otp,
@@ -175,7 +176,7 @@ class AuthController extends GetxController {
     try {
       signupemailverificationloading.value = true;
       await authRepo.emailVerification(
-          context: context, isUser: isUser, otp: otp, email: email, type: type);
+          context: context, otp: otp, email: email, type: type);
 
       signupemailverificationloading.value = false;
     } finally {
@@ -185,12 +186,10 @@ class AuthController extends GetxController {
 
 ////////send otp
   final RxBool resendotploading = false.obs;
-  Future<void> reSendOTP(
-      {required String isUser, required String email}) async {
+  Future<void> reSendOTP({required String email}) async {
     try {
       resendotploading.value = true;
-      await authRepo.reSendOTP(
-          isUser: isUser.toString(), email: email.toString());
+      await authRepo.reSendOTP(email: email.toString());
 
       resendotploading.value = false;
     } finally {
@@ -202,15 +201,15 @@ class AuthController extends GetxController {
   var sendotploading = false.obs;
   Future<void> sendOTP({
     required String type,
-    required String logintyp,
+    // required String logintyp,
   }) async {
     try {
       print("send otp check");
       print(type);
-      print(logintyp);
+      // print(logintyp);
       sendotploading.value = true;
       await authRepo.SendOTP(
-          isuser: logintyp,
+          // isuser: logintyp,
           email: forgotemailController.value.text.toString(),
           type: type.toString());
 
@@ -268,13 +267,13 @@ class AuthController extends GetxController {
 
   // login api
   var loginloading = false.obs;
-  Future<void> login({
-    required String? isuser,
-  }) async {
+  Future<void> login(
+      // required String? isuser,
+      ) async {
     try {
       loginloading.value = true;
       await authRepo.login(
-          isuser: isuser.toString(),
+          // isuser: isuser.toString(),
           email: emailController.value.text.toString(),
           password: passwordController.value.text.toString());
 
@@ -293,7 +292,7 @@ class AuthController extends GetxController {
 
 ///////////logout
   void logout() async {
-    Get.offAllNamed(RouteConstants.signinscreen);
+    Get.offAllNamed(RouteConstants.loginpage);
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
     await prefs.remove('email');

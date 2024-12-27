@@ -4,6 +4,7 @@ import 'package:doctorapp/components/errordailog.dart';
 import 'package:doctorapp/constants/routeconstants.dart';
 import 'package:doctorapp/model/adminconsultantmodel.dart';
 import 'package:doctorapp/model/admingetcaseByIdModel.dart';
+import 'package:doctorapp/model/bannermodel.dart';
 import 'package:doctorapp/model/consultantlistmodel.dart';
 import 'package:doctorapp/model/ebookmodel.dart';
 import 'package:doctorapp/model/notificationmodel.dart';
@@ -61,6 +62,59 @@ class AdminRepo extends GetxService {
       customErrorSnackBar(
           'An unexpected error occurred. Please try again later.');
       print("Error uploading EBook: $e");
+    }
+  }
+
+  Future<bool> deleteBanners(int bannerId) async {
+    try {
+      final res = await apiClient.deleteFromServer(
+        endPoint: "${AppConstants.deletebanner}/$bannerId",
+      );
+
+      if (res.statusCode == 200) {
+        print("Banner deleted successfully.");
+        return true; // Deletion successful
+      } else {
+        print("Failed to delete banner. Status Code: ${res.statusCode}");
+        return false; // Deletion failed
+      }
+    } catch (e) {
+      print("Error while deleting banner: $e");
+      throw Exception("Error while deleting banner: $e");
+    }
+  }
+
+///////////admin create E-Book
+  Future<void> createbanner({
+    required File bannerfile,
+  }) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      var request = http.MultipartRequest(
+          'POST',
+          Uri.parse(
+              '${AppConstants.apibaseurl}${AppConstants.admincreatebanner}'));
+
+      request.files.add(await http.MultipartFile.fromPath(
+        'file',
+        bannerfile.path,
+      ));
+      request.headers['Authorization'] = 'Bearer $token';
+      var response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        Get.back();
+        final message = jsonDecode(responseBody)['message'];
+        customSuccessSnackBar(message);
+      } else {
+        final message = jsonDecode(responseBody)['message'];
+        customErrorSnackBar(message);
+      }
+    } catch (e) {
+      customErrorSnackBar(
+          'An unexpected error occurred. Please try again later.');
+      print("Error uploading Banner: $e");
     }
   }
 
@@ -143,6 +197,48 @@ class AdminRepo extends GetxService {
         return listofprofiledata;
       } else {
         throw Exception("No data field found in the Get Profile Data");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  ///////delete banner data
+  Future<BannerModel> deletebannerdata(int id) async {
+    try {
+      final res = await apiClient.getFromServer(
+        endPoint: "${AppConstants.getbanner}$id",
+      );
+      if (res.statusCode == 200) {
+        print(res.body);
+        // final istrustedseller =
+        //     jsonDecode(res.body)['data']['is_trusted_seller'];
+        // LocalStorage().setBool("istrustedseller", istrustedseller);
+        final listofbannerdata = bannerModelFromJson(res.body);
+        return listofbannerdata;
+      } else {
+        throw Exception("No data field found in the Get Banner Data");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  ///////get banner data
+  Future<BannerModel> getbannerdata() async {
+    try {
+      final res = await apiClient.getFromServer(
+        endPoint: AppConstants.getbanner,
+      );
+      if (res.statusCode == 200) {
+        print(res.body);
+        // final istrustedseller =
+        //     jsonDecode(res.body)['data']['is_trusted_seller'];
+        // LocalStorage().setBool("istrustedseller", istrustedseller);
+        final listofbannerdata = bannerModelFromJson(res.body);
+        return listofbannerdata;
+      } else {
+        throw Exception("No data field found in the Get Banner Data");
       }
     } catch (e) {
       throw Exception(e);

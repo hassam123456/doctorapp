@@ -124,9 +124,48 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           ),
         ),
         body: SingleChildScrollView(
-            child: Column(children: [
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           SizedBox(
             height: 4.h,
+          ),
+          Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(RouteConstants.uploadbanner);
+                    },
+                    child: Text("Upload Banner",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black, // Adjust text color as needed
+                          decoration:
+                              TextDecoration.underline, // Adds underline
+                          decorationColor: Colors.green, // Sets underline color
+                          decorationThickness: 2, // Adjust underline thickness
+                        )),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(RouteConstants.adminviewallbanner);
+                    },
+                    child: Text("View All",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black, // Adjust text color as needed
+                          decoration:
+                              TextDecoration.underline, // Adds underline
+                          decorationColor: Colors.green, // Sets underline color
+                          decorationThickness: 2, // Adjust underline thickness
+                        )),
+                  ),
+                ],
+              )),
+          SizedBox(
+            height: 2.h,
           ),
           CarouselSlider(
             options: CarouselOptions(autoPlay: true, height: 20.h),

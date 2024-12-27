@@ -9,7 +9,7 @@ class ForgetPasswordPage extends StatelessWidget {
   final AuthController authController =
       Get.put(AuthController(authRepo: Get.find()));
   final GlobalKey<FormState> forgetPasswordFormKey = GlobalKey<FormState>();
-  final String logintype = Get.arguments as String;
+  // final String logintype = Get.arguments as String;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +62,7 @@ class ForgetPasswordPage extends StatelessWidget {
                     if (forgetPasswordFormKey.currentState!.validate()) {
                       authController.sendOTP(
                         type: "1",
-                        logintyp: logintype,
+                        // logintyp: logintype,
                       );
                     }
                   },
