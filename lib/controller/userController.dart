@@ -45,19 +45,22 @@ class UserController extends GetxController {
 
     if (pickedImage == null) return;
 
-    final pickedFile = await picker.pickImage(source: pickedImage);
-    if (pickedFile == null) return;
+    final pickedFiles = await picker.pickMultiImage(imageQuality: 80);
+    if (pickedFiles == null || pickedFiles.isEmpty) return;
 
-    File imageFile = File(pickedFile.path);
-    if (pickedImage == ImageSource.camera) {
-      img.Image? image = img.decodeImage(imageFile.readAsBytesSync());
-      if (image != null) {
-        imageFile = File(pickedFile.path)
-          ..writeAsBytesSync(
-              img.encodeJpg(img.copyResize(image, width: 800, height: 600)));
+    for (var pickedFile in pickedFiles) {
+      File imageFile = File(pickedFile.path);
+      if (pickedImage == ImageSource.camera) {
+        img.Image? image = img.decodeImage(imageFile.readAsBytesSync());
+        if (image != null) {
+          imageFile = File(pickedFile.path)
+            ..writeAsBytesSync(
+                img.encodeJpg(img.copyResize(image, width: 800, height: 600)));
+        }
       }
+
+      uploadUserCasePrescriptions.add(imageFile);
     }
-    uploadUserCasePrescriptions.add(imageFile);
   }
 
 /////////////////user upload case
@@ -86,60 +89,62 @@ class UserController extends GetxController {
 
 /////////////upload case details
 ////CVS
-  final RxString uploadcasedetailshypertension = ''.obs;
-  final RxString uploadcasedetailsvalvular = ''.obs;
-  final RxString uploadcasedetailsangina = ''.obs;
-  final RxString uploadcasedetailsmyocardial = ''.obs;
-  final RxString uploadcasedetailsinfective = ''.obs;
-  final RxString uploadcasedetailsfailure = ''.obs;
-  final RxString uploadcasedetailssurgery = ''.obs;
+  final RxString uploadcasedetailshypertension = '0'.obs;
+  final RxString uploadcasedetailsvalvular = '0'.obs;
+  final RxString uploadcasedetailsangina = '0'.obs;
+  final RxString uploadcasedetailsmyocardial = '0'.obs;
+  final RxString uploadcasedetailsinfective = '0'.obs;
+  final RxString uploadcasedetailsfailure = '0'.obs;
+  final RxString uploadcasedetailssurgery = '0'.obs;
   final uploadcasedetailscvsother = TextEditingController().obs;
 
   ///GIT
-  final RxString uploadcasedetailsnausea = ''.obs;
-  final RxString uploadcasedetailsvomiting = ''.obs;
-  final RxString uploadcasedetailspeptic = ''.obs;
+  final RxString uploadcasedetailsnausea = '0'.obs;
+  final RxString uploadcasedetailsvomiting = '0'.obs;
+  final RxString uploadcasedetailspeptic = '0'.obs;
   final uploadcasedetailsgitother = TextEditingController().obs;
 ////Respiratory
-  final RxString uploadcasedetailschestpain = ''.obs;
-  final RxString uploadcasedetailsasthma = ''.obs;
-  final RxString uploadcasedetailsbronchitis = ''.obs;
-  final RxString uploadcasedetailspneumonia = ''.obs;
+  final RxString uploadcasedetailschestpain = '0'.obs;
+  final RxString uploadcasedetailsasthma = '0'.obs;
+  final RxString uploadcasedetailsbronchitis = '0'.obs;
+  final RxString uploadcasedetailspneumonia = '0'.obs;
   final uploadcasedetailsrespiratoryother = TextEditingController().obs;
 ////tuberculossis
-  final RxString uploadcasedetailstuberculossis = ''.obs;
+  final RxString uploadcasedetailstuberculossis = '0'.obs;
   final uploadcasedetailstuberculossisother = TextEditingController().obs;
 ////hepatitis
-  final RxString uploadcasedetailshepatitis = ''.obs;
+  final RxString uploadcasedetailshepatitis = '0'.obs;
   final uploadcasedetailshepatitisother = TextEditingController().obs;
   ////circulatory
-  final RxString uploadcasedetailsanemia = ''.obs;
-  final RxString uploadcasedetailsbleedingdisorder = ''.obs;
-  final RxString uploadcasedetailsclothingdisorder = ''.obs;
-  final RxString uploadcasedetailsleukemia = ''.obs;
+  final RxString uploadcasedetailsanemia = '0'.obs;
+  final RxString uploadcasedetailsbleedingdisorder = '0'.obs;
+  final RxString uploadcasedetailsclothingdisorder = '0'.obs;
+  final RxString uploadcasedetailsleukemia = '0'.obs;
   final uploadcasedetailcirculatoryother = TextEditingController().obs;
 ////urinary
-  final RxString uploadcasedetailsuti = ''.obs;
-  final RxString uploadcasedetailskenalfailure = ''.obs;
+  final RxString uploadcasedetailsuti = '0'.obs;
+  final RxString uploadcasedetailskenalfailure = '0'.obs;
   final uploadcasedetailsurinaryother = TextEditingController().obs;
   ////endocrine
-  final RxString uploadcasedetailsdiabetes = ''.obs;
-  final RxString uploadcasedetailshyperparathyrodism = ''.obs;
-  final RxString uploadcasedetailshypothyroidism = ''.obs;
-  final RxString uploadcasedetailshyperthyrodism = ''.obs;
+  final RxString uploadcasedetailsdiabetes = '0'.obs;
+  final RxString uploadcasedetailshyperparathyrodism = '0'.obs;
+  final RxString uploadcasedetailshypothyroidism = '0'.obs;
+  final RxString uploadcasedetailshyperthyrodism = '0'.obs;
   final uploadcasedetailsendocrineother = TextEditingController().obs;
 
   ////nervous
-  final RxString uploadcasedetailsseizure = ''.obs;
-  final RxString uploadcasedetailsepilepsy = ''.obs;
+  final RxString uploadcasedetailsseizure = '0'.obs;
+  final RxString uploadcasedetailsepilepsy = '0'.obs;
   final uploadcasedetailsnervousother = TextEditingController().obs;
 
+  final uploadcasedetailsdrughistory = TextEditingController().obs;
   final RxBool useruploadcasedetailsloading = false.obs;
   Future<void> userUploadCaseDetails({required String guid}) async {
     try {
       useruploadcasedetailsloading.value = true;
       await userRepo.uploadCaseDetails(
         guid: guid,
+        drughistory: uploadcasedetailsdrughistory.value.text.toString(),
         hypertension: uploadcasedetailshypertension.value.toString(),
         valvular: uploadcasedetailsvalvular.value.toString(),
         angina: uploadcasedetailsangina.value.toString(),

@@ -34,4 +34,5 @@ class AppConstants {
   static String admingetcasebyid = "case/get-by-id/";
   static String adminassigncase = "case/assign-doctor/";
   static String doctoruploadtreatment = "case/upload-treatment/";
+  static String adminrejectcase = "case/reject/";
 }

@@ -1,6 +1,8 @@
+import 'package:doctorapp/components/customSnackBar.dart';
 import 'package:doctorapp/components/customcomponents.dart';
 import 'package:doctorapp/components/customtextfield.dart';
 import 'package:doctorapp/constants/appcolors.dart';
+import 'package:doctorapp/constants/appconstant.dart';
 import 'package:doctorapp/constants/routeconstants.dart';
 import 'package:doctorapp/controller/authcontroller.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,7 @@ class _SignupPageState extends State<SignupPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    authController.signupprofileimage.value = null;
     authController.fullNameController.clear();
     authController.signupemailController.clear();
     authController.clinicNameController.clear();
@@ -57,7 +60,24 @@ class _SignupPageState extends State<SignupPage> {
                     style: TextStyle(fontSize: 16.sp, color: Colors.grey),
                   ),
                   SizedBox(height: 2.h),
-
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        authController.pickProfileImage(context);
+                      },
+                      child: CircleAvatar(
+                        radius: 30.sp,
+                        backgroundColor: Colors.grey,
+                        backgroundImage:
+                            authController.signupprofileimage.value == null
+                                ? NetworkImage(AppConstants.noimage)
+                                    as ImageProvider
+                                : FileImage(
+                                    authController.signupprofileimage.value!),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
                   CustomTextField(
                     controller: authController.fullNameController,
                     label: 'Full Name',
@@ -161,7 +181,11 @@ class _SignupPageState extends State<SignupPage> {
                               onPressed: () {
                                 if (authController.formKey.currentState!
                                     .validate()) {
-                                  authController.signup(logintype);
+                                  authController.signupprofileimage.value ==
+                                          null
+                                      ? customErrorSnackBar(
+                                          "Please Upload Profile Image")
+                                      : authController.signup(logintype);
                                 }
                               },
                               style: ElevatedButton.styleFrom(

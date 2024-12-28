@@ -99,6 +99,7 @@ class UserRepo extends GetxService {
     required String hyperthyroidism,
     required String hyperthyroidismNew,
     required String endocrineOthers,
+    required String drughistory,
     required String guid,
   }) async {
     final userData = {
@@ -139,6 +140,7 @@ class UserRepo extends GetxService {
       "hyperthyrodism": hyperthyroidism,
       "hyperthyrodism_new": hyperthyroidismNew,
       "endocrine_others": endocrineOthers,
+      "drug_history": drughistory,
     };
     try {
       print(userData);

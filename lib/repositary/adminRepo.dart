@@ -548,4 +548,32 @@ class AdminRepo extends GetxService {
       print("Error uploading video: $e");
     }
   }
+
+////////admin reject case
+  Future adminRejectCase({
+    required String caseid,
+    required String reason,
+  }) async {
+    final userData = {
+      "reason": reason.toString(),
+    };
+    try {
+      final response = await apiClient.postToServer(
+        endPoint: "${AppConstants.adminrejectcase}$caseid",
+        data: userData,
+      );
+      if (response.statusCode == 200) {
+        Get.offAllNamed(RouteConstants.adminhomescreen);
+        final message = jsonDecode(response.body)['message'];
+        customSuccessSnackBar(message);
+      } else {
+        final message = jsonDecode(response.body)['message'];
+        customErrorSnackBar(message);
+      }
+    } catch (e) {
+      print("Admin Reject Case :$e");
+      customErrorSnackBar(
+          'An unexpected error occurred. Please try again later.');
+    }
+  }
 }

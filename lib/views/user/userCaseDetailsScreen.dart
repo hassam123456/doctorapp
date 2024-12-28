@@ -1442,6 +1442,39 @@ class _UserCaseDetailScreenState extends State<UserCaseDetailScreen> {
                                   ),
                                 ],
                               ),
+                        admincontroller.admingetcasebyid.value?.data?.cases
+                                        ?.drughistory ==
+                                    null ||
+                                admincontroller.admingetcasebyid.value!.data!
+                                    .cases!.drughistory!.isEmpty
+                            ? const SizedBox()
+                            : Text(
+                                "Drug History",
+                                style: TextStyle(
+                                  color: const Color(0xff000000),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14.sp,
+                                ),
+                              ),
+                        SizedBox(
+                          height: 0.5.h,
+                        ),
+                        admincontroller.admingetcasebyid.value?.data?.cases
+                                        ?.drughistory ==
+                                    null ||
+                                admincontroller.admingetcasebyid.value!.data!
+                                    .cases!.drughistory!.isEmpty
+                            ? const SizedBox()
+                            : Text(
+                                admincontroller.admingetcasebyid.value?.data
+                                        ?.cases?.drughistory
+                                        .toString() ??
+                                    "",
+                                style: TextStyle(
+                                  color: const Color(0xff000000),
+                                  fontSize: 16.sp,
+                                ),
+                              ),
                         SizedBox(
                           height: 2.h,
                         ),

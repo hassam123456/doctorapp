@@ -20,6 +20,7 @@ class AdminCaseDetailScreen extends StatefulWidget {
 class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
   final componentcontroller = Get.put(ComponentsController());
   final admincontroller = Get.put(AdminController(adminRepo: Get.find()));
+  final rejectformkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1411,6 +1412,42 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                 ],
                               ),
                         SizedBox(
+                          height: 1.h,
+                        ),
+                        admincontroller.admingetcasebyid.value?.data?.cases
+                                        ?.drughistory ==
+                                    null ||
+                                admincontroller.admingetcasebyid.value!.data!
+                                    .cases!.drughistory!.isEmpty
+                            ? const SizedBox()
+                            : Text(
+                                "Drug History",
+                                style: TextStyle(
+                                  color: const Color(0xff000000),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14.sp,
+                                ),
+                              ),
+                        SizedBox(
+                          height: 0.5.h,
+                        ),
+                        admincontroller.admingetcasebyid.value?.data?.cases
+                                        ?.drughistory ==
+                                    null ||
+                                admincontroller.admingetcasebyid.value!.data!
+                                    .cases!.drughistory!.isEmpty
+                            ? const SizedBox()
+                            : Text(
+                                admincontroller.admingetcasebyid.value?.data
+                                        ?.cases?.drughistory
+                                        .toString() ??
+                                    "",
+                                style: TextStyle(
+                                  color: const Color(0xff000000),
+                                  fontSize: 16.sp,
+                                ),
+                              ),
+                        SizedBox(
                           height: 2.h,
                         ),
                         admincontroller.admingetcasebyid.value?.data?.cases
@@ -1451,6 +1488,66 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                   //     RouteConstants.consultantlistscreen);
                                 })
                             : const SizedBox(),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        custombutton(
+                            title: "Reject",
+                            ontap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8.w, vertical: 10.h),
+                                        child: Form(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              customtextformfield(
+                                                  validator: (v) {
+                                                    if (v == null ||
+                                                        v.isEmpty) {
+                                                      return "Please Enter Reason";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  controler: admincontroller
+                                                      .adminrejectcasecontroller
+                                                      .value,
+                                                  lable: "Reason"),
+                                              SizedBox(
+                                                height: 2.h,
+                                              ),
+                                              Obx(() => admincontroller
+                                                      .adminrejectcaseloading
+                                                      .value
+                                                  ? Center(
+                                                      child:
+                                                          customcircularProgress(),
+                                                    )
+                                                  : custombutton(
+                                                      title: "Reject",
+                                                      ontap: () {
+                                                        if (rejectformkey
+                                                            .currentState!
+                                                            .validate()) {
+                                                          admincontroller.adminRejectCase(
+                                                              caseguid: admincontroller
+                                                                      .admingetcasebyid
+                                                                      .value
+                                                                      ?.data
+                                                                      ?.cases
+                                                                      ?.guid
+                                                                      .toString() ??
+                                                                  "");
+                                                        }
+                                                      }))
+                                            ],
+                                          ),
+                                        ),
+                                      ));
+                            }),
                         SizedBox(
                           height: 2.h,
                         ),

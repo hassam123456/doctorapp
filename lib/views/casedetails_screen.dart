@@ -1,5 +1,6 @@
 import 'package:doctorapp/components/customSnackBar.dart';
 import 'package:doctorapp/components/customcomponents.dart';
+import 'package:doctorapp/components/customtextfield.dart';
 import 'package:doctorapp/controller/componentsController.dart';
 import 'package:doctorapp/controller/userController.dart';
 import 'package:flutter/material.dart';
@@ -863,6 +864,14 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                     ],
                   ),
                 ),
+              ),
+
+              SizedBox(
+                height: 1.h,
+              ),
+              CustomTextField(
+                controller: usercontroller.uploadcasedetailsdrughistory.value,
+                label: 'Drug History',
               ),
               SizedBox(
                 height: 2.h,

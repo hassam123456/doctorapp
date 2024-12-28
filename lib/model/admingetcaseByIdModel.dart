@@ -57,6 +57,7 @@ class Cases {
   String? description;
   String? history;
   String? guid;
+  String? drughistory;
   DateTime? createdAt;
   DateTime? updatedAt;
   String? status;
@@ -66,25 +67,25 @@ class Cases {
   Doctor? user;
   Doctor? doctor;
 
-  Cases({
-    this.id,
-    this.userId,
-    this.doctorId,
-    this.title,
-    this.name,
-    this.age,
-    this.description,
-    this.history,
-    this.guid,
-    this.createdAt,
-    this.updatedAt,
-    this.status,
-    this.media,
-    this.treatment,
-    this.cvs,
-    this.user,
-    this.doctor,
-  });
+  Cases(
+      {this.id,
+      this.userId,
+      this.doctorId,
+      this.title,
+      this.name,
+      this.age,
+      this.description,
+      this.history,
+      this.guid,
+      this.createdAt,
+      this.updatedAt,
+      this.status,
+      this.media,
+      this.treatment,
+      this.cvs,
+      this.user,
+      this.doctor,
+      this.drughistory});
 
   factory Cases.fromJson(Map<String, dynamic> json) => Cases(
         id: json["id"],
@@ -112,6 +113,7 @@ class Cases {
         cvs: json["cvs"] != null ? Cvs.fromJson(json["cvs"]) : null,
         user: json["user"] != null ? Doctor.fromJson(json["user"]) : null,
         doctor: json["doctor"] != null ? Doctor.fromJson(json["doctor"]) : null,
+        drughistory: json["drug_history"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -136,6 +138,7 @@ class Cases {
         "cvs": cvs?.toJson(),
         "user": user?.toJson(),
         "doctor": doctor?.toJson(),
+        "drughistory": drughistory,
       };
 }
 

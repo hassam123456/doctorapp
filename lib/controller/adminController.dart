@@ -676,4 +676,23 @@ class AdminController extends GetxController {
       doctoruploadTreatmentloading.value = false;
     }
   }
+
+///////////admin reject case
+  final RxBool adminrejectcaseloading = false.obs;
+  final adminrejectcasecontroller = TextEditingController().obs;
+  Future<void> adminRejectCase({
+    required String caseguid,
+  }) async {
+    try {
+      adminrejectcaseloading.value = true;
+      await adminRepo.adminRejectCase(
+        caseid: caseguid,
+        reason: adminrejectcasecontroller.value.text.toString(),
+      );
+
+      adminrejectcaseloading.value = false;
+    } finally {
+      adminrejectcaseloading.value = false;
+    }
+  }
 }
