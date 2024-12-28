@@ -1365,44 +1365,42 @@ class _DoctorUploadTreatmentScreenState
                                           customcasedetailOtherText(
                                             "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.nervousOthers == null ? "" : admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.nervousOthers.toString() ?? ""}",
                                           ),
+                                          SizedBox(
+                                            height: 1.h,
+                                          ),
+                                          admincontroller
+                                                          .admingetcasebyid
+                                                          .value
+                                                          ?.data
+                                                          ?.cases
+                                                          ?.cvs
+                                                          ?.drughistory ==
+                                                      null ||
+                                                  admincontroller
+                                                      .admingetcasebyid
+                                                      .value!
+                                                      .data!
+                                                      .cases!
+                                                      .cvs!
+                                                      .drughistory!
+                                                      .isEmpty
+                                              ? const SizedBox()
+                                              : customadmincasedetailbox(
+                                                  title: "Drug History",
+                                                  subtitle: admincontroller
+                                                          .admingetcasebyid
+                                                          .value
+                                                          ?.data
+                                                          ?.cases
+                                                          ?.cvs
+                                                          ?.drughistory
+                                                          .toString() ??
+                                                      ""),
                                         ],
                                       ),
                                     ),
                                   ),
                                 ],
-                              ),
-                        admincontroller.admingetcasebyid.value?.data?.cases
-                                        ?.drughistory ==
-                                    null ||
-                                admincontroller.admingetcasebyid.value!.data!
-                                    .cases!.drughistory!.isEmpty
-                            ? const SizedBox()
-                            : Text(
-                                "Drug History",
-                                style: TextStyle(
-                                  color: const Color(0xff000000),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                        SizedBox(
-                          height: 0.5.h,
-                        ),
-                        admincontroller.admingetcasebyid.value?.data?.cases
-                                        ?.drughistory ==
-                                    null ||
-                                admincontroller.admingetcasebyid.value!.data!
-                                    .cases!.drughistory!.isEmpty
-                            ? const SizedBox()
-                            : Text(
-                                admincontroller.admingetcasebyid.value?.data
-                                        ?.cases?.drughistory
-                                        .toString() ??
-                                    "",
-                                style: TextStyle(
-                                  color: const Color(0xff000000),
-                                  fontSize: 16.sp,
-                                ),
                               ),
                         SizedBox(
                           height: 2.h,

@@ -567,7 +567,7 @@ class AdminRepo extends GetxService {
       final res = await apiClient.getFromServer(
         endPoint: "${AppConstants.admingetcasebyid}$id",
       );
-
+      print(res.body);
       if (res.statusCode == 200) {
         final listofadmincasebyid = adminGetCaseByIdFromJson(res.body);
         return listofadmincasebyid;

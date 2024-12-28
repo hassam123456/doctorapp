@@ -34,6 +34,7 @@ class UserRepo extends GetxService {
         'age': age,
         'history': history,
         'description': description,
+        "drug_history": "wsdw",
       });
       for (var prescription in prescriptions) {
         request.files.add(await http.MultipartFile.fromPath(
@@ -52,6 +53,7 @@ class UserRepo extends GetxService {
       } else {
         final message = jsonDecode(responseBody)['message'];
         customErrorSnackBar(message);
+        print("Error uploading case: $responseBody");
       }
     } catch (e) {
       customErrorSnackBar(

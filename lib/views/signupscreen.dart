@@ -60,20 +60,22 @@ class _SignupPageState extends State<SignupPage> {
                     style: TextStyle(fontSize: 16.sp, color: Colors.grey),
                   ),
                   SizedBox(height: 2.h),
-                  Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        authController.pickProfileImage(context);
-                      },
-                      child: CircleAvatar(
-                        radius: 30.sp,
-                        backgroundColor: Colors.grey,
-                        backgroundImage:
-                            authController.signupprofileimage.value == null
-                                ? NetworkImage(AppConstants.noimage)
-                                    as ImageProvider
-                                : FileImage(
-                                    authController.signupprofileimage.value!),
+                  Obx(
+                    () => Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          authController.pickProfileImage(context);
+                        },
+                        child: CircleAvatar(
+                          radius: 30.sp,
+                          backgroundColor: Colors.grey,
+                          backgroundImage:
+                              authController.signupprofileimage.value == null
+                                  ? NetworkImage(AppConstants.noimage)
+                                      as ImageProvider
+                                  : FileImage(
+                                      authController.signupprofileimage.value!),
+                        ),
                       ),
                     ),
                   ),
@@ -181,7 +183,11 @@ class _SignupPageState extends State<SignupPage> {
                               onPressed: () {
                                 if (authController.formKey.currentState!
                                     .validate()) {
-                                  authController.signup(logintype);
+                                  authController.signupprofileimage.value ==
+                                          null
+                                      ? customErrorSnackBar(
+                                          "Please Upload Profile Image")
+                                      : authController.signup();
                                 }
                               },
                               style: ElevatedButton.styleFrom(

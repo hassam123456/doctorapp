@@ -19,7 +19,9 @@ class _AdminCaseConsultScreenState extends State<AdminCaseConsultScreen> {
   @override
   void initState() {
     super.initState();
-    admincontroller.getadmincaseconsult();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      admincontroller.getadmincaseconsult();
+    });
   }
 
   @override

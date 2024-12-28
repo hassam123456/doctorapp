@@ -45,20 +45,24 @@ class UserController extends GetxController {
 
     if (pickedImage == null) return;
 
-    final pickedFiles = await picker.pickMultiImage(imageQuality: 80);
-    if (pickedFiles == null || pickedFiles.isEmpty) return;
+    List<XFile> pickedFiles = pickedImage == ImageSource.gallery
+        ? await picker.pickMultiImage(imageQuality: 80)
+        : [await picker.pickImage(source: ImageSource.camera, imageQuality: 80)]
+            .whereType<XFile>()
+            .toList();
+
+    if (pickedFiles.isEmpty) return;
 
     for (var pickedFile in pickedFiles) {
       File imageFile = File(pickedFile.path);
       if (pickedImage == ImageSource.camera) {
         img.Image? image = img.decodeImage(imageFile.readAsBytesSync());
         if (image != null) {
-          imageFile = File(pickedFile.path)
+          imageFile = imageFile
             ..writeAsBytesSync(
                 img.encodeJpg(img.copyResize(image, width: 800, height: 600)));
         }
       }
-
       uploadUserCasePrescriptions.add(imageFile);
     }
   }

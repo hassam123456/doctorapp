@@ -55,9 +55,11 @@ class Cases {
   String? name;
   String? age;
   String? description;
+  int? rejected;
+  String? reason;
   String? history;
   String? guid;
-  String? drughistory;
+
   DateTime? createdAt;
   DateTime? updatedAt;
   String? status;
@@ -67,25 +69,27 @@ class Cases {
   Doctor? user;
   Doctor? doctor;
 
-  Cases(
-      {this.id,
-      this.userId,
-      this.doctorId,
-      this.title,
-      this.name,
-      this.age,
-      this.description,
-      this.history,
-      this.guid,
-      this.createdAt,
-      this.updatedAt,
-      this.status,
-      this.media,
-      this.treatment,
-      this.cvs,
-      this.user,
-      this.doctor,
-      this.drughistory});
+  Cases({
+    this.id,
+    this.userId,
+    this.doctorId,
+    this.title,
+    this.name,
+    this.age,
+    this.description,
+    this.history,
+    this.guid,
+    this.rejected,
+    this.reason,
+    this.createdAt,
+    this.updatedAt,
+    this.status,
+    this.media,
+    this.treatment,
+    this.cvs,
+    this.user,
+    this.doctor,
+  });
 
   factory Cases.fromJson(Map<String, dynamic> json) => Cases(
         id: json["id"],
@@ -95,6 +99,8 @@ class Cases {
         name: json["name"],
         age: json["age"],
         description: json["description"],
+        rejected: json["rejected"],
+        reason: json["reason"],
         history: json["history"],
         guid: json["guid"],
         createdAt: json["created_at"] != null
@@ -113,7 +119,6 @@ class Cases {
         cvs: json["cvs"] != null ? Cvs.fromJson(json["cvs"]) : null,
         user: json["user"] != null ? Doctor.fromJson(json["user"]) : null,
         doctor: json["doctor"] != null ? Doctor.fromJson(json["doctor"]) : null,
-        drughistory: json["drug_history"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -124,6 +129,8 @@ class Cases {
         "name": name,
         "age": age,
         "description": description,
+        "rejected": rejected,
+        "reason": reason,
         "history": history,
         "guid": guid,
         "created_at": createdAt?.toIso8601String(),
@@ -138,7 +145,6 @@ class Cases {
         "cvs": cvs?.toJson(),
         "user": user?.toJson(),
         "doctor": doctor?.toJson(),
-        "drughistory": drughistory,
       };
 }
 
@@ -185,51 +191,52 @@ class Cvs {
   String? hyperthyrodism;
   String? hyperthyrodismNew;
   String? endocrineOthers;
+  String? drughistory;
 
-  Cvs({
-    this.id,
-    this.hypertension,
-    this.valvular,
-    this.angina,
-    this.myocardial,
-    this.infective,
-    this.failure,
-    this.surgery,
-    this.others,
-    this.guid,
-    this.caseId,
-    this.createdAt,
-    this.updatedAt,
-    this.nausea,
-    this.vomiting,
-    this.peptic,
-    this.gutOthers,
-    this.chestPain,
-    this.asthma,
-    this.bronchitis,
-    this.pneumonia,
-    this.respOthers,
-    this.tuberculossis,
-    this.tuberOthers,
-    this.hepatitis,
-    this.hepOthers,
-    this.anemia,
-    this.bleedingDisorder,
-    this.clothingDisorder,
-    this.leukemia,
-    this.circulatoryOthers,
-    this.uti,
-    this.kenalFailure,
-    this.urinaryOthers,
-    this.seizure,
-    this.epilepsy,
-    this.nervousOthers,
-    this.diabetes,
-    this.hyperparathyrodism,
-    this.hyperthyrodism,
-    this.hyperthyrodismNew,
-    this.endocrineOthers,
-  });
+  Cvs(
+      {this.id,
+      this.hypertension,
+      this.valvular,
+      this.angina,
+      this.myocardial,
+      this.infective,
+      this.failure,
+      this.surgery,
+      this.others,
+      this.guid,
+      this.caseId,
+      this.createdAt,
+      this.updatedAt,
+      this.nausea,
+      this.vomiting,
+      this.peptic,
+      this.gutOthers,
+      this.chestPain,
+      this.asthma,
+      this.bronchitis,
+      this.pneumonia,
+      this.respOthers,
+      this.tuberculossis,
+      this.tuberOthers,
+      this.hepatitis,
+      this.hepOthers,
+      this.anemia,
+      this.bleedingDisorder,
+      this.clothingDisorder,
+      this.leukemia,
+      this.circulatoryOthers,
+      this.uti,
+      this.kenalFailure,
+      this.urinaryOthers,
+      this.seizure,
+      this.epilepsy,
+      this.nervousOthers,
+      this.diabetes,
+      this.hyperparathyrodism,
+      this.hyperthyrodism,
+      this.hyperthyrodismNew,
+      this.endocrineOthers,
+      this.drughistory});
 
   factory Cvs.fromJson(Map<String, dynamic> json) => Cvs(
         id: json["id"],
@@ -278,6 +285,7 @@ class Cvs {
         hyperthyrodism: json["hyperthyrodism"],
         hyperthyrodismNew: json["hyperthyrodism_new"],
         endocrineOthers: json["endocrine_others"],
+        drughistory: json["drug_history"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -323,6 +331,7 @@ class Cvs {
         "hyperthyrodism": hyperthyrodism,
         "hyperthyrodism_new": hyperthyrodismNew,
         "endocrine_others": endocrineOthers,
+        "drughistory": drughistory,
       };
 }
 

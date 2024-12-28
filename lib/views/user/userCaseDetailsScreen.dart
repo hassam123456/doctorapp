@@ -100,6 +100,27 @@ class _UserCaseDetailScreenState extends State<UserCaseDetailScreen> {
                                 color: Color(0xffFF0000), fontSize: 15.sp),
                           ),
                         ])),
+                        admincontroller.admingetcasebyid.value?.data?.cases
+                                        ?.reason ==
+                                    null ||
+                                admincontroller.admingetcasebyid.value!.data!
+                                    .cases!.reason!.isEmpty
+                            ? const SizedBox()
+                            : SizedBox(
+                                height: 2.h,
+                              ),
+                        admincontroller.admingetcasebyid.value?.data?.cases
+                                        ?.reason ==
+                                    null ||
+                                admincontroller.admingetcasebyid.value!.data!
+                                    .cases!.reason!.isEmpty
+                            ? const SizedBox()
+                            : customadmincasedetailbox(
+                                title: "Rejected Reason",
+                                subtitle: admincontroller.admingetcasebyid.value
+                                        ?.data?.cases?.reason
+                                        .toString() ??
+                                    ""),
                         SizedBox(
                           height: 2.h,
                         ),
@@ -1436,44 +1457,42 @@ class _UserCaseDetailScreenState extends State<UserCaseDetailScreen> {
                                           customcasedetailOtherText(
                                             "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.nervousOthers == null ? "" : admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.nervousOthers.toString() ?? ""}",
                                           ),
+                                          SizedBox(
+                                            height: 1.h,
+                                          ),
+                                          admincontroller
+                                                          .admingetcasebyid
+                                                          .value
+                                                          ?.data
+                                                          ?.cases
+                                                          ?.cvs
+                                                          ?.drughistory ==
+                                                      null ||
+                                                  admincontroller
+                                                      .admingetcasebyid
+                                                      .value!
+                                                      .data!
+                                                      .cases!
+                                                      .cvs!
+                                                      .drughistory!
+                                                      .isEmpty
+                                              ? const SizedBox()
+                                              : customadmincasedetailbox(
+                                                  title: "Drug History",
+                                                  subtitle: admincontroller
+                                                          .admingetcasebyid
+                                                          .value
+                                                          ?.data
+                                                          ?.cases
+                                                          ?.cvs
+                                                          ?.drughistory
+                                                          .toString() ??
+                                                      ""),
                                         ],
                                       ),
                                     ),
                                   ),
                                 ],
-                              ),
-                        admincontroller.admingetcasebyid.value?.data?.cases
-                                        ?.drughistory ==
-                                    null ||
-                                admincontroller.admingetcasebyid.value!.data!
-                                    .cases!.drughistory!.isEmpty
-                            ? const SizedBox()
-                            : Text(
-                                "Drug History",
-                                style: TextStyle(
-                                  color: const Color(0xff000000),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                        SizedBox(
-                          height: 0.5.h,
-                        ),
-                        admincontroller.admingetcasebyid.value?.data?.cases
-                                        ?.drughistory ==
-                                    null ||
-                                admincontroller.admingetcasebyid.value!.data!
-                                    .cases!.drughistory!.isEmpty
-                            ? const SizedBox()
-                            : Text(
-                                admincontroller.admingetcasebyid.value?.data
-                                        ?.cases?.drughistory
-                                        .toString() ??
-                                    "",
-                                style: TextStyle(
-                                  color: const Color(0xff000000),
-                                  fontSize: 16.sp,
-                                ),
                               ),
                         SizedBox(
                           height: 2.h,

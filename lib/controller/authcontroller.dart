@@ -138,12 +138,48 @@ class AuthController extends GetxController {
   }
 
 ////////////signup
+  var signupprofileimage = Rx<File?>(null);
+  Future<void> pickProfileImage(BuildContext context) async {
+    final picker = ImagePicker();
+    final pickedImageSource = await showDialog<ImageSource>(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Select Image Source"),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    GestureDetector(
+                      child: const Text("Gallery"),
+                      onTap: () {
+                        Navigator.of(context).pop(ImageSource.gallery);
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    GestureDetector(
+                      child: const Text("Camera"),
+                      onTap: () {
+                        Navigator.of(context).pop(ImageSource.camera);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ));
+
+    if (pickedImageSource == null) return;
+    final pickedFile =
+        await picker.pickImage(source: pickedImageSource, imageQuality: 80);
+    if (pickedFile == null) return;
+    signupprofileimage.value = File(pickedFile.path);
+  }
+
   final RxBool signuploading = false.obs;
-  Future<void> signup(String isUser) async {
+  Future<void> signup() async {
     try {
       signuploading.value = true;
       await authRepo.signUp(
-        isUser: isUser,
+        profileimage: signupprofileimage.value!,
+        // isUser: isUser,
         name: fullNameController.value.text.toString(),
         email: signupemailController.value.text.toString(),
         hospitalname: clinicNameController.value.text.toString(),

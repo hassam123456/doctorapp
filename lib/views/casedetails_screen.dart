@@ -22,7 +22,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
   void initState() {
     super.initState();
     componentcontroller.radioGroupSelections.forEach((key, value) {
-      value.value = '';
+      value.value = '0';
     });
   }
 
@@ -867,7 +867,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
               ),
 
               SizedBox(
-                height: 1.h,
+                height: 2.h,
               ),
               CustomTextField(
                 controller: usercontroller.uploadcasedetailsdrughistory.value,

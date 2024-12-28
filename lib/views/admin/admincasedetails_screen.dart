@@ -22,6 +22,12 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
   final admincontroller = Get.put(AdminController(adminRepo: Get.find()));
   final rejectformkey = GlobalKey<FormState>();
   @override
+  void initState() {
+    super.initState();
+    admincontroller.adminrejectcasecontroller.value.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customappbar(
@@ -94,6 +100,27 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                 color: Color(0xffFF0000), fontSize: 15.sp),
                           ),
                         ])),
+                        admincontroller.admingetcasebyid.value?.data?.cases
+                                        ?.reason ==
+                                    null ||
+                                admincontroller.admingetcasebyid.value!.data!
+                                    .cases!.reason!.isEmpty
+                            ? const SizedBox()
+                            : SizedBox(
+                                height: 2.h,
+                              ),
+                        admincontroller.admingetcasebyid.value?.data?.cases
+                                        ?.reason ==
+                                    null ||
+                                admincontroller.admingetcasebyid.value!.data!
+                                    .cases!.reason!.isEmpty
+                            ? const SizedBox()
+                            : customadmincasedetailbox(
+                                title: "Rejected Reason",
+                                subtitle: admincontroller.admingetcasebyid.value
+                                        ?.data?.cases?.reason
+                                        .toString() ??
+                                    ""),
                         SizedBox(
                           height: 2.h,
                         ),
@@ -1405,6 +1432,37 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                           customcasedetailOtherText(
                                             "Other: ${admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.nervousOthers == null ? "" : admincontroller.admingetcasebyid.value?.data?.cases?.cvs?.nervousOthers.toString() ?? ""}",
                                           ),
+                                          SizedBox(
+                                            height: 1.h,
+                                          ),
+                                          admincontroller
+                                                          .admingetcasebyid
+                                                          .value
+                                                          ?.data
+                                                          ?.cases
+                                                          ?.cvs
+                                                          ?.drughistory ==
+                                                      null ||
+                                                  admincontroller
+                                                      .admingetcasebyid
+                                                      .value!
+                                                      .data!
+                                                      .cases!
+                                                      .cvs!
+                                                      .drughistory!
+                                                      .isEmpty
+                                              ? const SizedBox()
+                                              : customadmincasedetailbox(
+                                                  title: "Drug History",
+                                                  subtitle: admincontroller
+                                                          .admingetcasebyid
+                                                          .value
+                                                          ?.data
+                                                          ?.cases
+                                                          ?.cvs
+                                                          ?.drughistory
+                                                          .toString() ??
+                                                      ""),
                                         ],
                                       ),
                                     ),
@@ -1412,47 +1470,14 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                                 ],
                               ),
                         SizedBox(
-                          height: 1.h,
-                        ),
-                        admincontroller.admingetcasebyid.value?.data?.cases
-                                        ?.drughistory ==
-                                    null ||
-                                admincontroller.admingetcasebyid.value!.data!
-                                    .cases!.drughistory!.isEmpty
-                            ? const SizedBox()
-                            : Text(
-                                "Drug History",
-                                style: TextStyle(
-                                  color: const Color(0xff000000),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                        SizedBox(
-                          height: 0.5.h,
-                        ),
-                        admincontroller.admingetcasebyid.value?.data?.cases
-                                        ?.drughistory ==
-                                    null ||
-                                admincontroller.admingetcasebyid.value!.data!
-                                    .cases!.drughistory!.isEmpty
-                            ? const SizedBox()
-                            : Text(
-                                admincontroller.admingetcasebyid.value?.data
-                                        ?.cases?.drughistory
-                                        .toString() ??
-                                    "",
-                                style: TextStyle(
-                                  color: const Color(0xff000000),
-                                  fontSize: 16.sp,
-                                ),
-                              ),
-                        SizedBox(
                           height: 2.h,
                         ),
                         admincontroller.admingetcasebyid.value?.data?.cases
-                                    ?.doctor ==
-                                null
+                                        ?.doctor ==
+                                    null &&
+                                admincontroller.admingetcasebyid.value?.data
+                                        ?.cases?.rejected ==
+                                    0
                             ? custombutton(
                                 title: "Assigned to",
                                 ontap: () {
@@ -1491,63 +1516,79 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                         SizedBox(
                           height: 1.h,
                         ),
-                        custombutton(
-                            title: "Reject",
-                            ontap: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 8.w, vertical: 10.h),
-                                        child: Form(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              customtextformfield(
-                                                  validator: (v) {
-                                                    if (v == null ||
-                                                        v.isEmpty) {
-                                                      return "Please Enter Reason";
-                                                    }
-                                                    return null;
-                                                  },
-                                                  controler: admincontroller
-                                                      .adminrejectcasecontroller
-                                                      .value,
-                                                  lable: "Reason"),
-                                              SizedBox(
-                                                height: 2.h,
+                        admincontroller.admingetcasebyid.value?.data?.cases
+                                        ?.doctor ==
+                                    null &&
+                                admincontroller.admingetcasebyid.value?.data
+                                        ?.cases?.rejected ==
+                                    0
+                            ? custombutton(
+                                title: "Reject",
+                                ontap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            content: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 2.w,
+                                                  vertical: 2.h),
+                                              child: SizedBox(
+                                                height: 18.h,
+                                                width: Get.width,
+                                                child: Form(
+                                                  key: rejectformkey,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      customtextformfield(
+                                                          validator: (v) {
+                                                            if (v == null ||
+                                                                v.isEmpty) {
+                                                              return "Please Enter Reason";
+                                                            }
+                                                            return null;
+                                                          },
+                                                          controler: admincontroller
+                                                              .adminrejectcasecontroller
+                                                              .value,
+                                                          lable: "Reason"),
+                                                      SizedBox(
+                                                        height: 2.h,
+                                                      ),
+                                                      Obx(() => admincontroller
+                                                              .adminrejectcaseloading
+                                                              .value
+                                                          ? Center(
+                                                              child:
+                                                                  customcircularProgress(),
+                                                            )
+                                                          : custombutton(
+                                                              title: "Reject",
+                                                              ontap: () {
+                                                                if (rejectformkey
+                                                                    .currentState!
+                                                                    .validate()) {
+                                                                  admincontroller.adminRejectCase(
+                                                                      caseguid: admincontroller
+                                                                              .admingetcasebyid
+                                                                              .value
+                                                                              ?.data
+                                                                              ?.cases
+                                                                              ?.guid
+                                                                              .toString() ??
+                                                                          "");
+                                                                }
+                                                              }))
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
-                                              Obx(() => admincontroller
-                                                      .adminrejectcaseloading
-                                                      .value
-                                                  ? Center(
-                                                      child:
-                                                          customcircularProgress(),
-                                                    )
-                                                  : custombutton(
-                                                      title: "Reject",
-                                                      ontap: () {
-                                                        if (rejectformkey
-                                                            .currentState!
-                                                            .validate()) {
-                                                          admincontroller.adminRejectCase(
-                                                              caseguid: admincontroller
-                                                                      .admingetcasebyid
-                                                                      .value
-                                                                      ?.data
-                                                                      ?.cases
-                                                                      ?.guid
-                                                                      .toString() ??
-                                                                  "");
-                                                        }
-                                                      }))
-                                            ],
-                                          ),
-                                        ),
-                                      ));
-                            }),
+                                            ),
+                                          ));
+                                })
+                            : SizedBox(),
                         SizedBox(
                           height: 2.h,
                         ),

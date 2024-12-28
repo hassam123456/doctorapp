@@ -56,7 +56,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Get.toNamed(RouteConstants.loginpage);
+                  Get.toNamed(RouteConstants.signuppage);
                 },
                 child: Text(
                   "Get Started",

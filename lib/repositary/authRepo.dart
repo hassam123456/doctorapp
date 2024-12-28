@@ -20,7 +20,6 @@ class AuthRepo extends GetxService {
 
 ///////////signup
   Future signUp({
-    required String isUser,
     required String name,
     required String email,
     required String hospitalname,
@@ -40,22 +39,42 @@ class AuthRepo extends GetxService {
       "specialization": specialization,
       // "phone_code":"+1",
       "phone_number": phone,
-      "is_user": isUser,
+      // "is_user": isUser,
       "hospital_name": hospitalname,
       "license_number": licensenumber,
       "experience": experience
     };
     try {
-      final response = await apiClient.postToServer(
-        endPoint: AppConstants.signup,
-        data: userData,
-      );
+      final prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      var request = http.MultipartRequest('POST',
+          Uri.parse('${AppConstants.apibaseurl}${AppConstants.signup}'));
+      request.fields.addAll({
+        "name": name,
+        "email": email,
+        "password": password,
+        "address": address,
+        "specialization": specialization,
+        "phone_number": phone,
+        // "is_user": isUser,
+        "hospital_name": hospitalname,
+        "license_number": licensenumber,
+        "experience": experience
+      });
+
+      request.files.add(await http.MultipartFile.fromPath(
+        'image',
+        profileimage.path,
+      ));
+
+      request.headers['Authorization'] = 'Bearer $token';
+      var response = await request.send();
+      final responseBody = await response.stream.bytesToString();
       if (response.statusCode == 200) {
         final message = jsonDecode(responseBody)['message'];
         customSuccessSnackBar(message);
-        Get.toNamed(RouteConstants.emailverification, arguments: {
-          'email': email,
-        });
+        Get.toNamed(RouteConstants.emailverification,
+            arguments: {'email': email});
       } else {
         final message = jsonDecode(responseBody)['message'];
         customErrorSnackBar(message);
@@ -63,7 +82,7 @@ class AuthRepo extends GetxService {
     } catch (e) {
       customErrorSnackBar(
           'An unexpected error occurred. Please try again later.');
-      print("Error uploading case: $e");
+      print("Error Signup: $e");
     }
   }
 
@@ -80,17 +99,17 @@ class AuthRepo extends GetxService {
   //   required String password,
   // }) async {
   //   final userData = {
-  //     "name": name,
-  //     "email": email,
-  //     "password": password,
-  //     "address": address,
-  //     "specialization": specialization,
-  //     // "phone_code":"+1",
-  //     "phone_number": phone,
-  //     "is_user": isUser,
-  //     "hospital_name": hospitalname,
-  //     "license_number": licensenumber,
-  //     "experience": experience
+  // "name": name,
+  // "email": email,
+  // "password": password,
+  // "address": address,
+  // "specialization": specialization,
+  // // "phone_code":"+1",
+  // "phone_number": phone,
+  // "is_user": isUser,
+  // "hospital_name": hospitalname,
+  // "license_number": licensenumber,
+  // "experience": experience
   //   };
   //   try {
   //     final response = await apiClient.postToServer(
@@ -98,10 +117,10 @@ class AuthRepo extends GetxService {
   //       data: userData,
   //     );
   //     if (response.statusCode == 200) {
-  //       final message = jsonDecode(response.body)['message'];
-  //       customSuccessSnackBar(message);
-  //       Get.toNamed(RouteConstants.emailverification,
-  //           arguments: {'email': email, 'isUser': isUser});
+  // final message = jsonDecode(response.body)['message'];
+  // customSuccessSnackBar(message);
+  // Get.toNamed(RouteConstants.emailverification,
+  //     arguments: {'email': email, 'isUser': isUser});
   //     } else {
   //       final message = jsonDecode(response.body)['message'];
   //       customErrorSnackBar(message);

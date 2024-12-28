@@ -48,9 +48,9 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                 // customtextformfield(
                 //     controler: usercontroller.useruploadCaseNumcontroller.value,
                 //     lable: "Case Number"),
-                // SizedBox(
-                //   height: 2.h,
-                // ),
+                SizedBox(
+                  height: 2.h,
+                ),
                 customtextformfield(
                     controler:
                         usercontroller.useruploadCaseTitlecontroller.value,
@@ -206,7 +206,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                                             ),
                                             Positioned(
                                                 right: -2.w,
-                                                top: -1.h,
+                                                top: -0 / 5.h,
                                                 child: GestureDetector(
                                                   onTap: () {
                                                     usercontroller
