@@ -1,12 +1,14 @@
 import 'package:doctorapp/constants/routeconstants.dart';
 import 'package:doctorapp/views/admin/addconsultant_screen.dart';
 import 'package:doctorapp/views/admin/adminalreadyassignedcasedetails_screen.dart';
+import 'package:doctorapp/views/admin/adminbannerlistpage.dart';
 import 'package:doctorapp/views/admin/admincaseUserDetailsScreen.dart';
 import 'package:doctorapp/views/admin/admincaseconsult_screen.dart';
 import 'package:doctorapp/views/admin/admincasedetails_screen.dart';
 import 'package:doctorapp/views/admin/adminhomescreen.dart';
 import 'package:doctorapp/views/admin/adminuploadeBookScreen.dart';
 import 'package:doctorapp/views/admin/adminuploadvideoscreen.dart';
+import 'package:doctorapp/views/admin/uploadbannerscreen.dart';
 import 'package:doctorapp/views/casedetails_screen.dart';
 import 'package:doctorapp/views/casedetails_screen2.dart';
 import 'package:doctorapp/views/changepassword.dart';
@@ -86,13 +88,17 @@ class Routes {
       GetPage(
           name: RouteConstants.doctorcaseconsultscreen,
           page: () => DoctorCaseConsultScreen()),
+      GetPage(name: RouteConstants.uploadbanner, page: () => Uploadbanner()),
 
       ///////hassam screens,
       GetPage(name: RouteConstants.signinscreen, page: () => SigninPage()),
       GetPage(
           name: RouteConstants.usercasedetailscreen,
           page: () => UserCaseDetailScreen()),
-      GetPage(name: RouteConstants.splashscreen, page: () => SplashScreen()),
+      GetPage(
+          name: RouteConstants.adminviewallbanner,
+          page: () => BannerListPage()),
+      GetPage(name: RouteConstants.splashscreen, page: () => WelcomeScreen()),
       GetPage(
           name: RouteConstants.notificationscreen,
           page: () => NotificationScreen()),

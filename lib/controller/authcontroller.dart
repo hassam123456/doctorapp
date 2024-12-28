@@ -139,54 +139,10 @@ class AuthController extends GetxController {
 
 ////////////signup
   final RxBool signuploading = false.obs;
-  Rx<File?> signupprofileimage = Rx<File?>(null);
-
-  Future<void> pickProfileImage(BuildContext context) async {
-    final picker = ImagePicker();
-    final pickedImage = await showDialog<ImageSource>(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text("Select Image Source"),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            GestureDetector(
-              child: const Text("Gallery"),
-              onTap: () => Navigator.of(context).pop(ImageSource.gallery),
-            ),
-            const SizedBox(height: 20),
-            GestureDetector(
-              child: const Text("Camera"),
-              onTap: () => Navigator.of(context).pop(ImageSource.camera),
-            ),
-          ],
-        ),
-      ),
-    );
-
-    if (pickedImage == null) return;
-
-    final pickedFile = await picker.pickImage(source: pickedImage);
-    if (pickedFile == null) return;
-
-    File imageFile = File(pickedFile.path);
-    if (pickedImage == ImageSource.camera) {
-      final image = img.decodeImage(imageFile.readAsBytesSync());
-      if (image != null) {
-        imageFile = File(pickedFile.path)
-          ..writeAsBytesSync(
-              img.encodeJpg(img.copyResize(image, width: 800, height: 600)));
-      }
-    }
-
-    signupprofileimage.value = imageFile;
-  }
-
   Future<void> signup(String isUser) async {
     try {
       signuploading.value = true;
       await authRepo.signUp(
-        profileimage: signupprofileimage.value!,
         isUser: isUser,
         name: fullNameController.value.text.toString(),
         email: signupemailController.value.text.toString(),
@@ -211,7 +167,8 @@ class AuthController extends GetxController {
   RxList<TextEditingController> emailverifycontrollers =
       RxList.generate(5, (_) => TextEditingController());
   Future<void> emailVerification(
-      {required String isUser,
+      {
+      // required Sting isUser,
       required String type,
       required String email,
       required String otp,
@@ -219,7 +176,7 @@ class AuthController extends GetxController {
     try {
       signupemailverificationloading.value = true;
       await authRepo.emailVerification(
-          context: context, isUser: isUser, otp: otp, email: email, type: type);
+          context: context, otp: otp, email: email, type: type);
 
       signupemailverificationloading.value = false;
     } finally {
@@ -229,12 +186,10 @@ class AuthController extends GetxController {
 
 ////////send otp
   final RxBool resendotploading = false.obs;
-  Future<void> reSendOTP(
-      {required String isUser, required String email}) async {
+  Future<void> reSendOTP({required String email}) async {
     try {
       resendotploading.value = true;
-      await authRepo.reSendOTP(
-          isUser: isUser.toString(), email: email.toString());
+      await authRepo.reSendOTP(email: email.toString());
 
       resendotploading.value = false;
     } finally {
@@ -246,15 +201,15 @@ class AuthController extends GetxController {
   var sendotploading = false.obs;
   Future<void> sendOTP({
     required String type,
-    required String logintyp,
+    // required String logintyp,
   }) async {
     try {
       print("send otp check");
       print(type);
-      print(logintyp);
+      // print(logintyp);
       sendotploading.value = true;
       await authRepo.SendOTP(
-          isuser: logintyp,
+          // isuser: logintyp,
           email: forgotemailController.value.text.toString(),
           type: type.toString());
 
@@ -312,13 +267,13 @@ class AuthController extends GetxController {
 
   // login api
   var loginloading = false.obs;
-  Future<void> login({
-    required String? isuser,
-  }) async {
+  Future<void> login(
+      // required String? isuser,
+      ) async {
     try {
       loginloading.value = true;
       await authRepo.login(
-          isuser: isuser.toString(),
+          // isuser: isuser.toString(),
           email: emailController.value.text.toString(),
           password: passwordController.value.text.toString());
 
@@ -337,7 +292,7 @@ class AuthController extends GetxController {
 
 ///////////logout
   void logout() async {
-    Get.offAllNamed(RouteConstants.signinscreen);
+    Get.offAllNamed(RouteConstants.loginpage);
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
     await prefs.remove('email');

@@ -110,13 +110,13 @@ class Doctor {
 }
 
 class Pagination {
-  int? total; // Nullable int
-  int? page; // Nullable int
-  int? pageSize; // Nullable int
-  int? totalPages; // Nullable int
-  int? remaining; // Nullable int
-  int? nextPage; // Nullable int
-  int? prevPage; // Nullable int
+  dynamic? total; // Nullable int
+  dynamic? page; // Nullable int
+  dynamic? pageSize; // Nullable int
+  dynamic? totalPages; // Nullable int
+  dynamic? remaining; // Nullable int
+  dynamic? nextPage; // Nullable int
+  dynamic? prevPage; // Nullable int
 
   Pagination({
     this.total,

@@ -17,7 +17,7 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   final AuthController authController =
       Get.put(AuthController(authRepo: Get.find()));
-  final String logintype = Get.arguments as String;
+  // final String logintype = Get.arguments as String;
   @override
   void initState() {
     // TODO: implement initState
@@ -181,11 +181,7 @@ class _SignupPageState extends State<SignupPage> {
                               onPressed: () {
                                 if (authController.formKey.currentState!
                                     .validate()) {
-                                  authController.signupprofileimage.value ==
-                                          null
-                                      ? customErrorSnackBar(
-                                          "Please Upload Profile Image")
-                                      : authController.signup(logintype);
+                                  authController.signup(logintype);
                                 }
                               },
                               style: ElevatedButton.styleFrom(

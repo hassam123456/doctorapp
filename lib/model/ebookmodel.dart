@@ -134,13 +134,13 @@ final titleValues = EnumValues(
     {"New Ebook": Title.NEW_EBOOK, "sd": Title.SD, "sdsd": Title.SDSD});
 
 class Pagination {
-  int? total;
-  int? page;
-  int? pageSize;
-  int? totalPages;
-  int? remaining;
-  int? nextPage;
-  int? prevPage;
+  dynamic? total;
+  dynamic? page;
+  dynamic? pageSize;
+  dynamic? totalPages;
+  dynamic? remaining;
+  dynamic? nextPage;
+  dynamic? prevPage;
 
   Pagination({
     this.total,

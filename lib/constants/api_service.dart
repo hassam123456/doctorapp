@@ -11,7 +11,7 @@ class HttpApiClient extends GetxService {
 
   String get baseUrl => _baseUrl;
 
-  ///GET METHOD
+  /// GET METHOD
   Future<http.Response> getFromServer({required String endPoint}) async {
     try {
       logData(message: 'Fetching All Products');
@@ -28,12 +28,12 @@ class HttpApiClient extends GetxService {
 
       return response;
     } catch (e) {
-      logData(message: "Exeption $e");
+      logData(message: "Exception $e");
       rethrow;
     }
   }
 
-  ///POST METHOD
+  /// POST METHOD
   Future<http.Response> postToServer(
       {required String endPoint, required Map<String, dynamic> data}) async {
     try {
@@ -49,12 +49,12 @@ class HttpApiClient extends GetxService {
       logData(message: 'RESPONSE BODY: ${response.body}');
       return response;
     } catch (e) {
-      logData(message: "Exeption $e");
+      logData(message: "Exception $e");
       rethrow;
     }
   }
 
-/////////post images methods
+  /// POST IMAGES METHOD
   Future<http.Response> postImagesToServer({
     required String endPoint,
     required Map<String, String> data,
@@ -94,7 +94,27 @@ class HttpApiClient extends GetxService {
       var response = await request.send();
       return http.Response.fromStream(response);
     } catch (e) {
-      logData(message: "Exeption $e");
+      logData(message: "Exception $e");
+      rethrow;
+    }
+  }
+
+  /// DELETE METHOD
+  Future<http.Response> deleteFromServer({required String endPoint}) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+
+      logData(message: 'DELETE REQUEST: $baseUrl$endPoint');
+      final response = await http.delete(
+        Uri.parse('$baseUrl$endPoint'),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      logData(message: 'RESPONSE BODY: ${response.body}');
+      return response;
+    } catch (e) {
+      logData(message: "Exception $e");
       rethrow;
     }
   }

@@ -75,7 +75,7 @@ class _AdminUploadEBookScreenState extends State<AdminUploadEBookScreen> {
                 Obx(
                   () => GestureDetector(
                     onTap: () {
-                      admincontroller.pickadminuploadebookimage(context);
+                      admincontroller.pickadminuploadeimage(context);
                     },
                     child: Container(
                         height: 25.h,

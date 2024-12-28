@@ -16,8 +16,9 @@ class _SplashScreenState extends State<SplashScreen> {
     final prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString("token");
     final String? isuser = prefs.getString("isuser");
+    // print(isuser);
     if (token == null || token.isEmpty) {
-      Get.offNamed(RouteConstants.signinscreen);
+      Get.offNamed(RouteConstants.welcomescreen);
     } else {
       if (isuser == "1") {
         Get.offNamed(RouteConstants.userbottomnavbar);
@@ -55,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               SizedBox(height: 22),
               Image.asset(
-                'assets/images/doctorsplashpic.png', // Replace with your image URL
+                'assets/images/logodoctor.jpg', // Replace with your image URL
                 height: 70.h,
                 width: double.infinity,
                 fit: BoxFit.fill,

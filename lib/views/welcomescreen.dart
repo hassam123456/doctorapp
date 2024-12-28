@@ -22,7 +22,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 3.h),
             Image.asset(
-              'assets/images/splashimage.png',
+              'assets/images/logodoctor.jpg',
               height: 40.h,
             ),
             SizedBox(height: 3.h),

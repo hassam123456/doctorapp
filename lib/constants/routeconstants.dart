@@ -3,6 +3,7 @@ class RouteConstants {
   static String userhome = "/userhome";
   static String doctorhomescreen = "/doctorhomescreen";
   static String adminhomescreen = "/adminhomescreen";
+  static String uploadbanner = "/uploadbanner";
   static String addconsultantscreen = "/addconsultantscreen";
   static String usercaseconsultscreen = "/usercaseconsultscreen";
   static String useruploadcasescreen = "/useruploadcasescreen";
@@ -13,6 +14,7 @@ class RouteConstants {
   static String doctorprofilescreen = "/doctorprofilescreen";
   static String adminuploadebookScreen = "/adminuploadebookScreen";
   static String adminuploadvideoScreen = "/adminuploadvideoScreen";
+  static String adminviewallbanner = "/adminviewallbanner";
   static String adminassignedcasedetailscreen =
       "/adminassignedcasedetailscreen";
   static String doctorbottomnavbar = "/doctorbottomnavbar";
