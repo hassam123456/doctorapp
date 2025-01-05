@@ -143,6 +143,24 @@ class _UserCaseDetailScreenState extends State<UserCaseDetailScreen> {
                           height: 2.h,
                         ),
                         customadmincasedetailbox(
+                            title: "Gender",
+                            subtitle: admincontroller
+                                    .admingetcasebyid.value?.data?.cases?.gender
+                                    .toString() ??
+                                ""),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        customadmincasedetailbox(
+                            title: "Age",
+                            subtitle: admincontroller
+                                    .admingetcasebyid.value?.data?.cases?.age
+                                    .toString() ??
+                                ""),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        customadmincasedetailbox(
                             title: "Medical History",
                             subtitle: admincontroller.admingetcasebyid.value
                                     ?.data?.cases?.history
@@ -1486,6 +1504,37 @@ class _UserCaseDetailScreenState extends State<UserCaseDetailScreen> {
                                                           ?.cases
                                                           ?.cvs
                                                           ?.drughistory
+                                                          .toString() ??
+                                                      ""),
+                                          SizedBox(
+                                            height: 1.h,
+                                          ),
+                                          admincontroller
+                                                          .admingetcasebyid
+                                                          .value
+                                                          ?.data
+                                                          ?.cases
+                                                          ?.cvs
+                                                          ?.message ==
+                                                      null ||
+                                                  admincontroller
+                                                      .admingetcasebyid
+                                                      .value!
+                                                      .data!
+                                                      .cases!
+                                                      .cvs!
+                                                      .message!
+                                                      .isEmpty
+                                              ? const SizedBox()
+                                              : customadmincasedetailbox(
+                                                  title: "Message",
+                                                  subtitle: admincontroller
+                                                          .admingetcasebyid
+                                                          .value
+                                                          ?.data
+                                                          ?.cases
+                                                          ?.cvs
+                                                          ?.message
                                                           .toString() ??
                                                       ""),
                                         ],

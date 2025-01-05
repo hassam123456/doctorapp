@@ -26,6 +26,7 @@ class _DoctorUploadTreatmentScreenState
   @override
   void initState() {
     super.initState();
+    admincontroller.doctoruploadtreatmentmessagecontroller.value.clear();
     admincontroller.doctoruploadtreatmentfilenames.clear();
     admincontroller.doctoruploadtreatmentfiles.clear();
   }
@@ -117,6 +118,24 @@ class _DoctorUploadTreatmentScreenState
                             title: "Description",
                             subtitle: admincontroller.admingetcasebyid.value
                                     ?.data?.cases?.description
+                                    .toString() ??
+                                ""),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        customadmincasedetailbox(
+                            title: "Gender",
+                            subtitle: admincontroller
+                                    .admingetcasebyid.value?.data?.cases?.gender
+                                    .toString() ??
+                                ""),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        customadmincasedetailbox(
+                            title: "Age",
+                            subtitle: admincontroller
+                                    .admingetcasebyid.value?.data?.cases?.age
                                     .toString() ??
                                 ""),
                         SizedBox(
@@ -1402,6 +1421,13 @@ class _DoctorUploadTreatmentScreenState
                                   ),
                                 ],
                               ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        customtextformfield(
+                            controler: admincontroller
+                                .doctoruploadtreatmentmessagecontroller.value,
+                            lable: "Message"),
                         SizedBox(
                           height: 2.h,
                         ),

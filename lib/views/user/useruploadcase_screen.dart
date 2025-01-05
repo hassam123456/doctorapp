@@ -29,6 +29,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
     usercontroller.useruploadPatientAgecontroller.value.clear();
     usercontroller.useruploaddescriptioncontroller.value.clear();
     usercontroller.useruploadmedicalHistorycontroller.value.clear();
+    usercontroller.useruploadPatientgendercontroller.value.clear();
   }
 
   @override
@@ -87,6 +88,19 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                       return null;
                     },
                     lable: "Patient Age"),
+                SizedBox(
+                  height: 2.h,
+                ),
+                customnumbertextformfield(
+                    controller:
+                        usercontroller.useruploadPatientgendercontroller.value,
+                    validator: (v) {
+                      if (v == null || v.isEmpty) {
+                        return "Please enter gender";
+                      }
+                      return null;
+                    },
+                    lable: "Gender"),
                 SizedBox(
                   height: 2.h,
                 ),

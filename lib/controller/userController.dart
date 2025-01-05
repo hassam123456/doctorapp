@@ -71,13 +71,16 @@ class UserController extends GetxController {
   final useruploadCaseTitlecontroller = TextEditingController().obs;
   final useruploadPatientNamecontroller = TextEditingController().obs;
   final useruploadPatientAgecontroller = TextEditingController().obs;
+  final useruploadPatientgendercontroller = TextEditingController().obs;
   final useruploaddescriptioncontroller = TextEditingController().obs;
   final useruploadmedicalHistorycontroller = TextEditingController().obs;
+
   final RxBool useruploadcaseloading = false.obs;
   Future<void> userUploadCase() async {
     try {
       useruploadcaseloading.value = true;
       await userRepo.uploadCase(
+          gender: useruploadPatientgendercontroller.value.text.toString(),
           title: useruploadCaseTitlecontroller.value.text.toString(),
           name: useruploadPatientNamecontroller.value.text.toString(),
           age: useruploadPatientAgecontroller.value.text.toString(),

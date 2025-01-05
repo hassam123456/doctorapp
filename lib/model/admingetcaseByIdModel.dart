@@ -54,6 +54,7 @@ class Cases {
   String? title;
   String? name;
   String? age;
+  String? gender;
   String? description;
   int? rejected;
   String? reason;
@@ -79,6 +80,7 @@ class Cases {
     this.description,
     this.history,
     this.guid,
+    this.gender,
     this.rejected,
     this.reason,
     this.createdAt,
@@ -98,6 +100,7 @@ class Cases {
         title: json["title"],
         name: json["name"],
         age: json["age"],
+        gender: json["gender"],
         description: json["description"],
         rejected: json["rejected"],
         reason: json["reason"],
@@ -131,6 +134,7 @@ class Cases {
         "description": description,
         "rejected": rejected,
         "reason": reason,
+        "gender": gender,
         "history": history,
         "guid": guid,
         "created_at": createdAt?.toIso8601String(),
@@ -157,6 +161,7 @@ class Cvs {
   String? infective;
   String? failure;
   String? surgery;
+  String? message;
   String? others;
   String? guid;
   int? caseId;
@@ -234,6 +239,7 @@ class Cvs {
       this.diabetes,
       this.hyperparathyrodism,
       this.hyperthyrodism,
+      this.message,
       this.hyperthyrodismNew,
       this.endocrineOthers,
       this.drughistory});
@@ -285,6 +291,7 @@ class Cvs {
         hyperthyrodism: json["hyperthyrodism"],
         hyperthyrodismNew: json["hyperthyrodism_new"],
         endocrineOthers: json["endocrine_others"],
+        message: json["message"],
         drughistory: json["drug_history"],
       );
 
@@ -331,6 +338,7 @@ class Cvs {
         "hyperthyrodism": hyperthyrodism,
         "hyperthyrodism_new": hyperthyrodismNew,
         "endocrine_others": endocrineOthers,
+        "message": message,
         "drughistory": drughistory,
       };
 }

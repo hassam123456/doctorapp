@@ -17,6 +17,7 @@ class UserRepo extends GetxService {
     required String title,
     required String name,
     required String age,
+    required String gender,
     required String history,
     required String description,
     required List<File> prescriptions,
@@ -32,9 +33,9 @@ class UserRepo extends GetxService {
         'title': title,
         'name': name,
         'age': age,
+        'gender': gender,
         'history': history,
         'description': description,
-        "drug_history": "wsdw",
       });
       for (var prescription in prescriptions) {
         request.files.add(await http.MultipartFile.fromPath(
