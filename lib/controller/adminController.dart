@@ -758,12 +758,14 @@ class AdminController extends GetxController {
   }
 
   final RxBool doctoruploadTreatmentloading = false.obs;
+  final doctoruploadtreatmentmessagecontroller = TextEditingController().obs;
   Future<void> doctorUploadTreatment({
     required String caseguid,
   }) async {
     try {
       doctoruploadTreatmentloading.value = true;
       await adminRepo.doctorUploadTreatment(
+        message: doctoruploadtreatmentmessagecontroller.value.text.toString(),
         caseguid: caseguid,
         treatment: doctoruploadtreatmentfiles,
       );

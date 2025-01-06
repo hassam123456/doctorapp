@@ -614,17 +614,19 @@ class AdminRepo extends GetxService {
 /////////////doctor upload treatment
   Future<void> doctorUploadTreatment({
     required String caseguid,
+    required String message,
     required List<File> treatment,
   }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
-      print("Files$treatment");
       var request = http.MultipartRequest(
           'POST',
           Uri.parse(
               '${AppConstants.apibaseurl}${AppConstants.doctoruploadtreatment}$caseguid'));
-
+      request.fields.addAll({
+        'message': message,
+      });
       for (var file in treatment) {
         request.files.add(await http.MultipartFile.fromPath(
           'treatment[]',
