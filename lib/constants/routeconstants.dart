@@ -24,7 +24,7 @@ class RouteConstants {
   static String consultantseeallpage = "/consultatnseeallpage";
   ///////hassam screens
   static String splashscreen = "/splashscreen";
-  static String signinscreen = "/signinscreen";
+  // static String signinscreen = "/signinscreen";
   static String kcasedetails2 = "/kcasedetails2";
   static String loginpage = "/loginpage";
   static String signuppage = "/signuppage";

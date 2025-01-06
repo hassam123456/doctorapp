@@ -216,7 +216,7 @@ class _AddConsutltantScreenState extends State<AddConsutltantScreen> {
                           child: customcircularProgress(),
                         )
                       : custombutton(
-                          title: "Add Personalized Consultant",
+                          title: "Add Consultant",
                           ontap: () {
                             if (formKey.currentState!.validate()) {
                               admincontroller.addConsulant();

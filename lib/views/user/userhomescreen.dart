@@ -187,13 +187,13 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   children: [
                     customhomeBox(
                         image: "assets/images/homeimage3.png",
-                        title: "E-Books",
+                        title: "E-Books\nLibrary",
                         ontap: () {
                           Get.toNamed(RouteConstants.ebookscreen);
                         }),
                     customhomeBox(
                         image: "assets/images/homeimage4.png",
-                        title: "Basic Dental Procedures video Library",
+                        title: "Basic Dental Procedures Video Library",
                         ontap: () {
                           Get.toNamed(RouteConstants.videoscreen);
                         })

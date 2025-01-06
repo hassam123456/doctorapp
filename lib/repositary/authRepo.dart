@@ -227,7 +227,7 @@ class AuthRepo extends GetxService {
           final message = jsonDecode(response.body)['message'];
           showVerificationPopup(context, "Verification Done!", message);
           await Future.delayed(Duration(seconds: 2));
-          Get.offAllNamed(RouteConstants.signinscreen);
+          Get.offAllNamed(RouteConstants.loginpage);
         }
       } else {
         final message = jsonDecode(response.body)['message'];

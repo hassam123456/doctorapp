@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               SizedBox(height: 22),
               Image.asset(
-                'assets/images/logodoctor.jpg', // Replace with your image URL
+                'assets/images/lcmlogo.jpg',
                 height: 70.h,
                 width: double.infinity,
                 fit: BoxFit.fill,

@@ -13,7 +13,7 @@ class WelcomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Welcome to Doctor App.",
+              "Welcome To",
               style: TextStyle(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
@@ -22,12 +22,12 @@ class WelcomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 3.h),
             Image.asset(
-              'assets/images/logodoctor.jpg',
-              height: 40.h,
+              'assets/images/dentallogo.jpg',
+              height: 30.h,
             ),
             SizedBox(height: 3.h),
             Text(
-              "Better Health Starts Here.",
+              "Empowering Dentists Worldwide",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24.sp,
@@ -37,7 +37,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 2.h),
             Text(
-              "Begin your path to better health today. From preventive care to managing ongoing conditions.",
+              "Master challenging dental cases with instant access to expert consultants. Get tailored advice, refine your skills, and deliver precise care—wherever you are.",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16.sp,

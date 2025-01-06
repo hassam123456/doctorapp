@@ -92,7 +92,7 @@ class Routes {
       GetPage(name: RouteConstants.uploadbanner, page: () => Uploadbanner()),
 
       ///////hassam screens,
-      GetPage(name: RouteConstants.signinscreen, page: () => SigninPage()),
+      // GetPage(name: RouteConstants.signinscreen, page: () => SigninPage()),
       GetPage(
           name: RouteConstants.usercasedetailscreen,
           page: () => UserCaseDetailScreen()),

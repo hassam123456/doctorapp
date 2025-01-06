@@ -19,9 +19,6 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
   final usercontroller = Get.put(UserController(userRepo: Get.find()));
   final formkey = GlobalKey<FormState>();
 
-  // Add a variable to track checkbox state
-  bool isDisclaimerChecked = false;
-
   @override
   void initState() {
     super.initState();
@@ -39,32 +36,6 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Upload Case"),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 10.w),
-            child: Row(
-              children: [
-                Checkbox(
-                  value: isDisclaimerChecked,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isDisclaimerChecked = value!;
-                    });
-                  },
-                ),
-                GestureDetector(
-                  onTap: () {
-                    // g
-                  },
-                  child: Text(
-                    "Agree to Disclaimer",
-                    style: TextStyle(fontSize: 14.sp),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
@@ -74,9 +45,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 customtextformfield(
                     controler:
                         usercontroller.useruploadCaseTitlecontroller.value,
@@ -87,9 +56,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                       return null;
                     },
                     lable: "Case Title"),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 customtextformfield(
                     controler:
                         usercontroller.useruploadPatientNamecontroller.value,
@@ -100,9 +67,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                       return null;
                     },
                     lable: "Patient Name"),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 customnumbertextformfield(
                     controller:
                         usercontroller.useruploadPatientAgecontroller.value,
@@ -113,9 +78,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                       return null;
                     },
                     lable: "Patient Age"),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 customnumbertextformfield(
                     controller:
                         usercontroller.useruploadPatientgendercontroller.value,
@@ -126,9 +89,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                       return null;
                     },
                     lable: "Gender"),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 TextFormField(
                   maxLength: 1000,
                   maxLines: 5,
@@ -148,9 +109,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                                   const Color(0xff2E2E2E).withOpacity(0.02))),
                       labelText: "Description"),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 TextFormField(
                   maxLines: 5,
                   controller:
@@ -169,9 +128,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                                   const Color(0xff2E2E2E).withOpacity(0.02))),
                       labelText: "Clinical Finding"),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 GestureDetector(
                   onTap: () {
                     usercontroller.pickUserCasePrescriptions(context);
@@ -191,9 +148,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                           size: 22.sp,
                           color: const Color(0xff34A853),
                         ),
-                        SizedBox(
-                          width: 1.w,
-                        ),
+                        SizedBox(width: 1.w),
                         Text(
                           "Upload X/Ray Investigation",
                           style:
@@ -203,9 +158,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 Obx(
                   () => usercontroller.uploadUserCasePrescriptions.isEmpty
                       ? const SizedBox()
@@ -270,9 +223,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                             ),
                           )),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 Obx(
                   () => usercontroller.useruploadcaseloading.value
                       ? Center(
@@ -282,10 +233,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                           title: "Next",
                           ontap: () {
                             if (formkey.currentState!.validate()) {
-                              if (!isDisclaimerChecked) {
-                                customErrorSnackBar(
-                                    "Please agree to the disclaimer.");
-                              } else if (usercontroller
+                              if (usercontroller
                                   .uploadUserCasePrescriptions.isEmpty) {
                                 customErrorSnackBar(
                                     "Please Upload Prescriptions");
@@ -295,9 +243,7 @@ class _UserUploadCaseScreenState extends State<UserUploadCaseScreen> {
                             }
                           }),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
               ],
             ),
           ),

@@ -30,7 +30,12 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/images/loginpageimage.png'),
+                SizedBox(
+                  height: 2.h,
+                ),
+                SizedBox(
+                    height: 200,
+                    child: Image.asset('assets/images/dentallogo.jpg')),
                 SizedBox(height: 6.h),
                 Text(
                   'Welcome Back',
@@ -110,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         child: Text(
                           'Terms and Conditions',
-                          style: TextStyle(fontSize: 14),
+                          style: TextStyle(fontSize: 14, color: Colors.blue),
                         ),
                       ),
                     ),

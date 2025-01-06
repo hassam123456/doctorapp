@@ -26,12 +26,13 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
     });
   }
 
+  bool isDisclaimerChecked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("History of Presenting Complain"),
+        title: const Text("Medical History"),
         titleTextStyle: TextStyle(
             fontSize: 17.sp,
             color: const Color(0xff34A853),
@@ -375,7 +376,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "REGAEDING TUBERCULOSES",
+                            "Regarding TUBERCULOSES",
                             style: TextStyle(
                                 color: const Color(0xff949494),
                                 fontSize: 17.sp),
@@ -403,8 +404,8 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                         ],
                       ),
                       CustomRadioButtonRow(
-                        group: "Tuberculossis",
-                        title: "Tuberculossis (T.B)",
+                        group: "Tuberculosis",
+                        title: "Tuberculosis (T.B)",
                         onChanged: (value) {
                           usercontroller.uploadcasedetailstuberculossis.value =
                               value!;
@@ -449,7 +450,7 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "REGAEDING HEPATITIS",
+                            "Regarding HEPATITIS",
                             style: TextStyle(
                                 color: const Color(0xff949494),
                                 fontSize: 17.sp),
@@ -881,64 +882,176 @@ class _CaseDetailsScreenState extends State<CaseDetailsScreen> {
                     ? Center(
                         child: customcircularProgress(),
                       )
-                    : GestureDetector(
-                        onTap: () {
-                          List<RxString> requiredFields = [
-                            usercontroller.uploadcasedetailshypertension,
-                            usercontroller.uploadcasedetailsvalvular,
-                            usercontroller.uploadcasedetailsangina,
-                            usercontroller.uploadcasedetailsmyocardial,
-                            usercontroller.uploadcasedetailsinfective,
-                            usercontroller.uploadcasedetailsfailure,
-                            usercontroller.uploadcasedetailssurgery,
-                            usercontroller.uploadcasedetailsnausea,
-                            usercontroller.uploadcasedetailsvomiting,
-                            usercontroller.uploadcasedetailspeptic,
-                            usercontroller.uploadcasedetailschestpain,
-                            usercontroller.uploadcasedetailsasthma,
-                            usercontroller.uploadcasedetailsbronchitis,
-                            usercontroller.uploadcasedetailspneumonia,
-                            usercontroller.uploadcasedetailstuberculossis,
-                            usercontroller.uploadcasedetailshepatitis,
-                            usercontroller.uploadcasedetailsanemia,
-                            usercontroller.uploadcasedetailsbleedingdisorder,
-                            usercontroller.uploadcasedetailsclothingdisorder,
-                            usercontroller.uploadcasedetailsleukemia,
-                            usercontroller.uploadcasedetailsuti,
-                            usercontroller.uploadcasedetailskenalfailure,
-                            usercontroller.uploadcasedetailsdiabetes,
-                            usercontroller.uploadcasedetailshyperparathyrodism,
-                            usercontroller.uploadcasedetailshypothyroidism,
-                            usercontroller.uploadcasedetailshyperthyrodism,
-                            usercontroller.uploadcasedetailsseizure,
-                            usercontroller.uploadcasedetailsepilepsy
-                          ];
-                          bool isAnyFieldEmpty = requiredFields
-                              .any((field) => field.value.isEmpty);
-
-                          if (isAnyFieldEmpty) {
-                            customErrorSnackBar(
-                                "Please Fill Complete Case Details");
-                          } else {
-                            usercontroller.userUploadCaseDetails(
-                                guid: guid.toString());
-                          }
-                        },
-                        child: Container(
-                          height: 5.h,
-                          width: Get.width,
-                          decoration: BoxDecoration(
-                              color: Color(0xff34A853),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Center(
-                            child: Text(
-                              // "Sign Up",
-                              "Upload",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 16.sp),
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Disclaimer Section
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Disclaimer Heading
+                                Text(
+                                  "Disclaimer",
+                                  style: TextStyle(
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                SizedBox(height: 8.0),
+                                // Disclaimer Content
+                                Text(
+                                  "By submitting a case through this application, you acknowledge and agree to the following:",
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(height: 8.0),
+                                // Disclaimer Points
+                                Text(
+                                  "1. Patient Consent: You confirm that you have obtained explicit consent from the patient to share their case details, including clinical findings, radiographs, and any other relevant information, with us for the purpose of seeking expert guidance.",
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(height: 4.0),
+                                Text(
+                                  "2. Consent for Sharing: You consent to the case being shared with a qualified consultant who will provide the best possible treatment plan based on the information and materials you submit.",
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(height: 4.0),
+                                Text(
+                                  "3. Information Accuracy: You understand that the treatment planning is entirely dependent on the accuracy and completeness of the information, clinical findings, radiographs, and investigations provided.",
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(height: 4.0),
+                                Text(
+                                  "4. Treatment Outcomes: You acknowledge that the success of the treatment plan is subject to the clinical skills of the treating dentist and the specific details of the case. This application and its team will not be held responsible for any unfavorable treatment outcomes.",
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(height: 8.0),
+                                Text(
+                                  "By ticking the box below and submitting the case, you agree to the terms stated in this disclaimer.",
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(height: 8.0),
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                      value: isDisclaimerChecked,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          isDisclaimerChecked = value!;
+                                        });
+                                      },
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "I agree to the disclaimer.",
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                        ),
+                          SizedBox(height: 16.0),
+                          // Upload Button
+                          GestureDetector(
+                            onTap: () {
+                              if (!isDisclaimerChecked) {
+                                customErrorSnackBar(
+                                    "Please agree to the disclaimer to proceed.");
+                              } else {
+                                List<RxString> requiredFields = [
+                                  usercontroller.uploadcasedetailshypertension,
+                                  usercontroller.uploadcasedetailsvalvular,
+                                  usercontroller.uploadcasedetailsangina,
+                                  usercontroller.uploadcasedetailsmyocardial,
+                                  usercontroller.uploadcasedetailsinfective,
+                                  usercontroller.uploadcasedetailsfailure,
+                                  usercontroller.uploadcasedetailssurgery,
+                                  usercontroller.uploadcasedetailsnausea,
+                                  usercontroller.uploadcasedetailsvomiting,
+                                  usercontroller.uploadcasedetailspeptic,
+                                  usercontroller.uploadcasedetailschestpain,
+                                  usercontroller.uploadcasedetailsasthma,
+                                  usercontroller.uploadcasedetailsbronchitis,
+                                  usercontroller.uploadcasedetailspneumonia,
+                                  usercontroller.uploadcasedetailstuberculossis,
+                                  usercontroller.uploadcasedetailshepatitis,
+                                  usercontroller.uploadcasedetailsanemia,
+                                  usercontroller
+                                      .uploadcasedetailsbleedingdisorder,
+                                  usercontroller
+                                      .uploadcasedetailsclothingdisorder,
+                                  usercontroller.uploadcasedetailsleukemia,
+                                  usercontroller.uploadcasedetailsuti,
+                                  usercontroller.uploadcasedetailskenalfailure,
+                                  usercontroller.uploadcasedetailsdiabetes,
+                                  usercontroller
+                                      .uploadcasedetailshyperparathyrodism,
+                                  usercontroller
+                                      .uploadcasedetailshypothyroidism,
+                                  usercontroller
+                                      .uploadcasedetailshyperthyrodism,
+                                  usercontroller.uploadcasedetailsseizure,
+                                  usercontroller.uploadcasedetailsepilepsy
+                                ];
+                                bool isAnyFieldEmpty = requiredFields
+                                    .any((field) => field.value.isEmpty);
+
+                                if (isAnyFieldEmpty) {
+                                  customErrorSnackBar(
+                                      "Please Fill Complete Case Details");
+                                } else {
+                                  usercontroller.userUploadCaseDetails(
+                                      guid: guid.toString());
+                                }
+                              }
+                            },
+                            child: Container(
+                              height: 5.h,
+                              width: Get.width,
+                              decoration: BoxDecoration(
+                                color: isDisclaimerChecked
+                                    ? Color(0xff34A853)
+                                    : Colors.grey,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Upload",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.sp,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
               ),
               SizedBox(

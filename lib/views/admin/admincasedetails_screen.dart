@@ -85,21 +85,57 @@ class _AdminCaseDetailScreenState extends State<AdminCaseDetailScreen> {
                           height: 2.h,
                         ),
                         RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                            text: "Status: ",
-                            style: TextStyle(
-                                color: Color(0xff000000), fontSize: 15.sp),
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Status: ",
+                                style: TextStyle(
+                                  color: Color(0xff000000),
+                                  fontSize: 15.sp,
+                                ),
+                              ),
+                              TextSpan(
+                                text: (() {
+                                  final statusValue = admincontroller
+                                      .admingetcasebyid
+                                      .value
+                                      ?.data
+                                      ?.cases
+                                      ?.rejected;
+                                  if (statusValue == 0) {
+                                    return "Pending";
+                                  } else if (statusValue == 1) {
+                                    return "Rejected";
+                                  } else if (statusValue == 2) {
+                                    return "Assigned";
+                                  } else {
+                                    return "Unknown"; // Handle unexpected values
+                                  }
+                                })(),
+                                style: TextStyle(
+                                  color: (() {
+                                    final statusValue = admincontroller
+                                        .admingetcasebyid
+                                        .value
+                                        ?.data
+                                        ?.cases
+                                        ?.rejected;
+                                    if (statusValue == 0) {
+                                      return Color(0xffFFA500);
+                                    } else if (statusValue == 1) {
+                                      return Color(0xffFF0000);
+                                    } else if (statusValue == 2) {
+                                      return Color(0xff34A853);
+                                    } else {
+                                      return Color(0xff000000);
+                                    }
+                                  })(),
+                                  fontSize: 15.sp,
+                                ),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: admincontroller
-                                    .admingetcasebyid.value?.data?.cases?.status
-                                    .toString() ??
-                                "",
-                            style: TextStyle(
-                                color: Color(0xffFF0000), fontSize: 15.sp),
-                          ),
-                        ])),
+                        ),
                         admincontroller.admingetcasebyid.value?.data?.cases
                                         ?.reason ==
                                     null ||
