@@ -20,9 +20,9 @@ class _SplashScreenState extends State<SplashScreen> {
     if (token == null || token.isEmpty) {
       Get.offNamed(RouteConstants.welcomescreen);
     } else {
-      if (isuser == "1") {
+      if (isuser == 1) {
         Get.offNamed(RouteConstants.userbottomnavbar);
-      } else if (isuser == "2") {
+      } else if (isuser == 2) {
         Get.offNamed(RouteConstants.doctorbottomnavbar);
       } else {
         Get.offNamed(RouteConstants.adminhomescreen);

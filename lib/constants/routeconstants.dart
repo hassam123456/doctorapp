@@ -15,6 +15,8 @@ class RouteConstants {
   static String adminuploadebookScreen = "/adminuploadebookScreen";
   static String adminuploadvideoScreen = "/adminuploadvideoScreen";
   static String adminviewallbanner = "/adminviewallbanner";
+  static String termsconditonn = "/termsconditonn";
+  static String diclammer = "/diclammer";
   static String adminassignedcasedetailscreen =
       "/adminassignedcasedetailscreen";
   static String doctorbottomnavbar = "/doctorbottomnavbar";

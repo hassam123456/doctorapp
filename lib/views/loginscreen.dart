@@ -104,9 +104,14 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                     Expanded(
-                      child: Text(
-                        'Terms and Conditions',
-                        style: TextStyle(fontSize: 14),
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed(RouteConstants.termsconditonn);
+                        },
+                        child: Text(
+                          'Terms and Conditions',
+                          style: TextStyle(fontSize: 14),
+                        ),
                       ),
                     ),
                   ],

@@ -29,6 +29,7 @@ import 'package:doctorapp/views/signupscreen.dart';
 import 'package:doctorapp/views/signin.dart';
 import 'package:doctorapp/views/splashScreen.dart';
 import 'package:doctorapp/views/user/forgotemailverification.dart';
+import 'package:doctorapp/views/user/termsandcondition.dart';
 import 'package:doctorapp/views/user/userCaseDetailsScreen.dart';
 import 'package:doctorapp/views/user/userbottomnavbar.dart';
 import 'package:doctorapp/views/user/usercaseconsult_screen.dart';
@@ -102,6 +103,9 @@ class Routes {
       GetPage(
           name: RouteConstants.notificationscreen,
           page: () => NotificationScreen()),
+      GetPage(
+          name: RouteConstants.termsconditonn,
+          page: () => TermsAndConditionsPage()),
       GetPage(
           name: RouteConstants.consultantlistscreen,
           page: () => ConsultantListPage()),

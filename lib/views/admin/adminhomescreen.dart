@@ -30,6 +30,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   void initState() {
     super.initState();
     fetchData(); // Fetch data when the widget is initialized
+    admincontroller.getbannerdata();
   }
 
   Future<void> fetchData() async {
@@ -167,22 +168,72 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           SizedBox(
             height: 2.h,
           ),
-          CarouselSlider(
-            options: CarouselOptions(autoPlay: true, height: 20.h),
-            items: bannerimages.map((image) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 2.w),
-                    child: Image.asset(
-                      image,
-                      fit: BoxFit.fill,
-                    ),
-                  );
-                },
-              );
-            }).toList(),
-          ),
+          Obx(() => admincontroller.bannerloading.value
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Center(child: const CircularProgressIndicator()),
+                )
+              : admincontroller.getbanner.value == null ||
+                      admincontroller.getbanner.value!.data!.banners!.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 30),
+                      child: Center(child: Text("No Top Banners")),
+                    )
+                  : CarouselSlider(
+                      options: CarouselOptions(
+                        height: 200,
+                        enableInfiniteScroll: false,
+                        autoPlay: true,
+                        enlargeCenterPage: true,
+                        viewportFraction: 1.0,
+                      ),
+                      items: admincontroller.getbanner.value!.data.banners
+                          .map((banners) {
+                        return Card(
+                          color: Color(0xFF8B2CA0),
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              banners.media?.isNotEmpty == true &&
+                                      banners.media![0].originalUrl != null
+                                  ? banners.media![0].originalUrl!
+                                  : 'https://your-placeholder-image-url.com/placeholder.png',
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            (loadingProgress
+                                                    .expectedTotalBytes ??
+                                                1)
+                                        : null,
+                                  ),
+                                );
+                              },
+                              errorBuilder: (BuildContext context, Object error,
+                                  StackTrace? stackTrace) {
+                                return Center(
+                                  child: Text('Failed to load image',
+                                      style: TextStyle(color: Colors.red)),
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    )),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
             child: Column(

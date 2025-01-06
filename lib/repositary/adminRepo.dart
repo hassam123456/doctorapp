@@ -67,12 +67,15 @@ class AdminRepo extends GetxService {
 
   Future<bool> deleteBanners(int bannerId) async {
     try {
-      final res = await apiClient.deleteFromServer(
+      final res = await apiClient.postToServer(
         endPoint: "${AppConstants.deletebanner}/$bannerId",
+        data: {},
       );
 
       if (res.statusCode == 200) {
         print("Banner deleted successfully.");
+        showSuccessSnackbar(message: "Banner deleted successfully.");
+        Get.toNamed(RouteConstants.adminhomescreen);
         return true; // Deletion successful
       } else {
         print("Failed to delete banner. Status Code: ${res.statusCode}");
@@ -107,6 +110,7 @@ class AdminRepo extends GetxService {
         Get.back();
         final message = jsonDecode(responseBody)['message'];
         customSuccessSnackBar(message);
+        Get.back();
       } else {
         final message = jsonDecode(responseBody)['message'];
         customErrorSnackBar(message);
